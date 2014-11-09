@@ -1,0 +1,45 @@
+<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation
+        <span class="icon-bar">
+        <span class="icon-bar">
+        <span class="icon-bar">
+      <a class="navbar-brand" href="index.html">Insert course name here
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="problems.html" title="Assignments" data-placement="bottom">
+            <i class="fa fa-files-o fa-lg fa-fw">
+            <span class="visible-xs-inline">_{MsgAssignments}
+        <li>
+          <a href="submissions.html" title="Submissions" data-placement="bottom">
+            <i class="fa fa-inbox fa-lg fa-fw">
+            <span class="label label-danger">2
+            <span class="visible-xs-inline">_{MsgSubmissions}
+        <li>
+          <a href="students.html" title="Classmates" data-placement="bottom">
+            <i class="fa fa-users fa-lg fa-fw">
+            <span class="visible-xs-inline">_{MsgClassmates}
+        <li>
+          <a href="messages.html" title="Messages" data-placement="bottom">
+            <i class="fa fa-envelope fa-lg fa-fw">
+            <span class="label label-danger">1
+            <span class="visible-xs-inline">_{MsgMessages}
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="students/IvanovIvan.html" class="nav-success">
+            <span class="label label-success">+ 15
+            <i class="fa fa-user fa-lg fa-fw">
+            Student Name
+        <li>
+          <a href="settings.html" title="Settings" data-placement="bottom">
+            <i class="fa fa-gear fa-lg fa-fw">
+            <span class="visible-xs-inline">_{MsgSettings}
+        <li>
+          <a href="login.html" title="Sign out" data-placement="bottom">
+            <i class="fa fa-sign-out fa-lg fa-fw">
+            <span class="visible-xs-inline">_{MsgSignOut}
+

@@ -70,6 +70,9 @@ instance Yesod App where
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
 
+        navBar <- widgetToPageContent $ do
+          $(widgetFile "student/navbar")
+
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bootstrap_min_css
             addStylesheet $ StaticR css_plugins_social_buttons_css
