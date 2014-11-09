@@ -1,0 +1,20 @@
+Default: &defaults
+  database: trass.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: trass_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: trass_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: trass_production.sqlite3
+  poolsize: 100
+  <<: *defaults
