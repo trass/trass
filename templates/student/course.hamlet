@@ -1,0 +1,37 @@
+<h1>Insert course name here
+
+<p class="lead">Insert short course description here
+
+<div class="row">
+  <div class="col-sm-6 col-md-5 col-lg-4">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Course sections
+
+      <div class="list-group">
+        $forall section <- [1, 2, 3, 4, 5, 6]
+          <a href="#" class="list-group-item">
+            $if section > 3
+              <i class="fa fa-lock fa-lg fa-fw pull-right" title="Locked" data-placement="left">
+            $elseif even section
+              <span .pull-right .label .label-success>10 / 10
+            $else
+              <span .pull-right .label .label-warning>7 / 10
+            Section name
+
+  <div class="col-sm-6 col-md-7 col-lg-8">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Overview
+      <div class="panel-body">
+        Insert course overview here.
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Theory &amp; materials
+  <div class="panel-body">
+    Insert course theory &amp; materials here.
