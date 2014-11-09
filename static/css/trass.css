@@ -1,0 +1,213 @@
+body {
+  background-color: #fdfdfd;
+  padding-bottom: 30px;
+}
+
+body.login {
+  padding-top: 70px;
+}
+
+.navbar .nav .nav-success {
+  color: #5c965d;
+}
+
+.trophy-secret:before {
+  color: #BB00EE;
+
+  /* .fa-trophy */
+  content: "\f091";
+
+  /* .fa */
+  font-family: 'FontAwesome';
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+
+  /* .fa-lg */
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align:-15%;
+
+  /* .fa-fw */
+  width: 1.28571429em;
+  text-align: center;
+}
+
+.trophy.trophy-secret {
+  background-color: #280050;
+}
+
+.btn-trophy.trophy-secret {
+  background-color: #280050;
+}
+
+.btn-trophy.trophy-secret:hover {
+  background-color: #100030;
+}
+
+.trophy-gold:before {
+  color: #FFD700;
+
+  /* .fa-trophy */
+  content: "\f091";
+
+  /* .fa */
+  font-family: 'FontAwesome';
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+
+  /* .fa-lg */
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align:-15%;
+
+  /* .fa-fw */
+  width: 1.28571429em;
+  text-align: center;
+}
+
+.trophy-silver:before {
+  color: #C0C0C0;
+
+  /* .fa-trophy */
+  content: "\f091";
+
+  /* .fa */
+  font-family: 'FontAwesome';
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+
+  /* .fa-lg */
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align:-15%;
+
+  /* .fa-fw */
+  width: 1.28571429em;
+  text-align: center;
+}
+
+.trophy-bronze:before {
+  color: #CD7F32;
+
+  /* .fa-trophy */
+  content: "\f091";
+
+  /* .fa */
+  font-family: 'FontAwesome';
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+
+  /* .fa-lg */
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align:-15%;
+
+  /* .fa-fw */
+  width: 1.28571429em;
+  text-align: center;
+}
+
+.trophy {
+  display: inline-block;
+  min-width: 10px;
+  padding: 6px 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #333;
+  border-radius: 5px;
+}
+
+.btn-trophy {
+  display: inline-block;
+  min-width: 10px;
+  padding: 6px 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #333;
+  border-radius: 5px;
+}
+
+.btn-trophy:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+.tooltip {
+  white-space: nowrap;
+}
+
+.hidden-row {
+    padding: 0 !important;
+}
+
+.hidden-row > div {
+  padding: 10px;
+}
+
+.label-dark-void {
+  border: 1px solid #000;
+  color: #000;
+}
+.label-dark-void[href]:hover,
+.label-dark-void[href]:focus {
+  border: 1px solid #000;
+  color: #000;
+}
+
+.label-void {
+  border: 1px solid #888;
+  color: #888;
+}
+.label-void[href]:hover,
+.label-void[href]:focus {
+  border: 1px solid #888;
+  color: #888;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.text-help {
+  color: #737373;
+}
