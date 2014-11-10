@@ -5,3 +5,5 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
+/learn/#Text CourseR GET
+/language LanguageR GET POST

@@ -19,6 +19,13 @@ import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)
 
+import Control.Applicative
+
+import Data.Text (Text)
+import qualified Data.Map as Map
+
+import Language
+
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
@@ -70,8 +77,15 @@ instance Yesod App where
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
 
-        navBar <- widgetToPageContent $ do
-          $(widgetFile "student/navbar")
+        langs <- languages
+        let currentLang =
+              case langs of
+                []    -> "en"
+                (l:_) -> l
+            currentLangTitle = Map.findWithDefault "English" currentLang langTitles
+
+        navBar <- widgetToPageContent $(widgetFile "student/navbar")
+        footer <- widgetToPageContent $(widgetFile "footer")
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bootstrap_min_css

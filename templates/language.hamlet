@@ -1,0 +1,14 @@
+<h1>_{MsgChooseYourLanguage}
+
+<div .panel .panel-default>
+  <div .panel-heading>
+    <h3 .panel-title>
+      _{MsgAvailableLanguages}
+  <div .panel-body>
+    <div .row>
+      $forall (lang, title) <- langs
+        <div .col-sm-6 .col-md-4 .col-lg-3>
+          <form action=@{LanguageR} method=post>
+            <input type=hidden name="lang" value="#{lang}">
+            <button type=submit .btn .btn-default>
+              #{title}
