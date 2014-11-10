@@ -84,7 +84,7 @@ instance Yesod App where
                 (l:_) -> l
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
-        navBar <- widgetToPageContent $(widgetFile "student/navbar")
+        navBar <- widgetToPageContent $(widgetFile "anonymous/navbar")
         footer <- widgetToPageContent $(widgetFile "footer")
 
         pc <- widgetToPageContent $ do
