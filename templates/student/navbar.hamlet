@@ -10,20 +10,20 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li>
-          <a href="problems.html" title="Assignments" data-placement="bottom">
+          <a href="problems.html" title="_{MsgAssignments}" data-placement="bottom">
             <i class="fa fa-files-o fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgAssignments}
         <li>
-          <a href="submissions.html" title="Submissions" data-placement="bottom">
+          <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
             <i class="fa fa-inbox fa-lg fa-fw">
             <span class="label label-danger">2
             <span class="visible-xs-inline">_{MsgSubmissions}
         <li>
-          <a href="students.html" title="Classmates" data-placement="bottom">
+          <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
             <i class="fa fa-users fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgClassmates}
         <li>
-          <a href="messages.html" title="Messages" data-placement="bottom">
+          <a href="messages.html" title="_{MsgMessages}" data-placement="bottom">
             <i class="fa fa-envelope fa-lg fa-fw">
             <span class="label label-danger">1
             <span class="visible-xs-inline">_{MsgMessages}
@@ -35,11 +35,11 @@
             <i class="fa fa-user fa-lg fa-fw">
             Student Name
         <li>
-          <a href="settings.html" title="Settings" data-placement="bottom">
+          <a href="settings.html" title="_{MsgSettings}" data-placement="bottom">
             <i class="fa fa-gear fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSettings}
         <li>
-          <a href="login.html" title="Sign out" data-placement="bottom">
+          <a href="login.html" title="_{MsgSignOut}" data-placement="bottom">
             <i class="fa fa-sign-out fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSignOut}
 
