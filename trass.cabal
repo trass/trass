@@ -23,6 +23,7 @@ library
                      Handler.Home
                      Handler.Course
                      Handler.Language
+                     Handler.CourseSection
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

@@ -15,11 +15,13 @@ Course
     UniqueCourse ident
 
 Section
+    courseIdent   Text
+    ident         Text
     title         Text
     summary       Text Maybe
     overview      Text Maybe
     theory        Text Maybe
-    course        CourseId
     parent        SectionId Maybe
+    UniqueSection courseIdent ident
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

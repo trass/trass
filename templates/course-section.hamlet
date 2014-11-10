@@ -11,16 +11,20 @@ $maybe summary <- sectionSummary section
       <div class="panel-heading">
         <h3 class="panel-title">_{MsgSections}
 
-      <div class="list-group">
-        $forall n <- [1, 2, 3, 4, 5, 6]
-          <a href="#" class="list-group-item">
-            $if n > 3
-              <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
-            $elseif even n
-              <span .pull-right .label .label-success>10 / 10
-            $else
-              <span .pull-right .label .label-warning>7 / 10
-            Section name
+      $if null subsections
+        <div .panel-body>
+          _{MsgNoSubsections}
+      $else
+        <div class="list-group">
+          $forall Entity _ subsection <- subsections
+            <a href="@{CourseSectionR courseI (sectionIdent subsection)}" .list-group-item>
+              $if True
+                <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
+              $elseif True
+                <span .pull-right .label .label-success>10 / 10
+              $else
+                <span .pull-right .label .label-warning>7 / 10
+              #{sectionTitle subsection}
 
   <div class="col-sm-6 col-md-7 col-lg-8">
 

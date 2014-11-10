@@ -7,3 +7,4 @@
 / HomeR GET
 /learn/#Text CourseR GET
 /language LanguageR GET POST
+/learn/#Text/#Text CourseSectionR GET
