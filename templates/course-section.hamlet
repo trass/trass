@@ -15,7 +15,7 @@ $maybe summary <- sectionSummary section
         $forall n <- [1, 2, 3, 4, 5, 6]
           <a href="#" class="list-group-item">
             $if n > 3
-              <i class="fa fa-lock fa-lg fa-fw pull-right" title="Locked" data-placement="left">
+              <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
             $elseif even n
               <span .pull-right .label .label-success>10 / 10
             $else

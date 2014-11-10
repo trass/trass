@@ -8,3 +8,5 @@ SignOut: Выйти
 SiteLanguage lang@Text: Язык сайта: #{lang}
 ChooseYourLanguage: Выберите язык
 AvailableLanguages: Доступные языки
+
+Locked: Закрыто

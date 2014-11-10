@@ -17,3 +17,4 @@ Theory: Theory & Materials
 NoOverview: No overview.
 NoTheory: No theory.
 
+Locked: Locked
