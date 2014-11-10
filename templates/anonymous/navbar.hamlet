@@ -19,7 +19,7 @@
           <p .navbar-text>
             _{MsgYouAreNotLoggedIn}
         <li>
-          <a href="login.html" title="_{MsgSignIn}" data-placement="bottom">
+          <a href="@{AuthR LoginR}" title="_{MsgSignIn}" data-placement="bottom">
             <i class="fa fa-sign-in fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSignIn}
 

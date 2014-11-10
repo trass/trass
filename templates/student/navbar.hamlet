@@ -39,7 +39,7 @@
             <i class="fa fa-gear fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSettings}
         <li>
-          <a href="login.html" title="_{MsgSignOut}" data-placement="bottom">
+          <a href="@{AuthR LogoutR}" title="_{MsgSignOut}" data-placement="bottom">
             <i class="fa fa-sign-out fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSignOut}
 
