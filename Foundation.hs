@@ -4,7 +4,7 @@ import Prelude
 import Yesod
 import Yesod.Static
 import Yesod.Auth
-import Yesod.Auth.BrowserId
+import Yesod.Auth.Email
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Network.HTTP.Client.Conduit (Manager, HasHttpManager (getHttpManager))
@@ -17,12 +17,17 @@ import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
+import Text.Shakespeare.Text (stext)
+import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import Yesod.Core.Types (Logger)
+import Network.Mail.Mime
 
-import Control.Applicative
+import Control.Monad (join)
+import Data.Maybe (isJust)
 
 import Data.Text (Text)
 import qualified Data.Map as Map
+import qualified Data.Text.Lazy.Encoding
 
 import Language
 
@@ -84,7 +89,10 @@ instance Yesod App where
                 (l:_) -> l
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
-        navBar <- widgetToPageContent $(widgetFile "anonymous/navbar")
+        mauth <- maybeAuth
+        navBar <- case mauth of
+                    Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
+                    Just _  -> widgetToPageContent $(widgetFile "student/navbar") 
         footer <- widgetToPageContent $(widgetFile "footer")
 
         pc <- widgetToPageContent $ do
@@ -152,21 +160,109 @@ instance YesodAuth App where
     logoutDest _ = HomeR
 
     getAuthId creds = runDB $ do
-        x <- getBy $ UniqueUser $ credsIdent creds
-        case x of
-            Just (Entity uid _) -> return $ Just uid
-            Nothing -> do
-                fmap Just $ insert User
-                    { userIdent = credsIdent creds
-                    , userPassword = Nothing
-                    }
+        x <- insertBy $ User (credsIdent creds) Nothing Nothing False
+        return $ Just $
+          case x of
+            Left (Entity userid _)  -> userid   -- newly added user
+            Right userid            -> userid   -- existing user
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authBrowserId def]
+    authPlugins _ = [authEmail {apLogin = \tm -> $(widgetFile "auth/login")}]
 
     authHttpManager = httpManager
 
 instance YesodAuthPersist App
+
+instance YesodAuthEmail App where
+    type AuthEmailId App = UserId
+
+    afterPasswordRoute _ = HomeR
+
+    addUnverified email verkey = runDB $ insert $ User email Nothing (Just verkey) False
+
+    sendVerifyEmail email _ verurl = do
+      liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
+            { mailTo = [Address Nothing email]
+            , mailHeaders =
+                [ ("Subject", "Verify your email address")
+                ]
+            , mailParts = [[textPart, htmlPart]]
+            }
+      where
+        textPart = Part
+            { partType = "text/plain; charset=utf-8"
+            , partEncoding = None
+            , partFilename = Nothing
+            , partContent = Data.Text.Lazy.Encoding.encodeUtf8
+                [stext|
+                    Please confirm your email address by clicking on the link below.
+
+                    #{verurl}
+
+                    Thank you
+                |]
+            , partHeaders = []
+            }
+        htmlPart = Part
+            { partType = "text/html; charset=utf-8"
+            , partEncoding = None
+            , partFilename = Nothing
+            , partContent = renderHtml
+                [shamlet|
+                    <p>Please confirm your email address by clicking on the link below.
+                    <p>
+                        <a href=#{verurl}>#{verurl}
+                    <p>Thank you
+                |]
+            , partHeaders = []
+            }
+
+    getVerifyKey = runDB . fmap (join . fmap userVerkey) . get
+    setVerifyKey uid key = runDB $ update uid [UserVerkey =. Just key]
+
+    verifyAccount uid = runDB $ do
+        mu <- get uid
+        case mu of
+            Nothing -> return Nothing
+            Just _ -> do
+                update uid [UserVerified =. True]
+                return $ Just uid
+
+    getPassword = runDB . fmap (join . fmap userPassword) . get
+    setPassword uid pass = runDB $ update uid [UserPassword =. Just pass]
+
+    getEmailCreds email = runDB $ do
+        mu <- getBy $ UniqueUser email
+        case mu of
+            Nothing -> return Nothing
+            Just (Entity uid u) -> return $ Just EmailCreds
+                { emailCredsId = uid
+                , emailCredsAuthId = Just uid
+                , emailCredsStatus = isJust $ userPassword u
+                , emailCredsVerkey = userVerkey u
+                , emailCredsEmail = email
+                }
+
+    getEmail = runDB . fmap (fmap userEmail) . get
+
+    forgotPasswordHandler = do
+      tp <- getRouteToParent
+      lift $ authLayout $ do
+        setTitleI MsgAuthForgotPasswordTitle
+        $(widgetFile "auth/forgot-password")
+
+    registerHandler = do
+      tp <- getRouteToParent
+      lift $ authLayout $ do
+        setTitleI MsgAuthRegisterTitle
+        $(widgetFile "auth/register")
+
+    setPasswordHandler needOld = do
+      tp <- getRouteToParent
+      selectRep $ do
+        provideRep $ lift $ authLayout $ do
+          setTitleI MsgAuthRegisterTitle
+          $(widgetFile "auth/set-password")
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.

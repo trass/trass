@@ -73,6 +73,8 @@ library
                  , fast-logger                   >= 2.2        && < 2.3
                  , wai-logger                    >= 2.2        && < 2.3
                  , containers
+                 , mime-mail                     >= 0.4        && < 0.5
+                 , blaze-html                    >= 0.5
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)
