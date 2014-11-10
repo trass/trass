@@ -1,20 +1,22 @@
-<h1>Insert course name here
+<h1>#{sectionTitle section}
 
-<p class="lead">Insert short course description here
+$maybe summary <- sectionSummary section
+  <p class="lead">
+    #{summary}
 
 <div class="row">
   <div class="col-sm-6 col-md-5 col-lg-4">
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Course sections
+        <h3 class="panel-title">_{MsgSections}
 
       <div class="list-group">
-        $forall section <- [1, 2, 3, 4, 5, 6]
+        $forall n <- [1, 2, 3, 4, 5, 6]
           <a href="#" class="list-group-item">
-            $if section > 3
+            $if n > 3
               <i class="fa fa-lock fa-lg fa-fw pull-right" title="Locked" data-placement="left">
-            $elseif even section
+            $elseif even n
               <span .pull-right .label .label-success>10 / 10
             $else
               <span .pull-right .label .label-warning>7 / 10
@@ -25,13 +27,19 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          Overview
+          _{MsgOverview}
       <div class="panel-body">
-        Insert course overview here.
+        $maybe overview <- sectionOverview section
+          #{overview}
+        $nothing
+          _{MsgNoOverview}
 
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Theory &amp; materials
+      _{MsgTheory}
   <div class="panel-body">
-    Insert course theory &amp; materials here.
+    $maybe theory <- sectionTheory section
+      #{theory}
+    $nothing
+      _{MsgNoTheory}
