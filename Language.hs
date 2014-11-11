@@ -16,22 +16,44 @@ langTitles = Map.fromList
   , ("ru", "Русский")
   ]
 
-ago :: UTCTime -> UTCTime -> Text
+data TimeAgo
+  = TAJustNow
+  | TAMinutes Int
+  | TAHours Int
+  | TADays Int
+  | TAWeeks Int
+  | TAMonths Int
+  | TAYears Int
+  deriving (Show)
+
+pluralEn :: Int -> Text -> Text -> Text
+pluralEn 1 s _ = s
+pluralEn n _ s = Text.pack (show n) <> " " <> s
+
+pluralRu :: Int -> Text -> Text -> Text -> Text
+pluralRu 1 s1 _  _ = s1
+pluralRu n s1 s2 s
+  | one       = prefix <> s1
+  | few       = prefix <> s2
+  | otherwise = prefix <> s
+  where
+    prefix = Text.pack (show n) <> " "
+    tenth = m > 10 && m < 20
+    one   = not tenth && k == 1
+    few   = not tenth && 1 < k && k < 5
+    m = n `mod` 100
+    k = n `mod` 10
+
+ago :: UTCTime -> UTCTime -> TimeAgo
 ago t now
-  | minutes == 0  = "just now"
-  | minutes <  2  = "a minute ago"
-  | minutes <  5  = Text.pack (show minutes) <> " minutes ago"
-  | hours == 0    = Text.pack (show $ 5 * (minutes `div` 5)) <> " minutes ago"
-  | hours == 1    = "an hour ago"
-  | days == 0     = Text.pack (show hours) <> " hours ago"
-  | days == 1     = "a day ago"
-  | weeks == 0    = Text.pack (show days) <> " days ago"
-  | weeks == 1    = "a week ago"
-  | months == 0   = Text.pack (show weeks) <> " weeks ago"
-  | months == 1   = "a month ago"
-  | years == 0    = Text.pack (show months) <> " months ago"
-  | years == 1    = "a year ago"
-  | otherwise     = Text.pack (show years) <> " years ago"
+  | minutes == 0  = TAJustNow
+  | minutes <  5  = TAMinutes minutes
+  | hours == 0    = TAMinutes (5 * (minutes `div` 5))
+  | days == 0     = TAHours hours
+  | weeks == 0    = TADays days
+  | months == 0   = TAWeeks weeks
+  | years == 0    = TAMonths months
+  | otherwise     = TAYears years
   where
     seconds = floor (diffUTCTime now t)
     minutes = seconds `div` 60

@@ -14,12 +14,11 @@
     $if null messages
       No messages.
     $else
-      $forall Entity msgId msg <- messages
+      $forall Entity _ msg <- messages
         <div class="media">
           <i class="media-object pull-left fa fa-user fa-3x fa-fw">
           <div class="media-body">
             <h5 class="media-heading">
               Student Name
-              <small> wrote
-              ^{wAgo (messageDateTime msg) now}
+              ^{wAgo MsgWroteAgo (messageDateTime msg) now}
             #{messageText msg}

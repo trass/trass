@@ -4,7 +4,6 @@ import Import
 import qualified Data.Text as Text
 import Data.Time
 import Yesod.Auth
-import Language
 import Utils
 
 getCourseMessagesR :: Text -> Handler Html
