@@ -20,10 +20,12 @@ library
                      Settings.StaticFiles
                      Settings.Development
                      Language
+                     Utils
                      Handler.Home
                      Handler.Course
                      Handler.Language
                      Handler.CourseSection
+                     Handler.CourseMessages
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -75,6 +77,8 @@ library
                  , containers
                  , mime-mail                     >= 0.4        && < 0.5
                  , blaze-html                    >= 0.5
+                 , time                          >= 1.4        && < 1.5
+                 , old-locale
 
     -- see https://github.com/yesodweb/yesod/issues/814
     if !os(windows)

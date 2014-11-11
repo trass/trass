@@ -6,6 +6,13 @@ User
     UniqueUser email
     deriving Typeable
 
+Message
+    courseIdent   Text
+    student       UserId
+    author        UserId
+    dateTime      UTCTime
+    text          Text
+
 Course
     ident Text
     rootSection SectionId

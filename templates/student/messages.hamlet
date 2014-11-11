@@ -1,0 +1,25 @@
+<div class="row">
+  <form role="form" method="post" action="@{CourseMessagesR courseI}">
+    <div class="form-group col-md-9">
+      <textarea class="form-control" name="message">
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary btn-block">Send
+
+&nbsp;
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Latest messages
+  <div class="panel-body">
+    $if null messages
+      No messages.
+    $else
+      $forall Entity msgId msg <- messages
+        <div class="media">
+          <i class="media-object pull-left fa fa-user fa-3x fa-fw">
+          <div class="media-body">
+            <h5 class="media-heading">
+              Student Name
+              <small> wrote
+              ^{wAgo (messageDateTime msg) now}
+            #{messageText msg}
