@@ -1,3 +1,18 @@
 $(function () {
+  /* convert time in tooltips to local time */
+  $("*").attr("title", function(i,t) {
+    if (t) {
+      var dt = new Date(t);
+      if (!isNaN(dt.getTime())) {
+        return dt.toLocaleDateString() + " " + dt.toLocaleTimeString();
+      }
+    }
+  });
+
+  /* activate navbar tooltips */
   $(".nav a").tooltip();
+
+  /* activate tooltips for help text (such as time) */
+  $(".text-help small").tooltip();
+  $("small.text-help").tooltip();
 });
