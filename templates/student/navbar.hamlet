@@ -13,24 +13,25 @@
           TRASS
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li>
-          <a href="problems.html" title="_{MsgAssignments}" data-placement="bottom">
-            <i class="fa fa-files-o fa-lg fa-fw">
-            <span class="visible-xs-inline">_{MsgAssignments}
-        <li>
-          <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
-            <i class="fa fa-inbox fa-lg fa-fw">
-            <span class="label label-danger">2
-            <span class="visible-xs-inline">_{MsgSubmissions}
-        <li>
-          <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
-            <i class="fa fa-users fa-lg fa-fw">
-            <span class="visible-xs-inline">_{MsgClassmates}
-        <li>
-          <a href="messages.html" title="_{MsgMessages}" data-placement="bottom">
-            <i class="fa fa-envelope fa-lg fa-fw">
-            <span class="label label-danger">1
-            <span class="visible-xs-inline">_{MsgMessages}
+        $maybe cid <- courseIdent
+          <li>
+            <a href="problems.html" title="_{MsgAssignments}" data-placement="bottom">
+              <i class="fa fa-files-o fa-lg fa-fw">
+              <span class="visible-xs-inline">_{MsgAssignments}
+          <li>
+            <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
+              <i class="fa fa-inbox fa-lg fa-fw">
+              <span class="label label-danger">2
+              <span class="visible-xs-inline">_{MsgSubmissions}
+          <li>
+            <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
+              <i class="fa fa-users fa-lg fa-fw">
+              <span class="visible-xs-inline">_{MsgClassmates}
+          <li>
+            <a href="@{CourseMessagesR cid}" title="_{MsgMessages}" data-placement="bottom">
+              <i class="fa fa-envelope fa-lg fa-fw">
+              <span class="label label-danger">1
+              <span class="visible-xs-inline">_{MsgMessages}
 
       <ul class="nav navbar-nav navbar-right">
         <li>
