@@ -16,7 +16,7 @@ agoMessage (TAWeeks   n) = MsgTimeAgoWeeks n
 agoMessage (TAMonths  n) = MsgTimeAgoMonths n
 agoMessage (TAYears   n) = MsgTimeAgoYears n
 
--- wAgo :: UTCTime -> UTCTime -> ???
+wAgo :: (Text -> AppMessage) -> UTCTime -> UTCTime -> WidgetT App IO ()
 wAgo f dt now = do
   mr <- getMessageRender
   let agoText = mr $ agoMessage $ ago dt now
