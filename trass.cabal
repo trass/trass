@@ -26,6 +26,11 @@ library
                      Handler.Language
                      Handler.CourseSection
                      Handler.CourseMessages
+                     Handler.Settings
+                     Handler.SettingsProfile
+                     Handler.SettingsAccount
+                     Handler.SettingsNotifications
+                     Handler.SettingsCourses
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

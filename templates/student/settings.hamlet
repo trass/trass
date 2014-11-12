@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-4 col-md-3">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-gear fa-lg fa-fw">
+          Settings
+
+      <ul class="nav nav-pills nav-stacked">
+        <li :isTabProfile tabName:.active>
+          <a href="@{SettingsProfileR}">Profile
+        <li :isTabAccount tabName:.active>
+          <a href="@{SettingsAccountR}">Account
+        <li :isTabNotifications tabName:.active>
+          <a href="@{SettingsNotificationsR}">Notifications
+        <li :isTabCourses tabName:.active>
+          <a href="@{SettingsCoursesR}">Courses
+
+  <div class="col-sm-8 col-md-9">
+    $if isTabProfile tabName
+      ^{tabProfile profile}

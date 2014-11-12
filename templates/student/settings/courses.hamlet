@@ -1,0 +1,14 @@
+<div class="tab-pane" id="courses">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Courses membership
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a href="#" class="btn btn-xs btn-default pull-right">Leave
+        <a href="index.html">Haskell programming
+
+    <div class="panel-footer">
+      To join more courses, please see the
+      <a href="#">list of all available courses
+      .

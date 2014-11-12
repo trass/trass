@@ -35,7 +35,7 @@
             <i class="fa fa-user fa-lg fa-fw">
             Student Name
         <li>
-          <a href="settings.html" title="_{MsgSettings}" data-placement="bottom">
+          <a href="@{SettingsR}" title="_{MsgSettings}" data-placement="bottom">
             <i class="fa fa-gear fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSettings}
         <li>

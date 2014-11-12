@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Profile
+
+  <div class="panel-body">
+    <form role="form" method="post" action="@{SettingsProfileR}">
+      <div class="form-group">
+        <label for="profileName">Name
+        <input type="fullname" class="form-control" name="name" value="#{fromMaybe "" $ profileName profile}">
+      <div class="form-group">
+        <label for="profileEmail">Email (will be public)
+        <input type="email" class="form-control" name="email" value="" disabled>
+      <button type=submit class="btn btn-success">Update profile
+

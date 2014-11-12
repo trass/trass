@@ -1,0 +1,66 @@
+<div class="tab-pane" id="notifications">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Notifications
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <h5>
+          <div class="navbar navbar-inverse pull-right hidden-xs">
+            <ul class="nav navbar-nav">
+              <li>
+                <p class="navbar-text">
+                  <i class="fa fa-inbox fa-lg fa-fw">
+                  <span class="label label-danger">1
+          Submissions
+        <small>
+          <p class="help-block">When your submission status is updated.
+          <label>
+            <input type="checkbox" checked> Email
+          &nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox"> Web
+      <li class="list-group-item">
+        <h5>
+          <div class="navbar navbar-inverse pull-right hidden-xs">
+            <ul class="nav navbar-nav">
+              <li>
+                <p class="navbar-text nav-success">
+                  <span class="label label-success">+ 25
+                  <i class="fa fa-user fa-lg fa-fw">
+          Course Points
+        <small>
+          <p class="help-block">When you get awarded or fined for a submission or other activity.
+          <label>
+            <input type="checkbox" checked> Email
+          &nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox"> Web
+      <li class="list-group-item">
+        <h5>
+          <div class="navbar navbar-inverse pull-right hidden-xs">
+            <ul class="nav navbar-nav">
+              <li>
+                <p class="navbar-text">
+                  <i class="fa fa-envelope fa-lg fa-fw">
+                  <span class="label label-danger">1
+          Messages
+        <small>
+          <p class="help-block">When a teacher sends a message to you.
+          <label>
+            <input type="checkbox" checked> Email
+          &nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="checkbox"> Web
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Notification email
+
+    <div class="panel-body">
+      <form role="form">
+        <div class="form-group">
+          <label for="notificationEmail">Primary email (only used for email notifications)
+          <input type="email" class="form-control" id="notificationEmail" value="ivanov@example.com">
+        <button class="btn btn-success">Update primary email
+

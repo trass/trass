@@ -31,6 +31,11 @@ import Handler.Course
 import Handler.Language
 import Handler.CourseSection
 import Handler.CourseMessages
+import Handler.Settings
+import Handler.SettingsProfile
+import Handler.SettingsAccount
+import Handler.SettingsNotifications
+import Handler.SettingsCourses
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
