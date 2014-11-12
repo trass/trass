@@ -6,6 +6,11 @@ User
     UniqueUser email
     deriving Typeable
 
+Profile
+    user        UserId
+    name        Text Maybe
+    UniqueProfile user
+
 Message
     courseIdent   Text
     student       UserId
