@@ -17,7 +17,7 @@ $maybe summary <- sectionSummary section
       $else
         <div class="list-group">
           $forall Entity _ subsection <- subsections
-            <a href="@{CourseSectionR courseI (sectionIdent subsection)}" .list-group-item>
+            <a href="@{CourseSectionR courseI (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
               $if True
                 <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
               $elseif True

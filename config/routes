@@ -5,12 +5,14 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
-/learn/#Text CourseR GET
 /language LanguageR GET POST
-/learn/#Text/#Text CourseSectionR GET
-/messages/#Text CourseMessagesR GET POST
+
 /settings SettingsR GET
-/settings/profile SettingsProfileR GET POST
-/settings/account SettingsAccountR GET
+/settings/profile       SettingsProfileR GET POST
+/settings/account       SettingsAccountR GET
 /settings/notifications SettingsNotificationsR GET
-/settings/courses SettingsCoursesR GET
+/settings/courses       SettingsCoursesR GET
+
+/course/#Text               CourseR GET
+/course/#Text/view/*[Text]  CourseSectionR GET
+/course/#Text/messages      CourseMessagesR GET POST

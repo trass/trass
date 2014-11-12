@@ -1,6 +1,7 @@
 module Handler.Course where
 
 import Import
+import qualified Data.Text as Text
 
 getCourseR :: Text -> Handler Html
 getCourseR courseI = do
