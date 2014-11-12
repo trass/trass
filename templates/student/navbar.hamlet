@@ -37,7 +37,10 @@
           <a href="students/IvanovIvan.html" class="nav-success">
             <span class="label label-success">+ 15
             <i class="fa fa-user fa-lg fa-fw">
-            Student Name
+            $maybe name <- mprofile >>= profileName
+              #{name}
+            $nothing
+              You
         <li>
           <a href="@{SettingsR}" title="_{MsgSettings}" data-placement="bottom">
             <i class="fa fa-gear fa-lg fa-fw">

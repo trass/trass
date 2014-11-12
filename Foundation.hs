@@ -96,10 +96,14 @@ instance Yesod App where
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
         courseTitle <- getCourseTitle
-        mauth <- maybeAuth
-        navBar <- case mauth of
-                    Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
-                    Just _  -> widgetToPageContent $(widgetFile "student/navbar") 
+        mauth <- maybeAuthId
+        navBar <-
+          case mauth of
+            Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
+            Just authId -> do
+              mentity <- runDB $ getBy $ UniqueProfile authId
+              let mprofile = fmap entityVal mentity
+              widgetToPageContent $(widgetFile "student/navbar")
         footer <- widgetToPageContent $(widgetFile "footer")
 
         pc <- widgetToPageContent $ do
