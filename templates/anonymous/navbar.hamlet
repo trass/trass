@@ -6,7 +6,11 @@
         <span class="icon-bar">
         <span class="icon-bar">
         <span class="icon-bar">
-      <a class="navbar-brand" href="@{HomeR}">Insert course name here
+      <a class="navbar-brand" href="@{HomeR}">
+        $maybe title <- courseTitle
+          #{title}
+        $nothing
+          TRASS
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li>

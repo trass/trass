@@ -8,5 +8,9 @@ getCourseR courseI = do
   let sectionId = courseRootSection course
   section <- runDB $ get404 sectionId
   subsections <- runDB $ selectList [SectionParent ==. Just sectionId] []
+
+  setCourseIdent courseI
+  setCourseTitle (sectionTitle section)
+
   defaultLayout $ do
     $(widgetFile "course-section")

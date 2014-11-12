@@ -61,6 +61,12 @@ mkYesodData "App" $(parseRoutesFile "config/routes")
 
 type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
 
+getCourseIdent = lookupSession "TRASS_COURSE_IDENT"
+setCourseIdent = setSession "TRASS_COURSE_IDENT"
+
+getCourseTitle = lookupSession "TRASS_COURSE_TITLE"
+setCourseTitle = setSession "TRASS_COURSE_TITLE"
+
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
 instance Yesod App where
@@ -89,6 +95,7 @@ instance Yesod App where
                 (l:_) -> l
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
+        courseTitle <- getCourseTitle
         mauth <- maybeAuth
         navBar <- case mauth of
                     Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
