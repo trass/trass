@@ -19,6 +19,10 @@
           <i class="media-object pull-left fa fa-user fa-3x fa-fw">
           <div class="media-body">
             <h5 class="media-heading">
-              Student Name
+              $maybe name <- Map.lookup (messageAuthor msg) authorsMap
+                #{name}
+              $nothing
+                Unknown Student
+              &nbsp;
               ^{wAgo MsgWroteAgo (messageDateTime msg) now}
             #{messageText msg}
