@@ -95,6 +95,7 @@ instance Yesod App where
                 (l:_) -> l
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
+        courseIdent <- getCourseIdent
         courseTitle <- getCourseTitle
         mauth <- maybeAuthId
         navBar <-
