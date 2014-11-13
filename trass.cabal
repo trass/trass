@@ -65,7 +65,8 @@ library
                  , persistent-sqlite             >= 2.0        && < 2.2
                  , persistent-template           >= 2.0        && < 2.2
                  , template-haskell
-                 , shakespeare                   >= 2.0        && < 2.1
+                 -- multiple i18n messages only appeared in shakespeare-2.0.2
+                 , shakespeare                   >= 2.0.2      && < 2.1
                  , hjsmin                        >= 0.1        && < 0.2
                  , monad-control                 >= 0.3        && < 0.4
                  , wai-extra                     >= 3.0        && < 3.1

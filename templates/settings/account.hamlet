@@ -1,20 +1,20 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Change password
+    <h3 class="panel-title">_{MsgChangePasswordPanelTitle}
 
   <div class="panel-body">
     <form role="form" method="post" action="@{tp setpassR}">
       <div class="form-group">
-        <label for="passwdOldPassword">Old password
+        <label for="passwdOldPassword">_{MsgOldPassword}
         <input type="password" class="form-control" name="old" autofocus>
       <div class="form-group">
-        <label for="passwdNewPassword">New password
+        <label for="passwdNewPassword">_{MsgNewPassword}
         <input type="password" class="form-control" name="new">
       <div class="form-group">
-        <label for="passwdConfirmPassword">Confirm new password
+        <label for="passwdConfirmPassword">_{MsgConfirmNewPassword}
         <input type="password" class="form-control" name="confirm">
 
-      <button class="btn btn-primary">Change password
+      <button class="btn btn-primary">_{MsgChangePassword}
       &nbsp;
-      <a href="forgot-password.html">Forgot password?
+      <a href="forgot-password.html">_{MsgAuthForgotPasswordQuestion}
 

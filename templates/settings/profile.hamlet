@@ -1,14 +1,14 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Profile
+    <h3 class="panel-title">_{MsgProfilePanelTitle}
 
   <div class="panel-body">
     <form role="form" method="post" action="@{SettingsProfileR}">
       <div class="form-group">
-        <label for="profileName">Name
+        <label for="profileName">_{MsgProfileName}
         <input type="fullname" class="form-control" name="name" value="#{fromMaybe "" $ profileName profile}">
       <div class="form-group">
-        <label for="profileEmail">Email (will be public)
+        <label for="profileEmail">_{MsgProfilePublicEmail}
         <input type="email" class="form-control" name="email" value="" disabled>
-      <button type=submit class="btn btn-success">Update profile
+      <button type=submit class="btn btn-success">_{MsgUpdateProfile}
 
