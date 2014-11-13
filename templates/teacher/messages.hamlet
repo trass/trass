@@ -1,0 +1,39 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Latest conversations
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Topic
+        <th>Last message
+    <tbody>
+      <tr class="warning">
+        <td>
+          <a href="messages/IvanovIvan.html">
+            Private conversation with
+            <span class="text-nowrap">
+              <i class="media-object fa fa-user fa-fw">
+              Ivanov Ivan
+        <td>
+          <q>Nevermind! I've figured it out.
+          <span class="text-nowrap">
+            —
+            <a href="students/IvanovIvan.html">
+              <i class="media-object fa fa-user fa-fw">
+              Ivanov Ivan
+          <small class="text-help">wrote just now
+      <tr>
+        <td>
+          <a href="messages/IvanovIvan.html">
+            Private conversation with
+            <span class="text-nowrap">
+              <i class="media-object fa fa-user fa-fw">
+              Petrov Petr
+        <td>
+          <q>I have now updated your submission status.
+          <span class="text-nowrap">
+            —
+            <i class="media-object fa fa-graduation-cap fa-fw">
+            Mr. Teacher
+          <small class="text-help">wrote a week ago
+

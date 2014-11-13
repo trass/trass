@@ -3,6 +3,7 @@ Submissions: Посылки
 Classmates: Однокурсники
 Students: Студенты
 Messages: Сообщения
+Conversations: Диалоги
 Settings: Настройки
 SignIn: Войти
 SignOut: Выйти

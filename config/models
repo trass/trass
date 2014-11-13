@@ -24,6 +24,10 @@ Message
     dateTime      UTCTime
     text          Text
 
+ReadMessage
+    message       MessageId
+    reader        UserId
+
 Course
     ident Text
     rootSection SectionId

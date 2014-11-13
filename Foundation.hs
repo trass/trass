@@ -32,6 +32,7 @@ import qualified Data.Text.Lazy.Encoding
 
 import Language
 import UserRole
+import UtilsDB
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -69,14 +70,10 @@ setCourseIdent = setSession "TRASS_COURSE_IDENT"
 getCourseTitle = lookupSession "TRASS_COURSE_TITLE"
 setCourseTitle = setSession "TRASS_COURSE_TITLE"
 
-getUserRole :: UserId -> Handler (Maybe UserRole)
-getUserRole uid = do
-  mcid <- getCourseIdent
-  case mcid of
-    Nothing -> return Nothing
-    Just cid -> do
-      mentity <- runDB $ getBy $ UniqueRole uid cid
-      return $ fmap (roleRole . entityVal) mentity
+getUserRole :: Text -> UserId -> Handler UserRole
+getUserRole cid uid = do
+  mentity <- runDB $ getBy $ UniqueRole uid cid
+  return $ maybe RoleStudent (roleRole . entityVal) mentity
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
@@ -113,7 +110,14 @@ instance Yesod App where
           case mauth of
             Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
             Just authId -> do
-              userRole <- fromMaybe RoleStudent `fmap` getUserRole authId
+              userRole <-
+                case courseIdent of
+                  Nothing -> return RoleStudent
+                  Just cid -> getUserRole cid authId
+              unreadMsgs <-
+                case courseIdent of
+                  Nothing -> return 0
+                  Just cid -> runDB $ countUnreadMessages cid authId userRole
               mentity <- runDB $ getBy $ UniqueProfile authId
               let mprofile = fmap entityVal mentity
               widgetToPageContent $(widgetFile "navbar")

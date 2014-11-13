@@ -1,5 +1,5 @@
 <div class="row">
-  <form role="form" method="post" action="@{CourseMessagesR courseI}">
+  <form role="form" method="post" action="@{CourseMessagesStudentR courseI studentId}">
     <div class="form-group col-md-9">
       <textarea class="form-control" name="message">
     <div class="col-md-3">
@@ -14,8 +14,8 @@
     $if null messages
       _{MsgNoMessages}
     $else
-      $forall Entity _ msg <- messages
-        <div class="media">
+      $forall Entity msgId msg <- messages
+        <div class="media" :Set.notMember msgId readSet:.bg-warning>
           <i class="media-object pull-left fa fa-user fa-3x fa-fw">
           <div class="media-body">
             <h5 class="media-heading">

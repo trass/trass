@@ -24,10 +24,18 @@
               <span class="label label-danger">2
               <span class="visible-xs-inline">_{MsgSubmissions}
           <li>
-            <a href="@{CourseMessagesR cid}" title="_{MsgMessages}" data-placement="bottom">
-              <i class="fa fa-envelope fa-lg fa-fw">
-              <span class="label label-danger">1
-              <span class="visible-xs-inline">_{MsgMessages}
+            $if isStudent userRole
+              <a href="@{CourseMessagesStudentR cid authId}" title="_{MsgMessages}" data-placement="bottom">
+                <i class="fa fa-envelope fa-lg fa-fw">
+                $if unreadMsgs > 0
+                  <span class="label label-danger">#{show unreadMsgs}
+                <span class="visible-xs-inline">_{MsgMessages}
+            $else
+              <a href="@{CourseMessagesR cid}" title="_{MsgConversations}" data-placement="bottom">
+                <i class="fa fa-envelope fa-lg fa-fw">
+                $if unreadMsgs > 0
+                  <span class="label label-danger">#{show unreadMsgs}
+                <span class="visible-xs-inline">_{MsgConversations}
 
       <ul class="nav navbar-nav navbar-right">
         <li>
