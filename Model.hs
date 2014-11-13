@@ -6,6 +6,7 @@ import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 import Data.Time (UTCTime)
 import Prelude
+import UserRole
 
 -- You can define all of your database entities in the entities file.
 -- You can find more information on persistent and how to declare entities

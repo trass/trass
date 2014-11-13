@@ -11,6 +11,12 @@ Profile
     name        Text Maybe
     UniqueProfile user
 
+Role
+    user        UserId
+    course      Text
+    role        UserRole
+    UniqueRole user course
+
 Message
     courseIdent   Text
     student       UserId
