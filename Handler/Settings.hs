@@ -16,11 +16,11 @@ tabProfile profile = $(widgetFile "settings/profile")
 tabAccount :: Widget
 tabAccount = $(widgetFile "settings/account")
 
-tabStudentNotifications :: Widget
-tabStudentNotifications = $(widgetFile "student/settings/notifications")
+tabNotifications :: Widget
+tabNotifications = $(widgetFile "student/settings/notifications")
 
-tabStudentCourses :: UserId -> Map Text UserRole -> [Entity Course] -> Widget
-tabStudentCourses authId roles courses = $(widgetFile "student/settings/courses")
+tabCourses :: UserId -> Map Text UserRole -> [Entity Course] -> Widget
+tabCourses authId roles courses = $(widgetFile "settings/courses")
   where
     roleIn cid = roles Map.! cid
 

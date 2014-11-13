@@ -13,7 +13,7 @@ getSettingsCoursesR = do
   courses     <- runDB $ selectList ([CourseOwner ==. authId] ||. [CourseIdent <-. map (roleCourse . entityVal) courseRoles]) []
   let
     roles = Map.fromList $ map ((roleCourse &&& roleRole) . entityVal) courseRoles
-    settingsTab = tabStudentCourses authId roles courses
+    settingsTab = tabCourses authId roles courses
   defaultLayout $ do
     $(widgetFile "student/settings")
   where
