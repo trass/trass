@@ -4,9 +4,24 @@
       <h3 class="panel-title">_{MsgCoursesMembership}
 
     <ul class="list-group">
-      <li class="list-group-item">
-        <a href="#" class="btn btn-xs btn-default pull-right">Leave
-        <a href="index.html">Haskell programming
+      $forall Entity _ course <- courses
+        <li class="list-group-item">
+          <span .pull-right>
+            $if courseOwner course /= authId
+              <a href="#" .btn .btn-xs .btn-default>Leave
+            <span .label .label-void>
+              $if courseOwner course == authId
+                Owner
+              $else
+                $case roleIn (courseIdent course)
+                  $of RoleTeacher
+                    Teacher
+                  $of RoleAssistant
+                    Assistant
+                  $of RoleStudent
+                    Student
+
+          <a href="@{CourseR (courseIdent course)}">#{courseTitle course}
 
     <div class="panel-footer">
       To join more courses, please see the

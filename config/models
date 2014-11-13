@@ -30,6 +30,8 @@ ReadMessage
 
 Course
     ident Text
+    owner UserId
+    title Text
     rootSection SectionId
     UniqueCourse ident
 

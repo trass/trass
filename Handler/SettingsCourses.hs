@@ -1,9 +1,20 @@
 module Handler.SettingsCourses where
 
 import Import
+import Control.Arrow ((&&&))
+import qualified Data.Map as Map
+import Handler.Settings
+import Yesod.Auth
 
 getSettingsCoursesR :: Handler Html
-getSettingsCoursesR = error "Not yet implemented: getSettingsCoursesR"
-
-postSettingsCoursesR :: Handler Html
-postSettingsCoursesR = error "Not yet implemented: postSettingsCoursesR"
+getSettingsCoursesR = do
+  authId <- requireAuthId
+  courseRoles <- runDB $ selectList [RoleUser ==. authId] []
+  courses     <- runDB $ selectList ([CourseOwner ==. authId] ||. [CourseIdent <-. map (roleCourse . entityVal) courseRoles]) []
+  let
+    roles = Map.fromList $ map ((roleCourse &&& roleRole) . entityVal) courseRoles
+    settingsTab = tabStudentCourses authId roles courses
+  defaultLayout $ do
+    $(widgetFile "student/settings")
+  where
+    tabName = "courses"

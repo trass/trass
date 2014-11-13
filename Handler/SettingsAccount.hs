@@ -13,5 +13,3 @@ getSettingsAccountR = do
     tabName = "account"
     settingsTab = tabAccount
 
-postSettingsAccountR :: Handler Html
-postSettingsAccountR = error "Not yet implemented: postSettingsAccountR"
