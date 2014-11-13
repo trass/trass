@@ -1,9 +1,15 @@
 module Handler.SettingsNotifications where
 
 import Import
+import Handler.Settings
+import Yesod.Auth
 
 getSettingsNotificationsR :: Handler Html
-getSettingsNotificationsR = error "Not yet implemented: getSettingsNotificationsR"
+getSettingsNotificationsR = do
+  authId <- requireAuthId
+  defaultLayout $ do
+    $(widgetFile "settings")
+  where
+    tabName = "notifications"
+    settingsTab = tabNotifications
 
-postSettingsNotificationsR :: Handler Html
-postSettingsNotificationsR = error "Not yet implemented: postSettingsNotificationsR"

@@ -17,7 +17,7 @@ tabAccount :: Widget
 tabAccount = $(widgetFile "settings/account")
 
 tabNotifications :: Widget
-tabNotifications = $(widgetFile "student/settings/notifications")
+tabNotifications = $(widgetFile "settings/notifications")
 
 tabCourses :: UserId -> Map Text UserRole -> [Entity Course] -> Widget
 tabCourses authId roles courses = $(widgetFile "settings/courses")

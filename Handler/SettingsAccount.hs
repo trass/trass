@@ -8,7 +8,7 @@ getSettingsAccountR :: Handler Html
 getSettingsAccountR = do
   authId <- requireAuthId
   defaultLayout $ do
-    $(widgetFile "student/settings")
+    $(widgetFile "settings")
   where
     tabName = "account"
     settingsTab = tabAccount

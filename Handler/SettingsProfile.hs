@@ -11,7 +11,7 @@ getSettingsProfileR = do
   let settingsTab = tabProfile profile
 
   defaultLayout $ do
-    $(widgetFile "student/settings")
+    $(widgetFile "settings")
   where
     tabName = "profile"
 

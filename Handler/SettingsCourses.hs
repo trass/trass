@@ -15,6 +15,6 @@ getSettingsCoursesR = do
     roles = Map.fromList $ map ((roleCourse &&& roleRole) . entityVal) courseRoles
     settingsTab = tabCourses authId roles courses
   defaultLayout $ do
-    $(widgetFile "student/settings")
+    $(widgetFile "settings")
   where
     tabName = "courses"
