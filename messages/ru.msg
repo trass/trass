@@ -36,7 +36,7 @@ AuthRegisterTitle: Новый пользователь
 AuthRegisterPanelTitle: Новый пользователь
 AuthRegisterButton: Создать
 
-AuthSetPassowordTitle: Создание пароля
+AuthSetPasswordTitle: Создание пароля
 AuthSetPasswordPanelTitle: Создание пароля
 Password: Пароль
 CurrentPassword: Текущий пароль
@@ -45,7 +45,7 @@ ConfirmPassword: Подтвердите пароль
 ConfirmNewPassword: Подтвердите новый пароль
 SetPassword: Сохранить пароль
 ChangePassword: Сменить пароль
-ChangePasswordPanelTitle: Смена пароля
+AuthChangePasswordPanelTitle: Смена пароля
 
 ProfilePanelTitle: Профиль
 ProfileName: Имя

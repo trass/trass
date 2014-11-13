@@ -285,7 +285,9 @@ instance YesodAuthEmail App where
       tp <- getRouteToParent
       selectRep $ do
         provideRep $ lift $ authLayout $ do
-          setTitleI MsgAuthRegisterTitle
+          if needOld
+            then setTitleI MsgAuthSetPasswordTitle
+            else setTitleI MsgAuthChangePasswordTitle
           $(widgetFile "auth/set-password")
 
 -- This instance is required to use forms. You can modify renderMessage to

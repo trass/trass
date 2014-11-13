@@ -11,8 +11,16 @@ AuthRegisterTitle: New Account
 AuthRegisterPanelTitle: Creating a new account
 AuthRegisterButton: Register
 
-AuthSetPassowordTitle: Setting Password
+AuthSetPasswordTitle: Setting Password
+AuthChangePasswordTitle: Changing Password
 AuthSetPasswordPanelTitle: Setting password
+AuthChangePasswordPanelTitle: Change Password
+
 Password: Password
 ConfirmPassword: Confirm password
 SetPassword: Set password
+
+CurrentPassword: Current password
+NewPassword: New password
+ConfirmNewPassword: Confirm new password
+ChangePassword: Change password
