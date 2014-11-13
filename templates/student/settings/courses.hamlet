@@ -1,7 +1,7 @@
 <div class="tab-pane" id="courses">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Courses membership
+      <h3 class="panel-title">_{MsgCoursesMembership}
 
     <ul class="list-group">
       <li class="list-group-item">

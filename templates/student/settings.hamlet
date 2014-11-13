@@ -5,17 +5,17 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <i class="fa fa-gear fa-lg fa-fw">
-          Settings
+          _{MsgSettingsPanelTitle}
 
       <ul class="nav nav-pills nav-stacked">
         <li :isTabProfile tabName:.active>
-          <a href="@{SettingsProfileR}">Profile
+          <a href="@{SettingsProfileR}">_{MsgProfileTab}
         <li :isTabAccount tabName:.active>
-          <a href="@{SettingsAccountR}">Account
+          <a href="@{SettingsAccountR}">_{MsgAccountTab}
         <li :isTabNotifications tabName:.active>
-          <a href="@{SettingsNotificationsR}">Notifications
+          <a href="@{SettingsNotificationsR}">_{MsgNotificationsTab}
         <li :isTabCourses tabName:.active>
-          <a href="@{SettingsCoursesR}">Courses
+          <a href="@{SettingsCoursesR}">_{MsgCoursesTab}
 
   <div class="col-sm-8 col-md-9">
     $if isTabProfile tabName

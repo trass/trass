@@ -6,7 +6,7 @@
         <li>
           <p>#{extraCopyright $ appExtra $ settings master}
         <li>
-          <a href="#">About TRASS
+          <a href="#">_{MsgAboutTRASS}
         <li>
           <a href="@{LanguageR}">
             _{MsgSiteLanguage currentLangTitle}

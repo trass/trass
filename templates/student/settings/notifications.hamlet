@@ -1,7 +1,7 @@
 <div class="tab-pane" id="notifications">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Notifications
+      <h3 class="panel-title">_{MsgNotificationsPanelTitle}
 
     <ul class="list-group">
       <li class="list-group-item">
@@ -12,14 +12,14 @@
                 <p class="navbar-text">
                   <i class="fa fa-inbox fa-lg fa-fw">
                   <span class="label label-danger">1
-          Submissions
+          _{MsgSubmissions}
         <small>
-          <p class="help-block">When your submission status is updated.
+          <p class="help-block">_{MsgNotificationSubmissionsDescription}
           <label>
-            <input type="checkbox" checked> Email
+            <input type="checkbox" checked> _{MsgNotifyEmail}
           &nbsp;&nbsp;&nbsp;
           <label>
-            <input type="checkbox"> Web
+            <input type="checkbox"> _{MsgNotifyWeb}
       <li class="list-group-item">
         <h5>
           <div class="navbar navbar-inverse pull-right hidden-xs">
@@ -28,14 +28,14 @@
                 <p class="navbar-text nav-success">
                   <span class="label label-success">+ 25
                   <i class="fa fa-user fa-lg fa-fw">
-          Course Points
+          _{MsgCoursePoints}
         <small>
-          <p class="help-block">When you get awarded or fined for a submission or other activity.
+          <p class="help-block">_{MsgNotificationCoursePointsDescription}
           <label>
-            <input type="checkbox" checked> Email
+            <input type="checkbox" checked> _{MsgNotifyEmail}
           &nbsp;&nbsp;&nbsp;
           <label>
-            <input type="checkbox"> Web
+            <input type="checkbox"> _{MsgNotifyWeb}
       <li class="list-group-item">
         <h5>
           <div class="navbar navbar-inverse pull-right hidden-xs">
@@ -44,23 +44,23 @@
                 <p class="navbar-text">
                   <i class="fa fa-envelope fa-lg fa-fw">
                   <span class="label label-danger">1
-          Messages
+          _{MsgMessages}
         <small>
-          <p class="help-block">When a teacher sends a message to you.
+          <p class="help-block">_{MsgNotificationMessagesDescription}
           <label>
-            <input type="checkbox" checked> Email
+            <input type="checkbox" checked> _{MsgNotifyEmail}
           &nbsp;&nbsp;&nbsp;
           <label>
-            <input type="checkbox"> Web
+            <input type="checkbox"> _{MsgNotifyWeb}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Notification email
+      <h3 class="panel-title">_{MsgNotificationEmail}
 
     <div class="panel-body">
       <form role="form">
         <div class="form-group">
-          <label for="notificationEmail">Primary email (only used for email notifications)
+          <label for="notificationEmail">_{MsgPrimaryEmail}
           <input type="email" class="form-control" id="notificationEmail" value="ivanov@example.com">
-        <button class="btn btn-success">Update primary email
+        <button class="btn btn-success">_{MsgUpdatePrimaryEmail}
 

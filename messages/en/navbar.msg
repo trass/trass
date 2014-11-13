@@ -7,4 +7,5 @@ Settings: Settings
 SignIn: Sign In
 SignOut: Sign Out
 YouAreNotLoggedIn: You are not logged in
+You: You
 

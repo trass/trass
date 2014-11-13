@@ -3,16 +3,16 @@
     <div class="form-group col-md-9">
       <textarea class="form-control" name="message">
     <div class="col-md-3">
-      <button type="submit" class="btn btn-primary btn-block">Send
+      <button type="submit" class="btn btn-primary btn-block">_{MsgMessageSendButton}
 
 &nbsp;
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Latest messages
+    <h3 class="panel-title">_{MsgMessagesLatest}
   <div class="panel-body">
     $if null messages
-      No messages.
+      _{MsgNoMessages}
     $else
       $forall Entity _ msg <- messages
         <div class="media">
@@ -22,7 +22,7 @@
               $maybe name <- Map.lookup (messageAuthor msg) authorsMap
                 #{name}
               $nothing
-                Unknown Student
+                _{MsgUnknownStudent}
               &nbsp;
               ^{wAgo MsgWroteAgo (messageDateTime msg) now}
             #{messageText msg}

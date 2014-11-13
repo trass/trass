@@ -41,7 +41,7 @@
             $maybe name <- mprofile >>= profileName
               #{name}
             $nothing
-              You
+              _{MsgYou}
         <li>
           <a href="@{SettingsR}" title="_{MsgSettings}" data-placement="bottom">
             <i class="fa fa-gear fa-lg fa-fw">
