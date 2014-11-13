@@ -25,11 +25,13 @@ import Network.Mail.Mime
 import Control.Monad (join)
 import Data.Maybe (isJust)
 
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Map as Map
 import qualified Data.Text.Lazy.Encoding
 
 import Language
+import UserRole
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -67,6 +69,15 @@ setCourseIdent = setSession "TRASS_COURSE_IDENT"
 getCourseTitle = lookupSession "TRASS_COURSE_TITLE"
 setCourseTitle = setSession "TRASS_COURSE_TITLE"
 
+getUserRole :: UserId -> Handler (Maybe UserRole)
+getUserRole uid = do
+  mcid <- getCourseIdent
+  case mcid of
+    Nothing -> return Nothing
+    Just cid -> do
+      mentity <- runDB $ getBy $ UniqueRole uid cid
+      return $ fmap (roleRole . entityVal) mentity
+
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
 instance Yesod App where
@@ -102,9 +113,10 @@ instance Yesod App where
           case mauth of
             Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
             Just authId -> do
+              userRole <- fromMaybe RoleStudent `fmap` getUserRole authId
               mentity <- runDB $ getBy $ UniqueProfile authId
               let mprofile = fmap entityVal mentity
-              widgetToPageContent $(widgetFile "student/navbar")
+              widgetToPageContent $(widgetFile "navbar")
         footer <- widgetToPageContent $(widgetFile "footer")
 
         pc <- widgetToPageContent $ do

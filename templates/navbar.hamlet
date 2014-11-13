@@ -15,18 +15,14 @@
       <ul class="nav navbar-nav">
         $maybe cid <- courseIdent
           <li>
-            <a href="problems.html" title="_{MsgAssignments}" data-placement="bottom">
-              <i class="fa fa-files-o fa-lg fa-fw">
-              <span class="visible-xs-inline">_{MsgAssignments}
+            <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
+              <i class="fa fa-users fa-lg fa-fw">
+              <span class="visible-xs-inline">_{MsgClassmates}
           <li>
             <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
               <i class="fa fa-inbox fa-lg fa-fw">
               <span class="label label-danger">2
               <span class="visible-xs-inline">_{MsgSubmissions}
-          <li>
-            <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
-              <i class="fa fa-users fa-lg fa-fw">
-              <span class="visible-xs-inline">_{MsgClassmates}
           <li>
             <a href="@{CourseMessagesR cid}" title="_{MsgMessages}" data-placement="bottom">
               <i class="fa fa-envelope fa-lg fa-fw">
@@ -34,14 +30,6 @@
               <span class="visible-xs-inline">_{MsgMessages}
 
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="students/IvanovIvan.html" class="nav-success">
-            <span class="label label-success">+ 15
-            <i class="fa fa-user fa-lg fa-fw">
-            $maybe name <- mprofile >>= profileName
-              #{name}
-            $nothing
-              _{MsgYou}
         <li>
           <a href="@{SettingsR}" title="_{MsgSettings}" data-placement="bottom">
             <i class="fa fa-gear fa-lg fa-fw">
@@ -51,3 +39,28 @@
             <i class="fa fa-sign-out fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSignOut}
 
+      $with hasProfile <- not (isTeacher userRole || isAssistant userRole)
+        $if hasProfile
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="students/IvanovIvan.html" :isStudent userRole:.nav-success>
+                $if isTeacher userRole
+                  <i class="fa fa-graduation-cap fa-lg fa-fw">
+                $else
+                  $if isStudent userRole
+                    <span class="label label-success">+ 15
+                  <i class="fa fa-user fa-lg fa-fw">
+                $maybe name <- mprofile >>= profileName
+                  #{name}
+                $nothing
+                  _{MsgYou}
+        $else
+          <p class="navbar-text navbar-right">
+            $if isTeacher userRole
+              <i class="fa fa-graduation-cap fa-lg fa-fw">
+            $else
+              <i class="fa fa-user fa-lg fa-fw">
+            $maybe name <- mprofile >>= profileName
+              #{name}
+            $nothing
+              _{MsgYou}
