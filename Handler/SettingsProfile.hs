@@ -8,6 +8,8 @@ getSettingsProfileR :: Handler Html
 getSettingsProfileR = do
   authId <- requireAuthId
   Entity _ profile <- runDB $ getBy404 $ UniqueProfile authId
+  let settingsTab = tabProfile profile
+
   defaultLayout $ do
     $(widgetFile "student/settings")
   where

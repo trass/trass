@@ -18,5 +18,4 @@
           <a href="@{SettingsCoursesR}">_{MsgCoursesTab}
 
   <div class="col-sm-8 col-md-9">
-    $if isTabProfile tabName
-      ^{tabProfile profile}
+    ^{settingsTab}

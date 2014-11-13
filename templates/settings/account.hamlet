@@ -3,7 +3,7 @@
     <h3 class="panel-title">_{MsgChangePasswordPanelTitle}
 
   <div class="panel-body">
-    <form role="form" method="post" action="@{tp setpassR}">
+    <form role="form" method="post" action="@{AuthR setpassR}">
       <div class="form-group">
         <label for="passwdOldPassword">_{MsgOldPassword}
         <input type="password" class="form-control" name="old" autofocus>
@@ -16,5 +16,5 @@
 
       <button class="btn btn-primary">_{MsgChangePassword}
       &nbsp;
-      <a href="forgot-password.html">_{MsgAuthForgotPasswordQuestion}
+      <a href="@{AuthR forgotPasswordR}">_{MsgAuthForgotPasswordQuestion}
 
