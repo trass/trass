@@ -4,6 +4,7 @@
       <h3 class="panel-title">_{MsgNotificationsPanelTitle}
 
     <ul class="list-group">
+      <!-- Submissions -->
       <li class="list-group-item">
         <h5>
           <div class="navbar navbar-inverse pull-right hidden-xs">
@@ -14,28 +15,18 @@
                   <span class="label label-danger">1
           _{MsgSubmissions}
         <small>
-          <p class="help-block">_{MsgNotificationSubmissionsDescription}
+          <p class="help-block">
+            $if isStudent userRole
+              _{MsgNotificationStudentSubmissionsDescription}
+            $else
+              _{MsgNotificationTeacherSubmissionsDescription}
           <label>
             <input type="checkbox" checked> _{MsgNotifyEmail}
           &nbsp;&nbsp;&nbsp;
           <label>
             <input type="checkbox"> _{MsgNotifyWeb}
-      <li class="list-group-item">
-        <h5>
-          <div class="navbar navbar-inverse pull-right hidden-xs">
-            <ul class="nav navbar-nav">
-              <li>
-                <p class="navbar-text nav-success">
-                  <span class="label label-success">+ 25
-                  <i class="fa fa-user fa-lg fa-fw">
-          _{MsgCoursePoints}
-        <small>
-          <p class="help-block">_{MsgNotificationCoursePointsDescription}
-          <label>
-            <input type="checkbox" checked> _{MsgNotifyEmail}
-          &nbsp;&nbsp;&nbsp;
-          <label>
-            <input type="checkbox"> _{MsgNotifyWeb}
+
+      <!-- Messages -->
       <li class="list-group-item">
         <h5>
           <div class="navbar navbar-inverse pull-right hidden-xs">
@@ -46,12 +37,35 @@
                   <span class="label label-danger">1
           _{MsgMessages}
         <small>
-          <p class="help-block">_{MsgNotificationMessagesDescription}
+          <p class="help-block">
+            $if isStudent userRole
+              _{MsgNotificationStudentMessagesDescription}
+            $else
+              _{MsgNotificationTeacherMessagesDescription}
           <label>
             <input type="checkbox" checked> _{MsgNotifyEmail}
           &nbsp;&nbsp;&nbsp;
           <label>
             <input type="checkbox"> _{MsgNotifyWeb}
+
+      $if isStudent userRole
+        <!-- Course Points -->
+        <li class="list-group-item">
+          <h5>
+            <div class="navbar navbar-inverse pull-right hidden-xs">
+              <ul class="nav navbar-nav">
+                <li>
+                  <p class="navbar-text nav-success">
+                    <span class="label label-success">+ 25
+                    <i class="fa fa-user fa-lg fa-fw">
+            _{MsgCoursePoints}
+          <small>
+            <p class="help-block">_{MsgNotificationCoursePointsDescription}
+            <label>
+              <input type="checkbox" checked> _{MsgNotifyEmail}
+            &nbsp;&nbsp;&nbsp;
+            <label>
+              <input type="checkbox"> _{MsgNotifyWeb}
 
   <div class="panel panel-default">
     <div class="panel-heading">
