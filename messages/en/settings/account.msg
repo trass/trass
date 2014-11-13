@@ -1,4 +1,4 @@
-OldPassword: Old password
+CurrentPassword: Current password
 NewPassword: New password
 ConfirmNewPassword: Confirm new password
 ChangePassword: Change password

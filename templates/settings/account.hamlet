@@ -5,8 +5,8 @@
   <div class="panel-body">
     <form role="form" method="post" action="@{AuthR setpassR}">
       <div class="form-group">
-        <label for="passwdOldPassword">_{MsgOldPassword}
-        <input type="password" class="form-control" name="old" autofocus>
+        <label for="passwdCurrentPassword">_{MsgCurrentPassword}
+        <input type="password" class="form-control" name="current" autofocus>
       <div class="form-group">
         <label for="passwdNewPassword">_{MsgNewPassword}
         <input type="password" class="form-control" name="new">

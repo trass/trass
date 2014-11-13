@@ -39,7 +39,7 @@ AuthRegisterButton: Создать
 AuthSetPassowordTitle: Создание пароля
 AuthSetPasswordPanelTitle: Создание пароля
 Password: Пароль
-OldPassword: Текущий пароль
+CurrentPassword: Текущий пароль
 NewPassword: Новый пароль
 ConfirmPassword: Подтвердите пароль
 ConfirmNewPassword: Подтвердите новый пароль
