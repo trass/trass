@@ -52,9 +52,9 @@
             $forall student <- students
               <tr>
                 $if not (isStudent userRole)
-                  <td>
+                  <td .col-xs-1>
                     <span class="badge" title="_{MsgRating}"># 7
-                  <td>
+                  <td .col-xs-1>
                     <span class="label label-success" title="_{MsgCoursePoints}">27
                 <td>
                   <a href="#">

@@ -9,8 +9,8 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>Topic
-          <th>Last message
+          <th .col-xs-6>Topic
+          <th .col-xs-6>Last message
       <tbody>
         $forall (profile, message, author, authorRole, isUnread) <- conversations
           <tr :isUnread:.warning>
