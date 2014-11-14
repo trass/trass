@@ -4,7 +4,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <i class="fa fa-users fa-lg fa-fw">
-          Student Groups
+          _{MsgStudentGroupsPanelTitle}
 
       <ul .list-group>
         $forall Entity groupId group <- groups
@@ -12,25 +12,25 @@
             <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cid groupId}">
               <button type=submit .btn .btn-danger .btn-xs>
                 <i .fa .fa-fw .fa-trash>
-                Remove
+                _{MsgRemoveGroupButton}
             $if isChosen groupId
               #{groupName group}
             $else
               <a href="@{CourseStudentsGroupR cid $ groupName group}">#{groupName group}
         $if isNothing chosenGroup
           <li .list-group-item .active>
-            No Group
+            _{MsgNoGroup}
         $else
           <li .list-group-item>
-            <a href="@{CourseStudentsNoGroupR cid}">No Group
+            <a href="@{CourseStudentsNoGroupR cid}">_{MsgNoGroup}
 
       $if isTeacher userRole
         <div class="panel-footer">
           <form role="form" method="post" action="@{CourseStudentsR cid}">
             <div class="input-group">
-              <input class="form-control" name="groupName" placeholder="Type new group name">
+              <input class="form-control" name="groupName" placeholder="_{MsgGroupNamePlaceholder}">
               <span class="input-group-btn">
-                <button type=submit class="btn btn-default" title="Create New Group">
+                <button type=submit class="btn btn-default" title="_{MsgCreateNewGroup}">
                   <i class="fa fa-plus fa-fw">
 
   <div class="col-sm-8">
@@ -40,11 +40,11 @@
           $maybe Entity _ group <- chosenGroup
             #{groupName group}
           $nothing
-            No Group
+            _{MsgNoGroup}
 
       $if null students
         <div .panel-body>
-          There are no students in this group yet.
+          _{MsgNoStudentsInGroup}
       $else
         <table class="table table-condensed table-hover">
           <tbody>
@@ -52,9 +52,9 @@
               <tr>
                 $if not (isStudent userRole)
                   <td>
-                    <span class="badge" title="Rating"># 7
+                    <span class="badge" title="_{MsgRating}"># 7
                   <td>
-                    <span class="label label-success" title="Course Points">27
+                    <span class="label label-success" title="_{MsgCoursePoints}">27
                 <td>
                   <a href="#">
                     <i class="fa fa-user fa-fw">
@@ -64,10 +64,10 @@
                       _{MsgUnknownStudent}
                 <td class="text-right">
                   <span class="trophy">
-                    <span class="trophy-gold" title="Gold Achievement"> 1
-                    <span class="trophy-silver" title="Silver Achievement"> 3
-                    <span class="trophy-bronze" title="Bronze Achievement"> 12
-                  <span class="trophy trophy-secret" title="Secret Achievement"> 1
+                    <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1
+                    <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3
+                    <span class="trophy-bronze" title="_{MsgBronzeAchievements}"> 12
+                  <span class="trophy trophy-secret" title="_{MsgSecretAchievements}"> 1
 
       $if isTeacher userRole
         <div class="panel-footer">
@@ -75,14 +75,14 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="inviteStudentName">Student Name
-                <input type="fullname" class="form-control" id="inviteStudentName" placeholder="Type student name">
+                <label for="inviteStudentName">_{MsgNewStudentName}
+                <input type="fullname" class="form-control" id="inviteStudentName" placeholder="_{MsgStudentNamePlaceholder}">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="inviteStudentEmail">Student Email
-                <input type="email" class="form-control" id="inviteStudentEmail" placeholder="Email">
+                <label for="inviteStudentEmail">_{MsgNewStudentEmail}
+                <input type="email" class="form-control" id="inviteStudentEmail" placeholder="_{MsgEmailPlaceholder}">
 
           <a href="#" class="btn btn-success">
             <i class="fa fa-envelope fa-fw">
-            Invite Student
+            _{MsgInviteNewStudent}
 
