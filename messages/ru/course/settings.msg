@@ -1,0 +1,4 @@
+CourseSettings: Настройки курса
+CourseSettingsGeneral: Общие
+CourseSettingsStaff: Персонал
+CourseSettingsGamification: Игрофикация
