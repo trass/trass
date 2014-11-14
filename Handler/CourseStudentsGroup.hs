@@ -7,4 +7,6 @@ getCourseStudentsGroupR :: Text -> Text -> Handler Html
 getCourseStudentsGroupR cid gname = displayCourseStudents cid (DisplayGroup gname)
 
 postCourseStudentsGroupR :: Text -> Text -> Handler Html
-postCourseStudentsGroupR = error "Not yet implemented: postCourseStudentsGroupR"
+postCourseStudentsGroupR cid gname = do
+  inviteStudent cid (Just gname)
+  displayCourseStudents cid (DisplayGroup gname)

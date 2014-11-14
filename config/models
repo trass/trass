@@ -23,8 +23,10 @@ Group
     UniqueGroup course name
 
 GroupMember
-    group     GroupId
+    course    Text
     student   UserId
+    group     GroupId
+    UniqueGroupMember course student
 
 Message
     courseIdent   Text

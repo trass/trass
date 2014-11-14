@@ -9,10 +9,11 @@
       <ul .list-group>
         $forall Entity groupId group <- groups
           <li .student-group .list-group-item :isChosen groupId:.active>
-            <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cid groupId}">
-              <button type=submit .btn .btn-danger .btn-xs>
-                <i .fa .fa-fw .fa-trash>
-                _{MsgRemoveGroupButton}
+            $if isTeacher userRole
+              <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cid groupId}">
+                <button type=submit .btn .btn-danger .btn-xs>
+                  <i .fa .fa-fw .fa-trash>
+                  _{MsgRemoveGroupButton}
             $if isChosen groupId
               #{groupName group}
             $else
@@ -72,17 +73,17 @@
       $if isTeacher userRole
         <div class="panel-footer">
           <form role="form" method="post" :isNothing chosenGroup:action="@{CourseStudentsNoGroupR cid}" :isJust chosenGroup:action="@{CourseStudentsGroupR cid $ groupName $ entityVal $ fromJust chosenGroup}">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="inviteStudentName">_{MsgNewStudentName}
-                <input type="fullname" class="form-control" id="inviteStudentName" placeholder="_{MsgStudentNamePlaceholder}">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="inviteStudentEmail">_{MsgNewStudentEmail}
-                <input type="email" class="form-control" id="inviteStudentEmail" placeholder="_{MsgEmailPlaceholder}">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="inviteStudentName">_{MsgNewStudentName}
+                  <input type="fullname" class="form-control" id="inviteStudentName" name="studentName" placeholder="_{MsgStudentNamePlaceholder}">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="inviteStudentEmail">_{MsgNewStudentEmail}
+                  <input type="email" class="form-control" id="inviteStudentEmail" name="studentEmail" placeholder="_{MsgEmailPlaceholder}">
 
-          <a href="#" class="btn btn-success">
-            <i class="fa fa-envelope fa-fw">
-            _{MsgInviteNewStudent}
+            <button type=submit class="btn btn-success">
+              <i class="fa fa-envelope fa-fw">
+              _{MsgInviteNewStudent}
 

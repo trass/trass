@@ -40,15 +40,33 @@ displayCourseStudents cid dg = do
   defaultLayout $ do
     $(widgetFile "course/students")
 
-inviteStudent :: Text -> Maybe Text -> Handler Html
+inviteStudent :: Text -> Maybe Text -> Handler ()
 inviteStudent cid mgroup = do
   mname  <- lookupPostParam "studentName"
   memail <- lookupPostParam "studentEmail"
   case (,) <$> mname <*> memail of
     Nothing -> invalidArgs ["mname", "memail"]
     Just (name, email) -> do
-      muid <- runDB $ getBy $ UniqueUser email
-      case muid of
-        Nothing -> do
-          undefined
-        _ -> undefined
+      muser <- runDB $ getBy $ UniqueUser email
+      case muser of
+        Nothing -> undefined
+        Just (Entity uid _) -> runDB $ do
+          mrole <- getBy $ UniqueRole uid cid
+          let role = Role uid cid RoleStudent
+          case mrole of
+            Nothing -> insert_ role
+            Just (Entity rid _) -> replace rid role
+
+          case mgroup of
+            Nothing -> deleteWhere [GroupMemberStudent ==. uid, GroupMemberCourse ==. cid]
+            Just gname -> do
+              mg <- getBy $ UniqueGroup cid gname
+              case mg of
+                Nothing -> return ()
+                Just (Entity gid _) -> do
+                  mgm <- getBy $ UniqueGroupMember cid uid
+                  let gm = GroupMember cid uid gid
+                  case mgm of
+                    Nothing -> insert_ gm
+                    Just (Entity gmid _) -> replace gmid gm
+
