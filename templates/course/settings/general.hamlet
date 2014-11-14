@@ -1,39 +1,39 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Course repository
+    <h3 class="panel-title">_{MsgCourseRepositoryPanelTitle}
 
   <div class="panel-body">
     <form role="form">
       <div class="form-group">
-        <label for="courseHaskellIdent">Course identifier
+        <label for="courseHaskellIdent">_{MsgCourseIdentifier}
         <div class="input-group">
-          <input class="form-control" id="courseHaskellIdent" value="haskell-2015">
+          <input class="form-control" id="courseHaskellIdent" value="???">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Rename
+            <button class="btn btn-default" type="button">_{MsgCourseIdentifierRename}
       <div class="form-group">
-        <label for="courseHaskellRepoURL">Course repository URL
-        <input class="form-control" id="courseHaskellRepoURL" value="https://fizruk@bitbucket.org/fizruk/haskell-2015.git">
+        <label for="courseHaskellRepoURL">_{MsgCourseRepositoryURL}
+        <input class="form-control" id="courseHaskellRepoURL" value="">
       <a href="#" class="btn btn-success">
-        Update course
+        _{MsgUpdateCourseButton}
 
 <div class="panel panel-danger">
   <div class="panel-heading">
-    <h3 class="panel-title">Danger Zone
+    <h3 class="panel-title">_{MsgDangerZonePanelTitle}
 
   <ul class="list-group">
     <li class="list-group-item">
       <h5>
         <a href="#" class="btn btn-danger pull-right">
           <i class="fa fa-exchange fa-lg fa-fw">
-          Transfer
-        Transfer ownership
+          _{MsgTransferOwnershipButton}
+        _{MsgTransferOwnership}
       <small class="help-block">
-        Transfer this course to another user.
+        _{MsgTransferOwnershipDescription}
     <li class="list-group-item">
       <h5>
         <a href="#" class="btn btn-danger pull-right">
           <i class="fa fa-trash fa-lg fa-fw">
-          Delete
-        Delete course
+          _{MsgDeleteCourseButton}
+        _{MsgDeleteCourse}
       <small class="help-block">
-        Once you delete a course, there is no going back. Please be certain.
+        _{MsgDeleteCourseDescription}

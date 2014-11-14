@@ -1,0 +1,4 @@
+CourseSettings: Course Settings
+CourseSettingsGeneral: General
+CourseSettingsStaff: Staff
+CourseSettingsGamification: Gamification

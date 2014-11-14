@@ -6,21 +6,21 @@
       <div class="panel-heading">
         <h3 class="panel-title">
           <i class="fa fa-gear fa-lg fa-fw">
-          Course Settings
+          _{MsgCourseSettings}
 
       <ul class="nav nav-pills nav-stacked">
         <li :isTabGeneral tabName:.active>
           <a href="@{CourseSettingsGeneralR cid}">
             <i class="fa fa-book fa-lg fa-fw">
-            General
+            _{MsgCourseSettingsGeneral}
         <li :isTabStaff tabName:.active>
           <a href="@{CourseSettingsStaffR cid}">
             <i class="fa fa-users fa-lg fa-fw">
-            Staff
+            _{MsgCourseSettingsStaff}
         <li :isTabGamification tabName:.active>
           <a href="@{CourseSettingsGamificationR cid}">
             <i class="fa fa-gamepad fa-lg fa-fw">
-            Gamification
+            _{MsgCourseSettingsGamification}
 
   <div class="col-sm-8 col-md-9">
     ^{settingsTab}

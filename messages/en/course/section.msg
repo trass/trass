@@ -1,3 +1,5 @@
+CourseView: View
+
 Sections: Sections
 Overview: Overview
 Theory: Theory & Materials
