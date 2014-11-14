@@ -254,6 +254,7 @@ instance YesodAuthEmail App where
             Nothing -> return Nothing
             Just _ -> do
                 update uid [UserVerified =. True]
+                insert $ Profile uid Nothing
                 return $ Just uid
 
     getPassword = runDB . fmap (join . fmap userPassword) . get
