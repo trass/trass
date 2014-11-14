@@ -22,10 +22,10 @@ import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import Yesod.Core.Types (Logger)
 import Network.Mail.Mime
 
-import Control.Monad (join)
+import Control.Monad (join, when)
 import Data.Maybe (isJust)
 
-import Data.Maybe (fromMaybe)
+import Data.Maybe (isNothing, fromMaybe)
 import Data.Text (Text)
 import qualified Data.Map as Map
 import qualified Data.Text.Lazy.Encoding
@@ -254,7 +254,9 @@ instance YesodAuthEmail App where
             Nothing -> return Nothing
             Just _ -> do
                 update uid [UserVerified =. True]
-                insert $ Profile uid Nothing
+                mp <- getBy $ UniqueProfile uid
+                when (isNothing mp) $ do
+                  insert_ $ Profile uid Nothing
                 return $ Just uid
 
     getPassword = runDB . fmap (join . fmap userPassword) . get

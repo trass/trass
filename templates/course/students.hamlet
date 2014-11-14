@@ -9,9 +9,9 @@
       <ul class="nav nav-pills nav-stacked">
         $forall Entity _ group <- groups
           <li>
-            <a href="#">#{groupName group}
+            <a href="@{CourseStudentsGroupR cid $ groupName group}">#{groupName group}
         <li>
-          <a href="#">No Group
+          <a href="@{CourseStudentsNoGroupR cid}">No Group
 
       $if isTeacher userRole
         <div class="panel-footer">
@@ -39,10 +39,11 @@
           <tbody>
             $forall student <- students
               <tr>
-                <td>
-                  <span class="badge" title="Rating"># 7
-                <td>
-                  <span class="label label-success" title="Course Points">27
+                $if not (isStudent userRole)
+                  <td>
+                    <span class="badge" title="Rating"># 7
+                  <td>
+                    <span class="label label-success" title="Course Points">27
                 <td>
                   <a href="#">
                     <i class="fa fa-user fa-fw">
@@ -59,6 +60,7 @@
 
       $if isTeacher userRole
         <div class="panel-footer">
+          <form role="form" method="post" :isNothing chosenGroup:action="@{CourseStudentsNoGroupR cid}" :isJust chosenGroup:action="@{CourseStudentsGroupR cid $ groupName $ entityVal $ fromJust chosenGroup}">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
