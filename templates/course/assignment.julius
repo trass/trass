@@ -1,0 +1,7 @@
+$(function() {
+  $(".manage-assignment a.list-group-item form").hide();
+  $(".manage-assignment a.list-group-item").on("click", function () {
+    $(this).find("form").submit();
+  });
+  $(".manage-assignment a.list-group-item").popover({ container: 'body' });
+});

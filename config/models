@@ -73,6 +73,7 @@ Assignment
     points      Int Maybe
     duration    Int64 Maybe   -- in seconds
     startedAt   UTCTime Maybe
+    endingAt    UTCTime Maybe
     UniqueAssignment section ident
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

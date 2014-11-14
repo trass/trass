@@ -1,0 +1,82 @@
+^{courseHeader}
+
+<div class="row">
+  <div class="col-sm-9">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">_{MsgAssignmentDescription}
+      <div class="panel-body">
+        #{assignmentDescription assignment}
+
+    <ul class="pager">
+      <li class="previous disabled">
+        <a href="task.html">
+          &larr;
+          <span class="visible-xs-inline">
+            _{MsgPreviousAssignmentShort}
+          <span class="hidden-xs">
+            _{MsgPreviousAssignment}
+      <li class="next">
+        <a href="task.html">
+          <span class="visible-xs-inline">
+            _{MsgNextAssignmentShort}
+          <span class="hidden-xs">
+            _{MsgNextAssignment}
+          &rarr;
+
+  <div class="col-sm-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">_{MsgAssignmentInfo}
+
+      <ul class="list-group">
+        $maybe points <- assignmentPoints assignment
+          <li class="list-group-item">
+            <span class="label label-success pull-right">#{points}
+            _{MsgCoursePoints}
+        $maybe _ <- assignmentDuration assignment
+          <li class="list-group-item">
+            <span class="label label-default pull-right">1 week
+            _{MsgAssignmentDuration}
+        $maybe _ <- assignmentStartedAt assignment
+          <li class="list-group-item">
+            <span class="label label-primary pull-right">12 Mar 2014
+            _{MsgAssignmentStartDate}
+          $maybe _ <- assignmentEndingAt assignment
+            <li class="list-group-item">
+              <span class="label label-primary pull-right">19 Mar 2014
+              _{MsgAssignmentEndDate}
+        $nothing
+          <li .list-group-item>
+            _{MsgAssignmentNotStartedYet}
+
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">_{MsgAssignmentManagePanelTitle}
+
+      <div .manage-assignment .list-group>
+        $maybe _ <- assignmentStartedAt assignment
+          <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="_{MsgAssignmentManageLockDescription}">
+            <i class="fa fa-lock fa-lg fa-fw text-danger">
+            _{MsgAssignmentManageLock}
+            <form role="form" method="post">
+          <!-- TODO: check if deadline has already past -->
+          <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="_{MsgAssignmentManageStopDescription}">
+            <i class="fa fa-minus-circle fa-lg fa-fw text-danger">
+            _{MsgAssignmentManageStop}
+            <form role="form" method="post">
+        $nothing
+          <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="_{MsgAssignmentManageUnlockDescription}">
+            <i class="fa fa-unlock fa-lg fa-fw text-danger">
+            _{MsgAssignmentManageUnlock}
+
+        $maybe _ <- assignmentEndingAt assignment
+          <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="_{MsgAssignmentManageExtraDayDescription}">
+            <i class="fa fa-plus-square fa-lg fa-fw text-danger">
+            _{MsgAssignmentManageExtraDay}
+          <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="_{MsgAssignmentManageSkipDayDescription}">
+            <i class="fa fa-minus-square fa-lg fa-fw text-danger">
+            _{MsgAssignmentManageSkipDay}
+
+
