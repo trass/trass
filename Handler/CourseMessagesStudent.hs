@@ -16,7 +16,7 @@ getCourseMessagesStudentR :: Text -> UserId -> Handler Html
 getCourseMessagesStudentR courseI studentId = do
   authId <- requireAuthId
   role <- getUserRole courseI authId
-  when (authId /= studentId && isStudent role) $ notFound
+  when (authId /= studentId && not (isTeacher role)) $ notFound
 
   now <- liftIO getCurrentTime
   displayMessages courseI authId studentId now
@@ -25,7 +25,7 @@ postCourseMessagesStudentR :: Text -> UserId -> Handler Html
 postCourseMessagesStudentR courseI studentId = do
   authId <- requireAuthId
   role <- getUserRole courseI authId
-  when (authId /= studentId && isStudent role) $ notFound
+  when (authId /= studentId && not (isTeacher role)) $ notFound
 
   now <- liftIO getCurrentTime
 

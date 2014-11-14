@@ -22,3 +22,11 @@ countUnreadMessages cid uid role = liftM (unValue . head) $ do
           where_ (readMsg ^. ReadMessageReader ==. val uid)
       return countRows
 
+selectStaff :: MonadIO m => Text -> UserRole -> SqlPersistT m [Entity Profile]
+selectStaff cid role = do
+  select $
+    from $ \(p `InnerJoin` r) -> do
+      on (p ^. ProfileUser ==. r ^. RoleUser)
+      where_ (r ^. RoleCourse ==. val cid)
+      where_ (r ^. RoleRole ==. val role)
+      return p

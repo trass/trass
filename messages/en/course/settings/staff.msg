@@ -8,4 +8,10 @@ AssistantRoleDescription: Assistants have access only to student leaderboards an
 InviteAssistantButton: Invite assistant
 InviteAssistantPlaceholder: Type assistant name or email
 
+NoTeachers: This course has no teachers. Which is strange, cause you should be one.
+NoAssistants: This course has no assistants yet.
+
+UnknownTeacher: Unknown teacher
+UnknownAssistant: Unknown assistant
+
 StaffRemoveButton: Remove

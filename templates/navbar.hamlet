@@ -14,10 +14,16 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         $maybe cid <- courseIdent
-          <li>
-            <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
-              <i class="fa fa-users fa-lg fa-fw">
-              <span class="visible-xs-inline">_{MsgClassmates}
+          $if isStudent userRole
+            <li>
+              <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
+                <i class="fa fa-users fa-lg fa-fw">
+                <span class="visible-xs-inline">_{MsgClassmates}
+          $else
+            <li>
+              <a href="students.html" title="_{MsgStudents}" data-placement="bottom">
+                <i class="fa fa-users fa-lg fa-fw">
+                <span class="visible-xs-inline">_{MsgStudents}
           <li>
             <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
               <i class="fa fa-inbox fa-lg fa-fw">
@@ -30,7 +36,7 @@
                 $if unreadMsgs > 0
                   <span class="label label-danger">#{show unreadMsgs}
                 <span class="visible-xs-inline">_{MsgMessages}
-            $else
+            $elseif isTeacher userRole
               <a href="@{CourseMessagesR cid}" title="_{MsgConversations}" data-placement="bottom">
                 <i class="fa fa-envelope fa-lg fa-fw">
                 $if unreadMsgs > 0

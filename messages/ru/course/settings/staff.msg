@@ -8,4 +8,9 @@ AssistantRoleDescription: Помощникам доступны только р�
 InviteAssistantButton: Пригласить
 InviteAssistantPlaceholder: Введите имя или email помощника
 
+NoAssistants: В этом курсе пока нет ни одного помощника.
+
+UnknownTeacher: Неизвестный преподаватель
+UnknownAssistant: Неизвестный помощник
+
 StaffRemoveButton: Удалить
