@@ -8,18 +8,18 @@
         <li class="list-group-item">
           <span .pull-right>
             $if courseOwner course /= authId
-              <a href="#" .btn .btn-xs .btn-default>Leave
+              <a href="#" .btn .btn-xs .btn-default>_{MsgLeaveCourse}
             <span .label .label-void>
               $if courseOwner course == authId
-                Owner
+                _{MsgOwner}
               $else
                 $case roleIn (courseIdent course)
                   $of RoleTeacher
-                    Teacher
+                    _{MsgTeacher}
                   $of RoleAssistant
-                    Assistant
+                    _{MsgAssistant}
                   $of RoleStudent
-                    Student
+                    _{MsgStudent}
 
           <a href="@{CourseR (courseIdent course)}">#{courseTitle course}
 
