@@ -6,12 +6,23 @@
           <i class="fa fa-users fa-lg fa-fw">
           Student Groups
 
-      <ul class="nav nav-pills nav-stacked">
-        $forall Entity _ group <- groups
-          <li>
-            <a href="@{CourseStudentsGroupR cid $ groupName group}">#{groupName group}
-        <li>
-          <a href="@{CourseStudentsNoGroupR cid}">No Group
+      <ul .list-group>
+        $forall Entity groupId group <- groups
+          <li .student-group .list-group-item :isChosen groupId:.active>
+            <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cid groupId}">
+              <button type=submit .btn .btn-danger .btn-xs>
+                <i .fa .fa-fw .fa-trash>
+                Remove
+            $if isChosen groupId
+              #{groupName group}
+            $else
+              <a href="@{CourseStudentsGroupR cid $ groupName group}">#{groupName group}
+        $if isNothing chosenGroup
+          <li .list-group-item .active>
+            No Group
+        $else
+          <li .list-group-item>
+            <a href="@{CourseStudentsNoGroupR cid}">No Group
 
       $if isTeacher userRole
         <div class="panel-footer">

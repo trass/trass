@@ -1,0 +1,11 @@
+$(function() {
+  $(".student-group").hover(
+    function() {
+      $(this).find("form").show();
+    },
+    function() {
+      $(this).find("form").hide();
+    }
+  );
+  $(".student-group form").hide();
+});

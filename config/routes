@@ -24,3 +24,4 @@
 /course/#Text/students CourseStudentsR GET POST
 /course/#Text/students/group/#Text CourseStudentsGroupR GET POST
 /course/#Text/students/nogroup CourseStudentsNoGroupR GET POST
+/course/#Text/students/group/#GroupId/delete CourseStudentsDeleteGroupR POST

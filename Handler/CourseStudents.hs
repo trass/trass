@@ -31,7 +31,10 @@ displayCourseStudents cid dg = do
       DisplayGroup name -> Just <$> (runDB $ getBy404 $ UniqueGroup cid name)
       DisplayFirst      -> return $ listToMaybe groups
       DisplayNoGroup    -> return Nothing
-  students  <- runDB $ selectGroupMembers (entityKey <$> chosenGroup)
+  let
+    chosenGid = entityKey <$> chosenGroup
+    isChosen gid = Just gid == chosenGid
+  students  <- runDB $ selectGroupMembers chosenGid
   mauthId   <- maybeAuthId
   userRole  <- maybe (return RoleStudent) (getUserRole cid) mauthId
   defaultLayout $ do
