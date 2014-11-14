@@ -27,3 +27,4 @@
 /course/#Text/students/group/#GroupId/delete CourseStudentsDeleteGroupR POST
 /course/#Text/settings/staff/delete/#UserId CourseSettingsDeleteStaffR POST
 /course/#Text/settings/staff/invite/#UserRole CourseSettingsInviteStaffR POST
+/course/#Text/assignment/*[Text] CourseAssignmentR GET POST

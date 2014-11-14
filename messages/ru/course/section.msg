@@ -1,6 +1,7 @@
 CourseView: Просмотр
 
 Sections: Разделы
+Assignments: Задания
 Overview: Обзор
 Theory: Теоретические материалы
 

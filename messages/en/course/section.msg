@@ -1,6 +1,7 @@
 CourseView: View
 
 Sections: Sections
+Assignments: Assignments
 Overview: Overview
 Theory: Theory & Materials
 

@@ -3,6 +3,7 @@ module Handler.CourseSection where
 import Import
 import qualified Data.Text as Text
 import qualified Data.List as List
+import Data.Maybe
 import Yesod.Auth
 import Control.Monad (when)
 import UserRole
@@ -37,6 +38,7 @@ getCourseSectionR cid sids = do
     courseHeader = $(widgetFile "course/header")
 
   subsections <- runDB $ selectList [SectionParent ==. Just sectionId] [Asc SectionTitle]
+  assignments <- runDB $ selectList [AssignmentSection ==. sectionId] [Asc AssignmentTitle]
 
   setCourseIdent cid
   when (courseRootSection course == sectionId) $ do

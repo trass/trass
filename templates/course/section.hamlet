@@ -3,32 +3,57 @@
 <div class="row">
   <div class="col-sm-6 col-md-5 col-lg-4">
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">_{MsgSections}
+    $if null assignments || not (null subsections)
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">_{MsgSections}
 
-      $if null subsections
-        <div .panel-body>
-          _{MsgNoSubsections}
-      $else
+        $if null subsections
+          <div .panel-body>
+            _{MsgNoSubsections}
+        $else
+          <div class="list-group">
+            $forall Entity _ subsection <- subsections
+              <a href="@{CourseSectionR cid (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
+                <span .pull-right>
+                  $if sectionLocked subsection
+                    <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
+                    $if isTeacher userRole
+                      $maybe points <- sectionPoints subsection
+                        <span .label .label-default>#{points}
+                  $else
+                    $maybe points <- sectionPoints subsection
+                      $if isStudent userRole
+                        <span .label :False:.label-success :True:.label-warning>
+                          10 / #{points}
+                      $else
+                        <span .label .label-success>
+                          #{points}
+                #{sectionTitle subsection}
+
+    $if not (null assignments)
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">_{MsgAssignments}
+
         <div class="list-group">
-          $forall Entity _ subsection <- subsections
-            <a href="@{CourseSectionR cid (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
+          $forall Entity _ assignment <- assignments
+            <a href="@{CourseAssignmentR cid $ sids ++ [assignmentIdent assignment]}" .list-group-item>
               <span .pull-right>
-                $if sectionLocked subsection
+                $if isNothing (assignmentStartedAt assignment)
                   <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
                   $if isTeacher userRole
-                    $maybe points <- sectionPoints subsection
+                    $maybe points <- assignmentPoints assignment
                       <span .label .label-default>#{points}
                 $else
-                  $maybe points <- sectionPoints subsection
+                  $maybe points <- assignmentPoints assignment
                     $if isStudent userRole
                       <span .label :False:.label-success :True:.label-warning>
                         10 / #{points}
                     $else
                       <span .label .label-success>
                         #{points}
-              #{sectionTitle subsection}
+              #{assignmentTitle assignment}
 
   <div class="col-sm-6 col-md-7 col-lg-8">
 

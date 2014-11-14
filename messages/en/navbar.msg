@@ -1,4 +1,3 @@
-Assignments: Assignments
 Submissions: Submissions
 Classmates: Classmates
 Students: Students
