@@ -10,13 +10,14 @@
   $else
     <ul class="list-group">
       $forall Entity _ profile <- teachers
-        <li class="list-group-item">
+        <li .list-group-item .staff-item>
           $if authId == profileUser profile
             <span class="label label-void pull-right">_{MsgYou}
           $else
-            <a href="#" class="btn btn-xs btn-danger pull-right">
-              <i class="fa fa-trash fa-fw">
-              _{MsgStaffRemoveButton}
+            <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cid $ profileUser profile}">
+              <button type=submit class="btn btn-xs btn-danger">
+                <i class="fa fa-trash fa-fw">
+                _{MsgStaffRemoveButton}
           <a href="#">
             <i class="fa fa-graduation-cap fa-lg fa-fw">
             $maybe name <- profileName profile
@@ -27,12 +28,15 @@
   <div class="panel-footer">
     <small class="help-block">
       _{MsgTeacherRoleDescription}
-    <div class="input-group">
-      <input class="form-control" id="inviteAssistant" placeholder="_{MsgInviteTeacherPlaceholder}">
-      <span class="input-group-btn">
-        <a href="#" class="btn btn-default" type="button">
-          <i class="fa fa-envelope fa-fw">
-          _{MsgInviteTeacherButton}
+    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cid RoleTeacher}">
+      <div .row>
+        <div .col-md-8>
+          <div class="form-group">
+            <input .form-control name="email" type="text" placeholder="_{MsgInviteTeacherPlaceholder}">
+        <div .col-md-4>
+          <button type=submit class="btn btn-block btn-default">
+            <i class="fa fa-envelope fa-fw">
+            _{MsgInviteTeacherButton}
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -46,10 +50,11 @@
   $else
     <ul class="list-group">
       $forall Entity _ profile <- assistants
-        <li class="list-group-item">
-          <a href="#" class="btn btn-xs btn-danger pull-right">
-            <i class="fa fa-trash fa-fw">
-            _{MsgStaffRemoveButton}
+        <li .list-group-item .staff-item>
+          <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cid $ profileUser profile}">
+            <button type=submit class="btn btn-xs btn-danger">
+              <i class="fa fa-trash fa-fw">
+              _{MsgStaffRemoveButton}
           <a href="../teacher.html">
             <i class="fa fa-user fa-lg fa-fw">
             $maybe name <- profileName profile
@@ -60,9 +65,12 @@
   <div class="panel-footer">
     <small class="help-block">
       _{MsgAssistantRoleDescription}
-    <div class="input-group">
-      <input class="form-control" id="inviteAssistant" placeholder="_{MsgInviteAssistantPlaceholder}">
-      <span class="input-group-btn">
-        <a href="#" class="btn btn-default" type="button">
-          <i class="fa fa-envelope fa-fw">
-          _{MsgInviteAssistantButton}
+    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cid RoleAssistant}">
+      <div .row>
+        <div .col-md-8>
+          <div class="form-group">
+            <input .form-control name="email" type="text" placeholder="_{MsgInviteAssistantPlaceholder}">
+        <div .col-md-4>
+          <button type=submit class="btn btn-block btn-default">
+            <i class="fa fa-envelope fa-fw">
+            _{MsgInviteAssistantButton}

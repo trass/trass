@@ -45,6 +45,8 @@ import Handler.CourseStudents
 import Handler.CourseStudentsGroup
 import Handler.CourseStudentsNoGroup
 import Handler.CourseStudentsDeleteGroup
+import Handler.CourseSettingsDeleteStaff
+import Handler.CourseSettingsInviteStaff
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

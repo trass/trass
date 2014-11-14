@@ -42,6 +42,8 @@ library
                      Handler.CourseStudentsGroup
                      Handler.CourseStudentsNoGroup
                      Handler.CourseStudentsDeleteGroup
+                     Handler.CourseSettingsDeleteStaff
+                     Handler.CourseSettingsInviteStaff
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

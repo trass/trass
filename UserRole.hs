@@ -1,6 +1,7 @@
 module UserRole where
 
 import Prelude
+import Yesod.Core.Dispatch
 import Database.Persist.TH
 
 data UserRole
@@ -8,6 +9,16 @@ data UserRole
   | RoleAssistant
   | RoleStudent
   deriving (Eq, Show, Read)
+
+instance PathPiece UserRole where
+  toPathPiece RoleTeacher   = "teacher"
+  toPathPiece RoleAssistant = "assistant"
+  toPathPiece RoleStudent   = "student"
+
+  fromPathPiece "teacher"   = Just RoleTeacher
+  fromPathPiece "assistant" = Just RoleAssistant
+  fromPathPiece "student"   = Just RoleStudent
+  fromPathPiece _ = Nothing
 
 isTeacher :: UserRole -> Bool
 isTeacher RoleTeacher = True

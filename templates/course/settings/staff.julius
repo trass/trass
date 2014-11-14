@@ -1,0 +1,11 @@
+$(function() {
+  $(".staff-item").hover(
+    function() {
+      $(this).find("form").show();
+    },
+    function() {
+      $(this).find("form").hide();
+    }
+  );
+  $(".staff-item form").hide();
+});
