@@ -53,3 +53,9 @@ selectGroupMembers Nothing = liftM (map entityVal) $ do
       where_ (r ^. RoleRole ==. val (RoleStudent))
       where_ (isNothing (gm ?. GroupMemberStudent))
       return p
+selectGroupMembers (Just gid) = liftM (map entityVal) $ do
+  select $
+    from $ \(gm `InnerJoin` p) -> do
+      on (gm ^. GroupMemberStudent ==. p ^. ProfileUser)
+      where_ (gm ^. GroupMemberGroup ==. val gid)
+      return p
