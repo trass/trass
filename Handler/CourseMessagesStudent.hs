@@ -47,12 +47,16 @@ postCourseMessagesStudentR courseI studentId = do
 displayMessages :: Text -> UserId -> UserId -> UserRole -> UTCTime -> Handler Html
 displayMessages courseI studentId authId userRole now = do
   messages    <- runDB $ selectList [MessageCourseIdent ==. courseI, MessageStudent ==. studentId] [Desc MessageDateTime]
-  authors     <- runDB $ selectList [ProfileUser <-. map (messageAuthor . entityVal) messages] []
+  let authorIds = map (messageAuthor . entityVal) messages
+  authors     <- runDB $ selectList [ProfileUser <-. authorIds] []
+  roles       <- runDB $ selectList [RoleUser <-. authorIds] []
   readMsgIds  <- runDB $ selectList [ReadMessageReader ==. authId, ReadMessageMessage <-. map entityKey messages] []
   let
     readSet     = Set.fromList $ map (readMessageMessage . entityVal) readMsgIds
     authors'    = filter (isJust . profileName) $ map entityVal authors
     authorsMap  = Map.fromList $ map (profileUser &&& (fromJust . profileName)) authors'
+    rolesMap    = Map.fromList $ map ((roleUser &&& roleRole) . entityVal) roles
+    msgs        = map (\msg -> (msg, rolesMap Map.! messageAuthor (entityVal msg))) messages
 
   runDB $ forM_ messages $ \(Entity msgId _) -> do
     when (Set.notMember msgId readSet) $ do
@@ -61,3 +65,4 @@ displayMessages courseI studentId authId userRole now = do
 
   defaultLayout $ do
     $(widgetFile "student/messages")
+

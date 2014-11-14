@@ -31,18 +31,19 @@ selectStaff cid role = do
       where_ (r ^. RoleRole ==. val role)
       return p
 
-selectConversations :: MonadIO m => Text -> UserId -> SqlPersistT m [(Profile, Message, Profile, Bool)]
+selectConversations :: MonadIO m => Text -> UserId -> SqlPersistT m [(Profile, Message, Profile, UserRole, Bool)]
 selectConversations cid authId = do
   xs <- select $
-    from $ \((lm `InnerJoin` m `InnerJoin` s `InnerJoin` a) `LeftOuterJoin` rm) -> do
+    from $ \((lm `InnerJoin` m `InnerJoin` s `InnerJoin` a) `LeftOuterJoin` rm `LeftOuterJoin` r) -> do
+      on ((a ^. ProfileUser ==. r ^. RoleUser) &&. (r ^. RoleCourse ==. val cid))
       on ((just (m ^. MessageId) ==. rm ?. ReadMessageMessage) &&. (just (val authId) ==. rm ?. ReadMessageReader))
       on (m ^. MessageStudent ==. s ^. ProfileUser)
       on (m ^. MessageAuthor ==. a ^. ProfileUser)
       on (lm ^. LastMessageMessage ==. m ^. MessageId)
       where_ (lm ^. LastMessageCourse ==. val cid)
       orderBy [desc (m ^. MessageDateTime)]
-      return (s, m, a, isNothing (rm ?. ReadMessageMessage))
-  return $ map (\(Entity _ s, Entity _ m, Entity _ a, Value isUnread) -> (s, m, a, isUnread)) xs
+      return (s, m, a, r ^. RoleRole, isNothing (rm ?. ReadMessageMessage))
+  return $ map (\(Entity _ s, Entity _ m, Entity _ a, Value r, Value isUnread) -> (s, m, a, r, isUnread)) xs
 
 selectGroupMembers :: MonadIO m => Maybe GroupId -> SqlPersistT m [Profile]
 selectGroupMembers Nothing = liftM (map entityVal) $ do

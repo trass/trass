@@ -14,15 +14,24 @@
     $if null messages
       _{MsgNoMessages}
     $else
-      $forall Entity msgId msg <- messages
+      $forall (Entity msgId msg, authorRole) <- msgs
         <div class="media" :Set.notMember msgId readSet:.bg-warning>
-          <i class="media-object pull-left fa fa-user fa-3x fa-fw">
+          $if isTeacher authorRole
+            <i class="media-object pull-left fa fa-graduation-cap fa-3x fa-fw">
+          $else
+            <i class="media-object pull-left fa fa-user fa-3x fa-fw">
           <div class="media-body">
             <h5 class="media-heading">
-              $maybe name <- Map.lookup (messageAuthor msg) authorsMap
-                #{name}
-              $nothing
-                _{MsgUnknownStudent}
-              &nbsp;
+              <span .text-nowrap>
+                $maybe name <- Map.lookup (messageAuthor msg) authorsMap
+                  #{name}
+                $nothing
+                  $case authorRole
+                    $of RoleTeacher
+                      _{MsgUnknownTeacher}
+                    $of RoleAssistant
+                      _{MsgUnknownAssistant}
+                    $of RoleStudent
+                      _{MsgUnknownStudent}
               ^{wAgo MsgWroteAgo (messageDateTime msg) now}
             #{messageText msg}
