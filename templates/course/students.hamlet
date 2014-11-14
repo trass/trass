@@ -13,12 +13,14 @@
         <li>
           <a href="#">No Group
 
-      <div class="panel-footer">
-        <div class="input-group">
-          <input class="form-control" id="createStudentGroup" placeholder="Type new group name">
-          <span class="input-group-btn">
-            <a href="#" class="btn btn-default" type="button" title="Create New Group">
-              <i class="fa fa-plus fa-fw">
+      $if isTeacher userRole
+        <div class="panel-footer">
+          <form role="form" method="post" action="@{CourseStudentsR cid}">
+            <div class="input-group">
+              <input class="form-control" name="groupName" placeholder="Type new group name">
+              <span class="input-group-btn">
+                <button type=submit class="btn btn-default" title="Create New Group">
+                  <i class="fa fa-plus fa-fw">
 
   <div class="col-sm-8">
     <div class="panel panel-default">
@@ -30,7 +32,8 @@
             No Group
 
       $if null students
-        There are no students in this group yet.
+        <div .panel-body>
+          There are no students in this group yet.
       $else
         <table class="table table-condensed table-hover">
           <tbody>
@@ -54,18 +57,19 @@
                     <span class="trophy-bronze" title="Bronze Achievement"> 12
                   <span class="trophy trophy-secret" title="Secret Achievement"> 1
 
-      <div class="panel-footer">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="inviteStudentName">Student Name
-              <input type="fullname" class="form-control" id="inviteStudentName" placeholder="Type student name">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="inviteStudentEmail">Student Email
-              <input type="email" class="form-control" id="inviteStudentEmail" placeholder="Email">
+      $if isTeacher userRole
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="inviteStudentName">Student Name
+                <input type="fullname" class="form-control" id="inviteStudentName" placeholder="Type student name">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="inviteStudentEmail">Student Email
+                <input type="email" class="form-control" id="inviteStudentEmail" placeholder="Email">
 
-        <a href="#" class="btn btn-success">
-          <i class="fa fa-envelope fa-fw">
-          Invite Student
+          <a href="#" class="btn btn-success">
+            <i class="fa fa-envelope fa-fw">
+            Invite Student
 
