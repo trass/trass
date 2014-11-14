@@ -14,12 +14,20 @@
         <div class="list-group">
           $forall Entity _ subsection <- subsections
             <a href="@{CourseSectionR cid (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
-              $if True
-                <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
-              $elseif True
-                <span .pull-right .label .label-success>10 / 10
-              $else
-                <span .pull-right .label .label-warning>7 / 10
+              <span .pull-right>
+                $if sectionLocked subsection
+                  <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
+                  $if isTeacher userRole
+                    $maybe points <- sectionPoints subsection
+                      <span .label .label-default>#{points}
+                $else
+                  $maybe points <- sectionPoints subsection
+                    $if isStudent userRole
+                      <span .label :False:.label-success :True:.label-warning>
+                        10 / #{points}
+                    $else
+                      <span .label .label-success>
+                        #{points}
               #{sectionTitle subsection}
 
   <div class="col-sm-6 col-md-7 col-lg-8">

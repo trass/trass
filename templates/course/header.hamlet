@@ -1,3 +1,13 @@
+$if not (null crumbs)
+  <ol .breadcrumb>
+    $forall (sectionsPath, title) <- crumbs
+      <li>
+        $if null (List.tail sectionsPath)
+          <a href="@{CourseR cid}">#{title}
+        $else
+          <a href="@{CourseSectionR cid sectionsPath}">#{title}
+    <li .active>#{sectionTitle section}
+
 <div class="row">
   <div class="col-sm-8">
     <h1>#{sectionTitle section}

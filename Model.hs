@@ -1,6 +1,7 @@
 module Model where
 
 import Yesod
+import Data.Int
 import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)

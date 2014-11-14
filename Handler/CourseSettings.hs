@@ -1,6 +1,7 @@
 module Handler.CourseSettings where
 
 import Import
+import qualified Data.List as List
 import Control.Monad (when)
 import Yesod.Auth
 import UserRole
@@ -16,6 +17,8 @@ courseSettingsLayout cid tabName settingsTab = do
 
   section <- runDB $ get404 $ courseRootSection course
   let
+    crumbs :: [([Text], Text)]
+    crumbs = []
     isCoursePreview   = False
     isCourseGraphs    = False
     isCourseSettings  = True
