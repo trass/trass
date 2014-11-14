@@ -1,5 +1,5 @@
 <div class="row">
-  <form role="form" method="post" action="@{CourseMessagesStudentR courseI studentId}">
+  <form role="form" method="post" :isStudent userRole:action="@{CourseMessagesR courseI}" :not (isStudent userRole):action="@{CourseMessagesStudentR courseI studentId}">
     <div class="form-group col-md-9">
       <textarea class="form-control" name="message">
     <div class="col-md-3">

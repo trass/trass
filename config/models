@@ -28,6 +28,12 @@ ReadMessage
     message       MessageId
     reader        UserId
 
+LastMessage
+    course        Text
+    student       UserId
+    message       MessageId
+    UniqueLastMessage course student
+
 Course
     ident Text
     owner UserId

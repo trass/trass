@@ -3,6 +3,7 @@ module Handler.CourseSection where
 import Import
 import qualified Data.Text as Text
 import Yesod.Auth
+import Control.Monad (when)
 import UserRole
 
 mkSectionIdent :: [Text] -> Text
@@ -22,6 +23,10 @@ getCourseSectionR cid sids = do
     isCourseGraphs    = False
     isCourseSettings  = False
     courseHeader = $(widgetFile "course/header")
+
+  setCourseIdent cid
+  when (courseRootSection course == sectionId) $ do
+    setCourseTitle (sectionTitle section)
 
   defaultLayout $ do
     $(widgetFile "course/section")

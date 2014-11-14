@@ -1,14 +1,31 @@
 module Handler.CourseMessages where
 
 import Import
-import Control.Arrow ((&&&))
-import Data.Maybe
-import qualified Data.Map as Map
-import qualified Data.Text as Text
-import Data.Time
 import Yesod.Auth
+import Handler.CourseMessagesStudent
+import Data.Time
+import UserRole
 import Utils
+import UtilsDB
 
 getCourseMessagesR :: Text -> Handler Html
-getCourseMessagesR courseI = undefined
+getCourseMessagesR cid = do
+  authId <- requireAuthId
+  role <- getUserRole cid authId
+  case role of
+    RoleStudent -> getCourseMessagesStudentR cid authId
+    RoleAssistant -> notFound
+    RoleTeacher -> do
+      now <- liftIO getCurrentTime
+      conversations <- runDB $ selectConversations cid authId
 
+      defaultLayout $ do
+        $(widgetFile "teacher/messages")
+
+postCourseMessagesR :: Text -> Handler Html
+postCourseMessagesR cid = do
+  authId <- requireAuthId
+  role <- getUserRole cid authId
+  case role of
+    RoleStudent -> postCourseMessagesStudentR cid authId
+    _ -> notFound

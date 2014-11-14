@@ -19,7 +19,7 @@ getCourseMessagesStudentR courseI studentId = do
   when (authId /= studentId && not (isTeacher role)) $ notFound
 
   now <- liftIO getCurrentTime
-  displayMessages courseI authId studentId now
+  displayMessages courseI studentId authId role now
 
 postCourseMessagesStudentR :: Text -> UserId -> Handler Html
 postCourseMessagesStudentR courseI studentId = do
@@ -32,15 +32,20 @@ postCourseMessagesStudentR courseI studentId = do
   mmsg <- lookupPostParam "message"
   case mmsg of
     Just msg | not (Text.null msg) -> do
-      runDB $ insert (Message courseI studentId authId now msg)
-      return ()
+      runDB $ do
+        mid <- insert (Message courseI studentId authId now msg)
+        lm <- getBy $ UniqueLastMessage courseI studentId
+        case lm of
+          Nothing -> insert_ (LastMessage courseI studentId mid)
+          Just (Entity lmid _) -> replace lmid (LastMessage courseI studentId mid)
+        return ()
     Nothing -> invalidArgs ["message"]
     _ -> return () -- silently ignore empty messages
 
-  displayMessages courseI authId studentId now
+  displayMessages courseI studentId authId role now
 
-displayMessages :: Text -> UserId -> UserId -> UTCTime -> Handler Html
-displayMessages courseI authId studentId now = do
+displayMessages :: Text -> UserId -> UserId -> UserRole -> UTCTime -> Handler Html
+displayMessages courseI studentId authId userRole now = do
   messages    <- runDB $ selectList [MessageCourseIdent ==. courseI, MessageStudent ==. studentId] [Desc MessageDateTime]
   authors     <- runDB $ selectList [ProfileUser <-. map (messageAuthor . entityVal) messages] []
   readMsgIds  <- runDB $ selectList [ReadMessageReader ==. authId, ReadMessageMessage <-. map entityKey messages] []
