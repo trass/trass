@@ -1,0 +1,47 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <span class="badge pull-right">1
+      Teachers
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="label label-void pull-right">You
+      <a href="../teacher.html">
+        <i class="fa fa-graduation-cap fa-lg fa-fw">
+        Mr. Teacher
+
+  <div class="panel-footer">
+    <small class="help-block">
+      Teachers have access to course settings and graphs as well as student leaderboards, submissions and messages.
+    <div class="input-group">
+      <input class="form-control" id="inviteAssistant" placeholder="Type teacher name or email">
+      <span class="input-group-btn">
+        <a href="#" class="btn btn-default" type="button">
+          <i class="fa fa-envelope fa-fw">
+          Invite Teacher
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <span class="badge pull-right">1
+      Assistants
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a href="#" class="btn btn-xs btn-danger pull-right">
+        <i class="fa fa-trash fa-fw">
+        Remove
+      <a href="../teacher.html">
+        <i class="fa fa-graduation-cap fa-lg fa-fw">
+        John Smith
+
+  <div class="panel-footer">
+    <small class="help-block">
+      Assistants have access only to student leaderboards and submissions.
+    <div class="input-group">
+      <input class="form-control" id="inviteAssistant" placeholder="Type assistant name or email">
+      <span class="input-group-btn">
+        <a href="#" class="btn btn-default" type="button">
+          <i class="fa fa-envelope fa-fw">
+          Invite Assistant

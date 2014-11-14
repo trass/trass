@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-8">
+    <h1>#{sectionTitle section}
+    $maybe summary <- sectionSummary section
+      <p class="lead">
+        #{summary}
+  $if isTeacher userRole || isAssistant userRole
+    <div class="col-sm-4 text-center">
+      <h1>
+        <div class="btn-group">
+          <a :isCoursePreview:.active .btn .btn-default href="@{CourseR cid}" title="Preview" data-placement="bottom">
+            <i class="fa fa-eye fa-lg fa-fw">
+          <a :isCourseGraphs:.active .btn .btn-default href="#" title="Graphs" data-placement="bottom">
+            <i class="fa fa-bar-chart fa-lg fa-fw">
+          $if isCourseOwner
+            <a :isCourseSettings:.active .btn .btn-default href="@{CourseSettingsR cid}" title="Course Settings" data-placement="bottom">
+              <i class="fa fa-gear fa-lg fa-fw">
+
+

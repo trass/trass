@@ -1,8 +1,4 @@
-<h1>#{sectionTitle section}
-
-$maybe summary <- sectionSummary section
-  <p class="lead">
-    #{summary}
+^{courseHeader}
 
 <div class="row">
   <div class="col-sm-6 col-md-5 col-lg-4">
@@ -17,7 +13,7 @@ $maybe summary <- sectionSummary section
       $else
         <div class="list-group">
           $forall Entity _ subsection <- subsections
-            <a href="@{CourseSectionR courseI (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
+            <a href="@{CourseSectionR cid (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item>
               $if True
                 <i class="fa fa-lock fa-lg fa-fw pull-right" title="_{MsgLocked}" data-placement="left">
               $elseif True

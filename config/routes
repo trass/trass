@@ -17,3 +17,7 @@
 /course/#Text/view/*[Text]  CourseSectionR GET
 /course/#Text/messages      CourseMessagesR GET
 /course/#Text/messages/#UserId CourseMessagesStudentR GET POST
+/course/#Text/settings CourseSettingsR GET
+/course/#Text/settings/general CourseSettingsGeneralR GET
+/course/#Text/settings/staff CourseSettingsStaffR GET
+/course/#Text/settings/gamification CourseSettingsGamificationR GET

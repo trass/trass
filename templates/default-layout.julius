@@ -15,4 +15,7 @@ $(function () {
   /* activate tooltips for help text (such as time) */
   $(".text-help small").tooltip();
   $("small.text-help").tooltip();
+
+  /* activate tooltips for buttons */
+  $(".btn").tooltip({ container: 'body' });
 });

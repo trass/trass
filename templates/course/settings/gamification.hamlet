@@ -1,0 +1,62 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Gamification
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <h5>
+        <div class="navbar navbar-inverse pull-right hidden-xs">
+          <ul class="nav navbar-nav">
+            <li>
+              <p class="navbar-text">
+                <span class="label label-success">+ 25
+        Course Points
+      <small>
+        <p class="help-block">
+          Course points indicate student progress in a single number.
+          Points are typically rewarded for direct course mastering such as task completion.
+          The final grade for the course is commonly based on course points.
+        <label>
+          <input type="checkbox" checked>
+          Enable Course Points
+
+        <p class="help-block">
+          Student can always see his/her course points and leaderboards are always accessable for a teacher.
+          <br>
+          With public leaderboard any student can see each other's course points.
+        <label>
+          <input type="checkbox">
+          Public Leaderboard
+
+    <li class="list-group-item">
+      <h5>
+        <div class="text-center pull-right hidden-xs">
+          <p class="trophy trophy-bronze"> Bronze Achievements
+          <br>
+          <p class="trophy trophy-silver"> Silver Achievements
+          <br>
+          <p class="trophy trophy-gold"> Gold Achievements
+          <br>
+          <p class="trophy trophy-secret"> Secret Achievements
+        Achievements
+      <small>
+        <p class="help-block">
+          Achievements help to engage students with the process of study.
+          <br>
+          Unlike course points, achievements should not determine the final grade for the course.
+        <label>
+          <input type="checkbox" checked>
+          Enable achievements
+        <p class="help-block">
+          To manage individual achievements got to the
+          <a href="achievements.html">list of all achievements
+          .
+
+  <div class="panel-footer">
+    <h5>What is Gamification?
+    <small>
+      <p>
+        Gamification is the use of game thinking and game mechanics in non-game contexts to engage users in solving problems.
+        Gamification techniques strive to leverage people's natural desires for socializing, learning, mastery, competition, achievement, status, self-expression, altruism, or closure.
+        <br>
+        <a href="#">Learn more

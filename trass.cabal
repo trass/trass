@@ -34,6 +34,10 @@ library
                      Handler.SettingsNotifications
                      Handler.SettingsCourses
                      Handler.CourseMessagesStudent
+                     Handler.CourseSettings
+                     Handler.CourseSettingsGeneral
+                     Handler.CourseSettingsStaff
+                     Handler.CourseSettingsGamification
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

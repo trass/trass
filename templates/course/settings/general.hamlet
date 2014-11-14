@@ -1,0 +1,39 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Course repository
+
+  <div class="panel-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="courseHaskellIdent">Course identifier
+        <div class="input-group">
+          <input class="form-control" id="courseHaskellIdent" value="haskell-2015">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Rename
+      <div class="form-group">
+        <label for="courseHaskellRepoURL">Course repository URL
+        <input class="form-control" id="courseHaskellRepoURL" value="https://fizruk@bitbucket.org/fizruk/haskell-2015.git">
+      <a href="#" class="btn btn-success">
+        Update course
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Danger Zone
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <h5>
+        <a href="#" class="btn btn-danger pull-right">
+          <i class="fa fa-exchange fa-lg fa-fw">
+          Transfer
+        Transfer ownership
+      <small class="help-block">
+        Transfer this course to another user.
+    <li class="list-group-item">
+      <h5>
+        <a href="#" class="btn btn-danger pull-right">
+          <i class="fa fa-trash fa-lg fa-fw">
+          Delete
+        Delete course
+      <small class="help-block">
+        Once you delete a course, there is no going back. Please be certain.
