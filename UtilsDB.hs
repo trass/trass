@@ -33,7 +33,7 @@ selectStaff cid role = do
 
 selectConversations :: MonadIO m => Text -> UserId -> SqlPersistT m [(Profile, Message, Profile, Bool)]
 selectConversations cid authId = do
-  xs <- select $ do
+  xs <- select $
     from $ \((lm `InnerJoin` m `InnerJoin` s `InnerJoin` a) `LeftOuterJoin` rm) -> do
       on ((just (m ^. MessageId) ==. rm ?. ReadMessageMessage) &&. (just (val authId) ==. rm ?. ReadMessageReader))
       on (m ^. MessageStudent ==. s ^. ProfileUser)
@@ -43,3 +43,13 @@ selectConversations cid authId = do
       orderBy [desc (m ^. MessageDateTime)]
       return (s, m, a, isNothing (rm ?. ReadMessageMessage))
   return $ map (\(Entity _ s, Entity _ m, Entity _ a, Value isUnread) -> (s, m, a, isUnread)) xs
+
+selectGroupMembers :: MonadIO m => Maybe GroupId -> SqlPersistT m [Profile]
+selectGroupMembers Nothing = liftM (map entityVal) $ do
+  select $
+    from $ \((r `InnerJoin` p) `LeftOuterJoin` gm) -> do
+      on (just (r ^. RoleUser) ==. gm ?. GroupMemberStudent)
+      on (r ^. RoleUser ==. p ^. ProfileUser)
+      where_ (r ^. RoleRole ==. val (RoleStudent))
+      where_ (isNothing (gm ?. GroupMemberStudent))
+      return p

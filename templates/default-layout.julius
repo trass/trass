@@ -16,6 +16,7 @@ $(function () {
   $(".text-help small").tooltip();
   $("small.text-help").tooltip();
 
-  /* activate tooltips for buttons */
+  /* activate other tooltips */
   $(".btn").tooltip({ container: 'body' });
+  $("table *").tooltip({ container: 'body' });
 });

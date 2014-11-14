@@ -16,12 +16,12 @@
         $maybe cid <- courseIdent
           $if isStudent userRole
             <li>
-              <a href="students.html" title="_{MsgClassmates}" data-placement="bottom">
+              <a href="@{CourseStudentsR cid}" title="_{MsgClassmates}" data-placement="bottom">
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgClassmates}
           $else
             <li>
-              <a href="students.html" title="_{MsgStudents}" data-placement="bottom">
+              <a href="@{CourseStudentsR cid}" title="_{MsgStudents}" data-placement="bottom">
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgStudents}
           <li>

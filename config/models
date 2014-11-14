@@ -17,6 +17,15 @@ Role
     role        UserRole
     UniqueRole user course
 
+Group
+    course  Text
+    name    Text
+    UniqueGroup course name
+
+GroupMember
+    group     GroupId
+    student   UserId
+
 Message
     courseIdent   Text
     student       UserId

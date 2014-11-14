@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="fa fa-users fa-lg fa-fw">
+          Student Groups
+
+      <ul class="nav nav-pills nav-stacked">
+        $forall Entity _ group <- groups
+          <li>
+            <a href="#">#{groupName group}
+        <li>
+          <a href="#">No Group
+
+      <div class="panel-footer">
+        <div class="input-group">
+          <input class="form-control" id="createStudentGroup" placeholder="Type new group name">
+          <span class="input-group-btn">
+            <a href="#" class="btn btn-default" type="button" title="Create New Group">
+              <i class="fa fa-plus fa-fw">
+
+  <div class="col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          $maybe Entity _ group <- chosenGroup
+            #{groupName group}
+          $nothing
+            No Group
+
+      $if null students
+        There are no students in this group yet.
+      $else
+        <table class="table table-condensed table-hover">
+          <tbody>
+            $forall student <- students
+              <tr>
+                <td>
+                  <span class="badge" title="Rating"># 7
+                <td>
+                  <span class="label label-success" title="Course Points">27
+                <td>
+                  <a href="#">
+                    <i class="fa fa-user fa-fw">
+                    $maybe name <- profileName student
+                      #{name}
+                    $nothing
+                      _{MsgUnknownStudent}
+                <td class="text-right">
+                  <span class="trophy">
+                    <span class="trophy-gold" title="Gold Achievement"> 1
+                    <span class="trophy-silver" title="Silver Achievement"> 3
+                    <span class="trophy-bronze" title="Bronze Achievement"> 12
+                  <span class="trophy trophy-secret" title="Secret Achievement"> 1
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="inviteStudentName">Student Name
+              <input type="fullname" class="form-control" id="inviteStudentName" placeholder="Type student name">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="inviteStudentEmail">Student Email
+              <input type="email" class="form-control" id="inviteStudentEmail" placeholder="Email">
+
+        <a href="#" class="btn btn-success">
+          <i class="fa fa-envelope fa-fw">
+          Invite Student
+

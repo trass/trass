@@ -38,6 +38,8 @@ library
                      Handler.CourseSettingsGeneral
                      Handler.CourseSettingsStaff
                      Handler.CourseSettingsGamification
+                     Handler.CourseStudents
+                     Handler.CourseStudentsGroup
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

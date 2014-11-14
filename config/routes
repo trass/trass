@@ -21,3 +21,5 @@
 /course/#Text/settings/general CourseSettingsGeneralR GET
 /course/#Text/settings/staff CourseSettingsStaffR GET
 /course/#Text/settings/gamification CourseSettingsGamificationR GET
+/course/#Text/students CourseStudentsR GET POST
+/course/#Text/students/#Text CourseStudentsGroupR GET POST
