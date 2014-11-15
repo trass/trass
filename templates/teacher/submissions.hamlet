@@ -29,44 +29,57 @@
           Submissions
       <table class="table table-condensed">
         <tbody>
-          $forall Entity _ submission <- submissions
+          $forall (Entity _ submission, Entity _ assignment, Entity _ section, Entity _ author) <- submissions
             <tr>
               <td>
-                <a href="task.html">1. Associated list functor
+                <a href="task.html">#{assignmentTitle assignment}
               <td class="hidden-xs hidden-sm">
                 <small>
-                  <a href="sections/3.html">3. Functors &amp; Monoids
+                  <a href="sections/3.html">#{sectionTitle section}
               <td>
                 <small>
-                  <a class="text-nowrap" href="students/IvanovIvan.html">
-                    <i class="fa fa-user fa-fw">
-                    Ivanov Ivan
+                  <a href="#">
+                    <span class="text-nowrap">
+                      <i class="media-object fa fa-user fa-fw">
+                      $maybe name <- profileName author
+                        #{name}
+                      $nothing
+                        _{MsgUnknownStudent}
               <td>
                 ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
               <td class="text-nowrap text-center">
-                <a href="submissions/1.html" title="View">
+                <a href="#" title="View">
                   <i class="fa fa-eye fa-lg fa-fw">
                 <a href="#" title="Download">
                   <i class="fa fa-download fa-lg fa-fw">
 
-    <div class="text-center">
-      <ul class="pagination">
-        <li class="disabled">
-          <a href="#">&laquo;
-        <li class="active">
-          <a href="#">
-            1
-            <span class="sr-only">(current)
-        <li>
-          <a href="#">2
-        <li>
-          <a href="#">3
-        <li class="disabled">
-          <a href="#">...
-        <li>
-          <a href="#">9
-        <li>
-          <a href="#">10
-        <li>
-          <a href="#">&raquo;
+    $if totalPages > 1
+      <div class="text-center">
+        <ul class="pagination">
+          $if pageNo == 1
+            <li .disabled>
+              <span>&laquo;
+          $else
+            <li>
+              <a href="@?{pageR $ pageNo - 1}">
+                &laquo;
 
+          $forall n <- enumFromTo 1 totalPages
+            $if n == pageNo
+              <li .active>
+                <span>
+                  #{show n}
+                  <span class="sr-only">(current)
+            $else
+              <li>
+                <a href="@?{pageR n}">
+                  #{show n}
+                  <span class="sr-only">(current)
+
+          $if pageNo == totalPages
+            <li .disabled>
+              <span>&raquo;
+          $else
+            <li>
+              <a href="@?{pageR $ pageNo + 1}">
+                &raquo;

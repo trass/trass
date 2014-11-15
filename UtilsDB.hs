@@ -109,3 +109,21 @@ getSubmissionCountsByStatus cid = do
       groupBy (s ^. SubmissionStatus)
       return (s ^. SubmissionStatus, countRows)
   return $ map (\(Value s, Value n) -> (s, n)) xs
+
+getSubmissionsByStatus :: MonadIO m => Int64 -> Int64 -> CourseId -> SubmissionStatus -> SqlPersistT m [(Entity Submission, Entity Assignment, Entity Section, Entity Profile)]
+getSubmissionsByStatus perPage pageNo cid status = do
+  select $
+    from $ \(s `InnerJoin` a `InnerJoin` se `InnerJoin` p) -> do
+      on (s ^. SubmissionAuthor ==. p ^. ProfileUser)
+      on (a ^. AssignmentSection ==. se ^. SectionId)
+      on (s ^. SubmissionAssignment ==. a ^. AssignmentId)
+      where_ (s ^. SubmissionCourse ==. val cid)
+      where_ (s ^. SubmissionStatus ==. val status)
+      orderBy [desc (s ^. SubmissionUpdatedAt)]
+      page perPage pageNo
+      return (s, a, se, p)
+
+page :: Esqueleto query expr backend => Int64 -> Int64 -> query ()
+page perPage pageNo = do
+  limit perPage
+  offset (perPage * (pageNo - 1))
