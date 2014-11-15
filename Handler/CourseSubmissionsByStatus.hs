@@ -10,6 +10,9 @@ import Data.Int
 import Data.Maybe
 import Text.Read (readMaybe)
 
+import Handler.CourseAssignment (assignmentR)
+import Handler.CourseSection (sectionR)
+
 import SubmissionStatus
 import UserRole
 import Utils

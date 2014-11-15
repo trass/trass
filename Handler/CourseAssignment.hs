@@ -3,6 +3,7 @@ module Handler.CourseAssignment where
 import Import
 import Yesod.Auth
 import Control.Monad
+import qualified Data.Text as Text
 import qualified Data.List as List
 import Handler.CourseSection
 import Data.Maybe
@@ -55,3 +56,7 @@ getCourseAssignmentR _ _ = notFound
 
 postCourseAssignmentR :: Text -> [Text] -> Handler Html
 postCourseAssignmentR = error "Not yet implemented: postCourseAssignmentR"
+
+-- assignmentR :: Text -> Assignment -> Section -> Route App
+assignmentR cname a s = CourseAssignmentR cname (Text.splitOn "/" (sectionIdent s) ++ [assignmentIdent a])
+

@@ -60,3 +60,6 @@ getCourseSectionR cid sids = do
 
   defaultLayout $ do
     $(widgetFile "course/section")
+
+-- sectionR :: Text -> Section -> Route App
+sectionR cname s = CourseSectionR cname $ Text.splitOn "/" (sectionIdent s)

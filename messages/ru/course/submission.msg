@@ -3,7 +3,7 @@ SubmissionsAutomatic: Автоматические
 NoSubmissions: Нет посылок.
 
 SubmissionSubmitted: отправлено
-SubmissionInvalid: invalid
+SubmissionInvalid: некорректно
 SubmissionCompileError: ошибка компиляции
 SubmissionTestsFailed: тесты не пройдены
 SubmissionTestsPassed: тесты пройдены
