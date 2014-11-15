@@ -40,18 +40,19 @@
           $forall Entity _ assignment <- assignments
             <a href="@{CourseAssignmentR cid $ sids ++ [assignmentIdent assignment]}" .list-group-item>
               <span .pull-right>
-                $if isNothing (assignmentStartedAt assignment)
+                $if assignmentLocked assignment
                   <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
                   $if isTeacher userRole
                     $maybe points <- assignmentPoints assignment
-                      <span .label .label-default>#{points}
+                      <span .label :isNothing (assignmentStartedAt assignment):.label-default :isJust (assignmentStartedAt assignment):.label-success>
+                        #{points}
                 $else
                   $maybe points <- assignmentPoints assignment
                     $if isStudent userRole
                       <span .label :False:.label-success :True:.label-warning>
                         10 / #{points}
                     $else
-                      <span .label .label-success>
+                      <span .label :isNothing (assignmentStartedAt assignment):.label-default :isJust (assignmentStartedAt assignment):.label-success>
                         #{points}
               #{assignmentTitle assignment}
 
