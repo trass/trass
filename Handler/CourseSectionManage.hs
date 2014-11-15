@@ -4,6 +4,7 @@ import Import
 import Control.Monad
 import Yesod.Auth
 import Handler.CourseSection
+import Handler.CourseAssignmentManage
 import AssignmentAction
 import Data.Time
 import qualified Data.Text as Text
@@ -22,15 +23,8 @@ postCourseSectionManageR cid sid action = do
 
   now <- liftIO getCurrentTime
   section <- runDB $ get404 sid
-
-  runDB $ updateWhere [AssignmentSection ==. sid] $
-    case action of
-      AssignmentLock      -> [AssignmentLocked    =. True]
-      AssignmentUnlock    -> [AssignmentLocked    =. False]
-      AssignmentStart     -> [AssignmentStartedAt =. Just now, AssignmentLocked =. False]
-      AssignmentStop      -> [AssignmentEndingAt  =. Just now]
-      AssignmentReset     -> [AssignmentLocked =. True, AssignmentStartedAt =. Nothing, AssignmentEndingAt =. Nothing]
-      _ -> []
+  assignments <- runDB $ selectList [AssignmentSection ==. sid] []
+  mapM_ (manageAssignment action now) assignments
 
   redirect $ CourseSectionR cid $ Text.splitOn "/" (sectionIdent section)
 

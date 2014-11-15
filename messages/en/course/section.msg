@@ -12,8 +12,8 @@ NoTheory: No theory.
 Locked: Locked
 
 SectionDuration: Max duration
-SectionStartDate: First started at
-SectionEndDate: Last ending at
+SectionStartDate: Started at
+SectionEndDate: Ending at
 SectionNotStartedYet: Section assignments are not started yet.
 
 SectionManagePanelTitle: Manage

@@ -12,8 +12,8 @@ NoTheory: Нет теоретических материалов.
 Locked: Закрыто
 
 SectionDuration: Максимальная длительность
-SectionStartDate: Первая дата начала
-SectionEndDate: Последняя дата конца
+SectionStartDate: Начало
+SectionEndDate: Конец
 SectionNotStartedYet: Задания в этом разделе еще не начаты.
 
 SectionManagePanelTitle: Управление

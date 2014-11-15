@@ -40,3 +40,5 @@ UploadSolutionButton: Загрузить решение
 UploadSolutionHelpText: Решение должно быть представлено одним файлом.
 Solution: Решение
 SubmitSolutionButton: Отправить решение
+
+NoDeadline: бессрочно

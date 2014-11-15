@@ -40,3 +40,5 @@ UploadSolutionButton: Upload solution
 UploadSolutionHelpText: Solution should be a single source file.
 Solution: Solution
 SubmitSolutionButton: Submit solution
+
+NoDeadline: no deadline

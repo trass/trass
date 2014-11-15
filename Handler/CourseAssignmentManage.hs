@@ -22,18 +22,25 @@ postCourseAssignmentManageR cid aid action = do
 
   now <- liftIO getCurrentTime
   assignment <- runDB $ get404 aid
+  manageAssignment action now (Entity aid assignment)
+
+  section <- runDB $ get404 $ assignmentSection assignment
+
+  redirect $ CourseAssignmentR cid $ Text.splitOn "/" (sectionIdent section) ++ [assignmentIdent assignment]
+
+manageAssignment :: AssignmentAction -> UTCTime -> Entity Assignment -> Handler Assignment
+manageAssignment action now (Entity aid assignment) = do
+  let newEndingAt = fmap (\n -> addUTCTime (realToFrac n) now) $ assignmentDuration assignment
 
   runDB $ update aid $
     case action of
       AssignmentLock      -> [AssignmentLocked    =. True]
       AssignmentUnlock    -> [AssignmentLocked    =. False]
-      AssignmentStart     -> [AssignmentStartedAt =. Just now, AssignmentLocked =. False]
+      AssignmentStart     -> [AssignmentStartedAt =. Just now, AssignmentLocked =. False, AssignmentEndingAt =. newEndingAt]
       AssignmentStop      -> [AssignmentEndingAt  =. Just now]
       AssignmentExtraDay  -> [AssignmentEndingAt  =. addUTCTime    dayLength  <$> assignmentEndingAt assignment]
       AssignmentSkipDay   -> [AssignmentEndingAt  =. addUTCTime (- dayLength) <$> assignmentEndingAt assignment]
       AssignmentReset     -> [AssignmentLocked =. True, AssignmentStartedAt =. Nothing, AssignmentEndingAt =. Nothing]
 
-  section    <- runDB $ get404 $ assignmentSection assignment
-
-  redirect $ CourseAssignmentR cid $ Text.splitOn "/" (sectionIdent section) ++ [assignmentIdent assignment]
+  return assignment
 

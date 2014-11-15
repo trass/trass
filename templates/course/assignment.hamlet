@@ -79,11 +79,14 @@
             <span .label-date .label .label-default .pull-right title="#{formatTimeFull startedAt}">
               #{formatTimeFull startedAt}
             _{MsgAssignmentStartDate}
-          $maybe endingAt <- assignmentEndingAt assignment
-            <li class="list-group-item">
+          <li class="list-group-item">
+            $maybe endingAt <- assignmentEndingAt assignment
               <span .label-date .label :inFuture endingAt:.label-success :inPast endingAt:.label-danger .pull-right title="#{formatTimeFull endingAt}">
                 #{formatTimeFull endingAt}
-              _{MsgAssignmentEndDate}
+            $nothing
+              <span .label .label-success .pull-right>
+                _{MsgNoDeadline}
+            _{MsgAssignmentEndDate}
         $nothing
           <li .list-group-item>
             _{MsgAssignmentNotStartedYet}

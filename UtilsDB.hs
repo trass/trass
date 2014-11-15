@@ -96,6 +96,6 @@ getSectionAssignmentInfo sid = do
         ( sum_ (coalesceDefault [a ^. AssignmentPoints] (val 0))
         , joinV $ max_ (a ^. AssignmentDuration)
         , joinV $ min_ (a ^. AssignmentStartedAt)
-        , joinV $ max_ (a ^. AssignmentEndingAt)
+        , joinV $ min_ (a ^. AssignmentEndingAt)
         )
   return (p, d, s, e)

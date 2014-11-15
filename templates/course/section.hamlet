@@ -60,11 +60,14 @@
               <span .label-date .label .label-default .pull-right title="#{formatTimeFull startedAt}">
                 #{formatTimeFull startedAt}
               _{MsgSectionStartDate}
-            $maybe endingAt <- saEndingAt
-              <li class="list-group-item">
+            <li class="list-group-item">
+              $maybe endingAt <- saEndingAt
                 <span .label-date .label :inFuture endingAt:.label-success :inPast endingAt:.label-danger .pull-right title="#{formatTimeFull endingAt}">
                   #{formatTimeFull endingAt}
-                _{MsgSectionEndDate}
+              $nothing
+                <span .label .label-success .pull-right>
+                  _{MsgNoDeadline}
+              _{MsgSectionEndDate}
           $nothing
             <li .list-group-item>
               _{MsgSectionNotStartedYet}
@@ -72,7 +75,7 @@
         <div class="list-group">
           $forall Entity _ assignment <- assignments
             <a href="@{CourseAssignmentR cid $ sids ++ [assignmentIdent assignment]}" .list-group-item :assignmentLocked assignment && not (isTeacher userRole):.disabled>
-              <span .pull-right>
+              <span .pull-right .text-nowrap>
                 $if assignmentLocked assignment
                   <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
                   $if isTeacher userRole
@@ -80,6 +83,14 @@
                       <span .label :isNothing (assignmentStartedAt assignment):.label-default :isJust (assignmentStartedAt assignment):.label-success>
                         #{points}
                 $else
+                  $maybe endingAt <- assignmentEndingAt assignment
+                    $if isNothing saEndingAt || (Just endingAt > saEndingAt)
+                      <span .label-date .label :inFuture endingAt:.label-success :inPast endingAt:.label-danger title="#{formatTimeFull endingAt}">
+                        #{formatTimeFull endingAt}
+                  $nothing
+                    $if isJust saEndingAt
+                      <span .label .label-success>
+                        _{MsgNoDeadline}
                   $maybe points <- assignmentPoints assignment
                     $if isStudent userRole
                       <span .label :False:.label-success :True:.label-warning>
