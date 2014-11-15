@@ -32,3 +32,10 @@
 /course/#Text/manage/section/#SectionId/#AssignmentAction CourseSectionManageR POST
 /course/#Text/submissions CourseSubmissionsR GET
 /course/#Text/submissions/status/#SubmissionStatus CourseSubmissionsByStatusR GET
+/course/#Text/student/#UserId CourseStudentR GET
+/course/#Text/student/#UserId/achievements CourseStudentAchievementsR GET POST
+/course/#Text/student/#UserId/points CourseStudentCoursePointsR GET POST
+/course/#Text/student/#UserId/rating CourseStudentRatingR GET
+/course/#Text/student/#UserId/submissions CourseStudentSubmissionsR GET
+/course/#Text/student/#UserId/assignments CourseStudentAssignmentsR GET
+/course/#Text/student/#UserId/conversation CourseStudentConversationR GET POST

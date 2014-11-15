@@ -51,6 +51,13 @@ library
                      Handler.CourseSectionManage
                      Handler.CourseSubmissions
                      Handler.CourseSubmissionsByStatus
+                     Handler.CourseStudent
+                     Handler.CourseStudentAchievements
+                     Handler.CourseStudentCoursePoints
+                     Handler.CourseStudentRating
+                     Handler.CourseStudentSubmissions
+                     Handler.CourseStudentAssignments
+                     Handler.CourseStudentConversation
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
