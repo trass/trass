@@ -38,10 +38,12 @@
               <span .label :isNothing (assignmentStartedAt assignment):.label-default :isJust (assignmentStartedAt assignment):.label-success>
                 #{points}
             _{MsgCoursePoints}
-        $maybe _ <- assignmentDuration assignment
-          <li class="list-group-item">
-            <span class="label label-default pull-right">1 week
-            _{MsgAssignmentDuration}
+        $if isTeacher userRole
+          $maybe duration <- assignmentDuration assignment
+            <li class="list-group-item">
+              <span .pull-right>
+                ^{wDuration duration}
+              _{MsgAssignmentDuration}
         $maybe startedAt <- assignmentStartedAt assignment
           <li class="list-group-item">
             <span .label-date .label .label-default .pull-right title="#{formatTimeFull startedAt}">

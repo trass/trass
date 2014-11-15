@@ -9,6 +9,7 @@ import Data.Maybe
 import Data.Time
 import AssignmentAction
 import UserRole
+import Utils
 
 getCourseAssignmentR :: Text -> [Text] -> Handler Html
 getCourseAssignmentR cid path@(_:_:_) = do

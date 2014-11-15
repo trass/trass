@@ -9,6 +9,7 @@ import Yesod.Auth
 import Control.Monad (when)
 import AssignmentAction
 import UserRole
+import Utils
 import UtilsDB
 
 mkSectionIdent :: [Text] -> Text

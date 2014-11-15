@@ -2,6 +2,8 @@ module Utils where
 
 import Import
 import Data.Time
+import Data.Int
+import qualified Data.Text as Text
 
 ago :: UTCTime -> UTCTime -> AppMessage
 ago t now
@@ -22,7 +24,7 @@ ago t now
     months  = days `div` 30
     years   = days `div` 365
 
-wAgo :: (Text -> AppMessage) -> UTCTime -> UTCTime -> WidgetT App IO ()
+wAgo :: (Text -> AppMessage) -> UTCTime -> UTCTime -> Widget
 wAgo f dt now = do
   mr <- getMessageRender
   let agoText = mr $ ago dt now
@@ -30,4 +32,28 @@ wAgo f dt now = do
     <small .text-help title=#{formatTimeFull dt}>
       _{f agoText}
   |]
+
+wDuration :: Int64 -> Widget
+wDuration n = do
+  mr <- getMessageRender
+  let mkDuration w d h m s = Text.intercalate " " $ filter (not . Text.null)
+        [ if weeks    > 0 then mr (w weeks)   else ""
+        , if days     > 0 then mr (d days)    else ""
+        , if hours    > 0 then mr (h hours)   else ""
+        , if minutes  > 0 then mr (m minutes) else ""
+        , if seconds  > 0 then mr (s seconds) else ""
+        ]
+      shortDuration = mkDuration MsgDurationWeeks MsgDurationDays MsgDurationHours MsgDurationMinutes MsgDurationSeconds
+      fullDuration  = mkDuration MsgFullDurationWeeks MsgFullDurationDays MsgFullDurationHours MsgFullDurationMinutes MsgFullDurationSeconds
+
+  [whamlet|
+    <span .label .label-default title="#{fullDuration}">
+      #{shortDuration}
+  |]
+  where
+    seconds = fromIntegral $ n `mod` 60
+    minutes = fromIntegral $ n `div` 60 `mod` 60
+    hours   = fromIntegral $ n `div` (60 * 60) `mod` 24
+    days    = fromIntegral $ n `div` (24 * 60 * 60) `mod` 7
+    weeks   = fromIntegral $ n `div` (7 * 24 * 60 * 60)
 

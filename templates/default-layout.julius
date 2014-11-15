@@ -18,6 +18,7 @@ $(function () {
   /* activate tooltips for help text (such as time) */
   $(".text-help small").tooltip();
   $("small.text-help").tooltip();
+  $(".label-default").tooltip();
 
   /* activate other tooltips */
   $(".btn").tooltip({ container: 'body' });
