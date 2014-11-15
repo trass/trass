@@ -101,6 +101,25 @@ getSectionAssignmentInfo sid = do
         )
   return (p, d, s, e)
 
+getSubmissionsCountByStudent :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int64
+getSubmissionsCountByStudent cid uid = do
+  [Value n] <- select $
+    from $ \s -> do
+      where_ (s ^. SubmissionAuthor ==. val uid)
+      return countRows
+  return n
+
+getSubmissionsByStudent :: MonadIO m => Int64 -> Int64 -> CourseId -> UserId -> SqlPersistT m [(Entity Submission, Entity Assignment, Entity Section)]
+getSubmissionsByStudent perPage pageNo cid uid = do
+  select $
+    from $ \(s `InnerJoin` a `InnerJoin` se) -> do
+      on (a ^. AssignmentSection ==. se ^. SectionId)
+      on (s ^. SubmissionAssignment ==. a ^. AssignmentId)
+      where_ (s ^. SubmissionAuthor ==. val uid)
+      orderBy [desc (s ^. SubmissionUpdatedAt)]
+      page perPage pageNo
+      return (s, a, se)
+
 getSubmissionCountsByStatus :: MonadIO m => CourseId -> SqlPersistT m [(SubmissionStatus, Int)]
 getSubmissionCountsByStatus cid = do
   xs <- select $

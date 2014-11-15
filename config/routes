@@ -15,23 +15,30 @@
 
 /course/#Text               CourseR GET
 /course/#Text/view/*[Text]  CourseSectionR GET
+
 /course/#Text/messages      CourseMessagesR GET POST
 /course/#Text/messages/#UserId CourseMessagesStudentR GET POST
+
 /course/#Text/settings CourseSettingsR GET
 /course/#Text/settings/general CourseSettingsGeneralR GET
 /course/#Text/settings/staff CourseSettingsStaffR GET
 /course/#Text/settings/gamification CourseSettingsGamificationR GET
+
+/course/#Text/settings/staff/delete/#UserId CourseSettingsDeleteStaffR POST
+/course/#Text/settings/staff/invite/#UserRole CourseSettingsInviteStaffR POST
+
 /course/#Text/students CourseStudentsR GET POST
 /course/#Text/students/group/#Text CourseStudentsGroupR GET POST
 /course/#Text/students/nogroup CourseStudentsNoGroupR GET POST
 /course/#Text/students/group/#GroupId/delete CourseStudentsDeleteGroupR POST
-/course/#Text/settings/staff/delete/#UserId CourseSettingsDeleteStaffR POST
-/course/#Text/settings/staff/invite/#UserRole CourseSettingsInviteStaffR POST
+
 /course/#Text/assignment/*[Text] CourseAssignmentR GET POST
 /course/#Text/manage/assignment/#AssignmentId/#AssignmentAction CourseAssignmentManageR POST
 /course/#Text/manage/section/#SectionId/#AssignmentAction CourseSectionManageR POST
+
 /course/#Text/submissions CourseSubmissionsR GET
 /course/#Text/submissions/status/#SubmissionStatus CourseSubmissionsByStatusR GET
+
 /course/#Text/student/#UserId CourseStudentR GET
 /course/#Text/student/#UserId/achievements CourseStudentAchievementsR GET POST
 /course/#Text/student/#UserId/points CourseStudentCoursePointsR GET POST

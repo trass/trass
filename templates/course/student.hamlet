@@ -1,0 +1,50 @@
+<h3>
+  <span class="pull-right">
+    <span class="label label-success" title="_{MsgCoursePoints}">27
+    <span class="trophy">
+      <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1
+      <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3
+      <span class="trophy-bronze" title="_{MsgBronzeAchievements}"> 12
+    <span class="trophy trophy-secret" title="_{MsgSecretAchievements}"> 1
+  <i class="fa fa-user fa-lg fa-fw">
+  $maybe name <- profileName profile
+    #{name}
+  $nothing
+    _{MsgUnknownStudent}
+  <small>
+    &nbsp;324
+
+<hr>
+
+$if isOtherStudent
+  ^{tab}
+$else
+  <div .row>
+    <div .col-sm-4>
+      <div class="panel panel-default">
+        <div .panel-heading>
+          <h3 .panel-title>
+            Email: ololo@example.com
+
+        <div .list-group>
+          <a .list-group-item :isTabAchievements tabName:.active href="@{CourseStudentAchievementsR cname uid}">
+            Achievements
+          $if not isOtherStudent
+            <a .list-group-item :isTabCoursePoints tabName:.active href="@{CourseStudentCoursePointsR cname uid}">
+              Course Points
+          $if not (isStudent userRole)
+            <a .list-group-item :isTabRating tabName:.active href="@{CourseStudentRatingR cname uid}">
+              <span class="badge pull-right"># 7
+              Rating
+          $if not isOtherStudent
+            <a .list-group-item :isTabSubmissions tabName:.active href="@{CourseStudentSubmissionsR cname uid}">
+              Submissions
+            <a .list-group-item :isTabAssignments tabName:.active href="@{CourseStudentAssignmentsR cname uid}">
+              Assignments
+          $if isTeacher userRole
+            <a .list-group-item :isTabConversation tabName:.active href="@{CourseStudentConversationR cname uid}">
+              <i class="fa fa-envelope fa-lg fa-fw">
+              Conversation
+
+    <div .col-sm-8>
+      ^{tab}

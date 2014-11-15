@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div .panel-heading>
+    <h3 .panel-title>
+      sdf
+
+  <ul class="nav nav-pills nav-stacked" role="tablist">
+    <li>
+      <a href="#">
+        Achievements
+    <li>
+      <a href="#">
+        Course Points
+    <li>
+      <a href="#">
+        <span class="badge pull-right"># 7
+        Rating
+    <li>
+      <a href="#">
+        Submissions
+    <li>
+      <a href="#">
+        Assignments
+
+  <div class="list-group">
+    <a href="../messages/IvanovIvan.html" class="list-group-item">
+      <i class="fa fa-envelope fa-lg fa-fw">
+      Send a message

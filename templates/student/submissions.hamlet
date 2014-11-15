@@ -1,0 +1,70 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Latest submissions
+
+  $if null submissions
+    <div .panel-body>
+      _{MsgNoSubmissions}
+  $else
+    <table class="table table-condensed">
+      <tbody>
+        $forall (Entity submissionId submission, Entity _ assignment, Entity _ section) <- submissions
+          <tr>
+            <td>
+              <a href="@{assignmentR cid assignment section}">#{assignmentTitle assignment}
+            <td class="hidden-xs hidden-sm">
+              <small>
+                <a href="@{sectionR cid section}">#{sectionTitle section}
+            <td>
+              <a href="javascript:void(0)" data-toggle="collapse" data-target="#submission-details-#{submissionId}">
+                ^{wSubmissionStatus $ submissionStatus submission}
+            <td>
+              ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
+            <td class="text-nowrap text-center">
+              <a href="#" title="View">
+                <i class="fa fa-eye fa-lg fa-fw">
+              <a href="#" title="Download">
+                <i class="fa fa-download fa-lg fa-fw">
+          <tr>
+            <td colspan="5" class="hidden-row">
+              <div class="collapse" id="submission-details-#{submissionId}">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    No details.
+
+$if totalPages > 1
+  <div class="text-center">
+    <ul class="pagination">
+      $if pageNo == 1
+        <li .disabled>
+          <span>&laquo;
+      $else
+        <li>
+          <a href="@?{pageR $ pageNo - 1}">
+            &laquo;
+
+      $forall n <- enumFromTo 1 totalPages
+        $if n == pageNo
+          <li .active>
+            <span>
+              #{show n}
+              <span class="sr-only">(current)
+        $else
+          <li>
+            <a href="@?{pageR n}">
+              #{show n}
+              <span class="sr-only">(current)
+
+      $if pageNo == totalPages
+        <li .disabled>
+          <span>&raquo;
+      $else
+        <li>
+          <a href="@?{pageR $ pageNo + 1}">
+            &raquo;
+
+<div class="text-center">
+  <i class="fa fa-lightbulb-o fa-lg">
+  <strong>Tip!
+  Click on the status badge to see submission details.
+
