@@ -46,7 +46,10 @@ getCourseAssignmentR cid path@(_:_:_) = do
   let
     inFuture dt = now < dt
     inPast = not . inFuture
+
   defaultLayout $ do
+    addStylesheet $ StaticR codemirror_4_7_lib_codemirror_css
+    addScript     $ StaticR codemirror_4_7_lib_codemirror_js
     $(widgetFile "course/assignment")
 getCourseAssignmentR _ _ = notFound
 
