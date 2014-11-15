@@ -16,5 +16,7 @@ $(function() {
   });
 
   /* Set up CodeMirror for on page solution input */
-  var myCodeMirror = CodeMirror.fromTextArea(inputSolution);
+  $("#inputSolution").each(function() {
+    var myCodeMirror = CodeMirror.fromTextArea(this);
+  });
 });
