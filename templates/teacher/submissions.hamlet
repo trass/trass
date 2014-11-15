@@ -3,7 +3,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Need action
+        <h3 class="panel-title">_{MsgSubmissionsNeedAction}
       <div class="list-group">
         ^{wSubmissionListItem SubmissionTestsPassed}
         ^{wSubmissionListItem SubmissionInReview}
@@ -11,7 +11,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Automatic
+        <h3 class="panel-title">_{MsgSubmissionsAutomatic}
       <div class="list-group">
         ^{wSubmissionListItem SubmissionSubmitted}
         ^{wSubmissionListItem SubmissionInvalid}
@@ -26,32 +26,36 @@
         <h3 class="panel-title">
           <span .pull-right>
             ^{wSubmissionStatus status}
-          Submissions
-      <table class="table table-condensed">
-        <tbody>
-          $forall (Entity _ submission, Entity _ assignment, Entity _ section, Entity _ author) <- submissions
-            <tr>
-              <td>
-                <a href="task.html">#{assignmentTitle assignment}
-              <td class="hidden-xs hidden-sm">
-                <small>
-                  <a href="sections/3.html">#{sectionTitle section}
-              <td>
-                <small>
-                  <a href="#">
-                    <span class="text-nowrap">
-                      <i class="media-object fa fa-user fa-fw">
-                      $maybe name <- profileName author
-                        #{name}
-                      $nothing
-                        _{MsgUnknownStudent}
-              <td>
-                ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
-              <td class="text-nowrap text-center">
-                <a href="#" title="View">
-                  <i class="fa fa-eye fa-lg fa-fw">
-                <a href="#" title="Download">
-                  <i class="fa fa-download fa-lg fa-fw">
+          _{MsgSubmissions}
+      $if null submissions
+        <div .panel-body>
+          _{MsgNoSubmissions}
+      $else
+        <table class="table table-condensed">
+          <tbody>
+            $forall (Entity _ submission, Entity _ assignment, Entity _ section, Entity _ author) <- submissions
+              <tr>
+                <td>
+                  <a href="task.html">#{assignmentTitle assignment}
+                <td class="hidden-xs hidden-sm">
+                  <small>
+                    <a href="sections/3.html">#{sectionTitle section}
+                <td>
+                  <small>
+                    <a href="#">
+                      <span class="text-nowrap">
+                        <i class="media-object fa fa-user fa-fw">
+                        $maybe name <- profileName author
+                          #{name}
+                        $nothing
+                          _{MsgUnknownStudent}
+                <td>
+                  ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
+                <td class="text-nowrap text-center">
+                  <a href="#" title="View">
+                    <i class="fa fa-eye fa-lg fa-fw">
+                  <a href="#" title="Download">
+                    <i class="fa fa-download fa-lg fa-fw">
 
     $if totalPages > 1
       <div class="text-center">

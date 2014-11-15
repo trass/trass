@@ -54,5 +54,6 @@ getCourseSubmissionsByStatusR cid status = do
     $(widgetFile "teacher/submissions")
 
   where
-    perPage = 10
+    perPage = 20
     pageR n = (CourseSubmissionsByStatusR cid status, [("page", Text.pack $ show $ n)])
+

@@ -1,3 +1,7 @@
+SubmissionsNeedAction: Need Action
+SubmissionsAutomatic: Automatic
+NoSubmissions: No submissions.
+
 SubmissionSubmitted: submitted
 SubmissionInvalid: invalid
 SubmissionCompileError: compile error
