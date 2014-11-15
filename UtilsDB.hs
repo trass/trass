@@ -94,7 +94,7 @@ getSectionAssignmentInfo sid = do
       where_ (a ^. AssignmentSection ==. val sid)
       return $
         ( sum_ (coalesceDefault [a ^. AssignmentPoints] (val 0))
-        , joinV $ max_ (a ^. AssignmentDuration)
+        , joinV $ min_ (a ^. AssignmentDuration)
         , joinV $ min_ (a ^. AssignmentStartedAt)
         , joinV $ min_ (a ^. AssignmentEndingAt)
         )

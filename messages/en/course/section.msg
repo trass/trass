@@ -11,7 +11,7 @@ NoTheory: No theory.
 
 Locked: Locked
 
-SectionDuration: Max duration
+SectionDuration: Duration
 SectionStartDate: Started at
 SectionEndDate: Ending at
 SectionNotStartedYet: Section assignments are not started yet.

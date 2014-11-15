@@ -11,7 +11,7 @@ NoTheory: Нет теоретических материалов.
 
 Locked: Закрыто
 
-SectionDuration: Максимальная длительность
+SectionDuration: Продолжительность
 SectionStartDate: Начало
 SectionEndDate: Конец
 SectionNotStartedYet: Задания в этом разделе еще не начаты.
