@@ -35,6 +35,8 @@ getCourseAssignmentR cid path@(_:_:_) = do
     isCoursePreview   = True
     isCourseGraphs    = False
     isCourseSettings  = False
+    headerTitle       = assignmentTitle assignment
+    headerSummary     = assignmentSummary assignment
     courseHeader = $(widgetFile "course/header")
 
   setCourseIdent cid

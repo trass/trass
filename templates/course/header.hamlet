@@ -6,12 +6,12 @@ $if not (null crumbs)
           <a href="@{CourseR cid}">#{title}
         $else
           <a href="@{CourseSectionR cid sectionsPath}">#{title}
-    <li .active>#{sectionTitle section}
+    <li .active>#{headerTitle}
 
 <div class="row">
   <div class="col-sm-8">
-    <h1>#{sectionTitle section}
-    $maybe summary <- sectionSummary section
+    <h1>#{headerTitle}
+    $maybe summary <- headerSummary
       <p class="lead">
         #{summary}
   $if isTeacher userRole || isAssistant userRole

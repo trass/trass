@@ -22,6 +22,8 @@ courseSettingsLayout cid tabName settingsTab = do
     isCoursePreview   = False
     isCourseGraphs    = False
     isCourseSettings  = True
+    headerTitle       = sectionTitle section
+    headerSummary     = sectionSummary section
     courseHeader = $(widgetFile "course/header")
 
   defaultLayout $(widgetFile "course/settings")

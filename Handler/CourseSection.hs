@@ -35,6 +35,8 @@ getCourseSectionR cid sids = do
     isCoursePreview   = True
     isCourseGraphs    = False
     isCourseSettings  = False
+    headerTitle       = sectionTitle section
+    headerSummary     = sectionSummary section
     courseHeader = $(widgetFile "course/header")
 
   subsections <- runDB $ selectList [SectionParent ==. Just sectionId] [Asc SectionTitle]
