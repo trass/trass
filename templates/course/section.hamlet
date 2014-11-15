@@ -42,8 +42,12 @@
               <span .pull-right>
                 $if sectionLocked
                   <i .fa .fa-lg .fa-fw .fa-lock>
-                <span .label :isNothing saStartedAt:.label-default :isJust saStartedAt:.label-success>
-                  #{points}
+                $if isStudent userRole
+                  <span .label :False:.label-success :True:.label-warning>
+                    10 / #{points}
+                $else
+                  <span .label :isNothing saStartedAt:.label-default :isJust saStartedAt:.label-success>
+                    #{points}
               _{MsgCoursePoints}
           $maybe _ <- saDuration
             <li class="list-group-item">
