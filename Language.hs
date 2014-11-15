@@ -16,16 +16,6 @@ langTitles = Map.fromList
   , ("ru", "Русский")
   ]
 
-data TimeAgo
-  = TAJustNow
-  | TAMinutes Int
-  | TAHours Int
-  | TADays Int
-  | TAWeeks Int
-  | TAMonths Int
-  | TAYears Int
-  deriving (Show)
-
 pluralEn :: Int -> Text -> Text -> Text
 pluralEn 1 s _ = s
 pluralEn n _ s = Text.pack (show n) <> " " <> s
@@ -44,21 +34,3 @@ pluralRu n s1 s2 s
     m = n `mod` 100
     k = n `mod` 10
 
-ago :: UTCTime -> UTCTime -> TimeAgo
-ago t now
-  | minutes == 0  = TAJustNow
-  | minutes <  5  = TAMinutes minutes
-  | hours == 0    = TAMinutes (5 * (minutes `div` 5))
-  | days == 0     = TAHours hours
-  | weeks == 0    = TADays days
-  | months == 0   = TAWeeks weeks
-  | years == 0    = TAMonths months
-  | otherwise     = TAYears years
-  where
-    seconds = floor (diffUTCTime now t)
-    minutes = seconds `div` 60
-    hours   = minutes `div` 60
-    days    = hours `div` 24
-    weeks   = days `div` 7
-    months  = days `div` 30
-    years   = days `div` 365
