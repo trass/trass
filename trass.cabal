@@ -21,6 +21,7 @@ library
                      Settings.Development
                      AssignmentAction
                      Language
+                     SubmissionStatus
                      UserRole
                      Utils
                      UtilsDB
@@ -48,6 +49,8 @@ library
                      Handler.CourseAssignment
                      Handler.CourseAssignmentManage
                      Handler.CourseSectionManage
+                     Handler.CourseSubmissions
+                     Handler.CourseSubmissionsByStatus
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

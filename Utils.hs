@@ -4,6 +4,7 @@ import Import
 import Data.Time
 import Data.Int
 import qualified Data.Text as Text
+import SubmissionStatus
 
 ago :: UTCTime -> UTCTime -> AppMessage
 ago t now
@@ -57,3 +58,26 @@ wDuration n = do
     days    = fromIntegral $ n `div` (24 * 60 * 60) `mod` 7
     weeks   = fromIntegral $ n `div` (7 * 24 * 60 * 60)
 
+wSubmissionStatus :: SubmissionStatus -> Widget
+wSubmissionStatus s = do
+  [whamlet|
+    $case s
+      $of SubmissionSubmitted
+        <span .label .label-default>_{MsgSubmissionSubmitted}
+      $of SubmissionInvalid
+        <span .label .label-danger>_{MsgSubmissionInvalid}
+      $of SubmissionCompileError
+        <span .label .label-danger>_{MsgSubmissionCompileError}
+      $of SubmissionTestsFailed
+        <span .label .label-danger>_{MsgSubmissionTestsFailed}
+      $of SubmissionTestsPassed
+        <span .label .label-warning>_{MsgSubmissionTestsPassed}
+      $of SubmissionInReview
+        <span .label .label-info>_{MsgSubmissionInReview}
+      $of SubmissionRejected
+        <span .label .label-danger>_{MsgSubmissionRejected}
+      $of SubmissionAccepted
+        <span .label .label-success>_{MsgSubmissionAccepted}
+      $of SubmissionErrored
+        <span .label .label-default>_{MsgSubmissionErrored}
+  |]

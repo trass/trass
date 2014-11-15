@@ -25,9 +25,8 @@
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgStudents}
           <li>
-            <a href="submissions.html" title="_{MsgSubmissions}" data-placement="bottom">
+            <a href="@{CourseSubmissionsR cid}" title="_{MsgSubmissions}" data-placement="bottom">
               <i class="fa fa-inbox fa-lg fa-fw">
-              <span class="label label-danger">2
               <span class="visible-xs-inline">_{MsgSubmissions}
           <li>
             $if isStudent userRole

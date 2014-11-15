@@ -1,3 +1,4 @@
+JustAgo ago@Text: #{ago}
 WroteAgo ago@Text: wrote #{ago}
 
 TimeAgoJustNow: just now

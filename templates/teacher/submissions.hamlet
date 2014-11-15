@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-md-3 col-sm-4">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Need action
+      <div class="list-group">
+        ^{wSubmissionListItem SubmissionTestsPassed}
+        ^{wSubmissionListItem SubmissionInReview}
+        ^{wSubmissionListItem SubmissionErrored}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Automatic
+      <div class="list-group">
+        ^{wSubmissionListItem SubmissionSubmitted}
+        ^{wSubmissionListItem SubmissionInvalid}
+        ^{wSubmissionListItem SubmissionCompileError}
+        ^{wSubmissionListItem SubmissionTestsFailed}
+        ^{wSubmissionListItem SubmissionRejected}
+        ^{wSubmissionListItem SubmissionAccepted}
+
+  <div class="col-md-9 col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span .pull-right>
+            ^{wSubmissionStatus status}
+          Submissions
+      <table class="table table-condensed">
+        <tbody>
+          $forall Entity _ submission <- submissions
+            <tr>
+              <td>
+                <a href="task.html">1. Associated list functor
+              <td class="hidden-xs hidden-sm">
+                <small>
+                  <a href="sections/3.html">3. Functors &amp; Monoids
+              <td>
+                <small>
+                  <a class="text-nowrap" href="students/IvanovIvan.html">
+                    <i class="fa fa-user fa-fw">
+                    Ivanov Ivan
+              <td>
+                ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
+              <td class="text-nowrap text-center">
+                <a href="submissions/1.html" title="View">
+                  <i class="fa fa-eye fa-lg fa-fw">
+                <a href="#" title="Download">
+                  <i class="fa fa-download fa-lg fa-fw">
+
+    <div class="text-center">
+      <ul class="pagination">
+        <li class="disabled">
+          <a href="#">&laquo;
+        <li class="active">
+          <a href="#">
+            1
+            <span class="sr-only">(current)
+        <li>
+          <a href="#">2
+        <li>
+          <a href="#">3
+        <li class="disabled">
+          <a href="#">...
+        <li>
+          <a href="#">9
+        <li>
+          <a href="#">10
+        <li>
+          <a href="#">&raquo;
+

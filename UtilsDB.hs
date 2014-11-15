@@ -10,6 +10,7 @@ import Data.Time
 import Database.Esqueleto
 import Control.Monad
 import Control.Monad.IO.Class (MonadIO)
+import SubmissionStatus
 
 countUnreadMessages :: (Functor m, MonadIO m) => Text -> UserId -> UserRole -> SqlPersistT m Int
 countUnreadMessages cid uid role = liftM (unValue . head) $ do
@@ -99,3 +100,12 @@ getSectionAssignmentInfo sid = do
         , joinV $ min_ (a ^. AssignmentEndingAt)
         )
   return (p, d, s, e)
+
+getSubmissionCountsByStatus :: MonadIO m => CourseId -> SqlPersistT m [(SubmissionStatus, Int)]
+getSubmissionCountsByStatus cid = do
+  xs <- select $
+    from $ \s -> do
+      where_ (s ^. SubmissionCourse ==. val cid)
+      groupBy (s ^. SubmissionStatus)
+      return (s ^. SubmissionStatus, countRows)
+  return $ map (\(Value s, Value n) -> (s, n)) xs
