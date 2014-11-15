@@ -28,3 +28,4 @@
 /course/#Text/settings/staff/delete/#UserId CourseSettingsDeleteStaffR POST
 /course/#Text/settings/staff/invite/#UserRole CourseSettingsInviteStaffR POST
 /course/#Text/assignment/*[Text] CourseAssignmentR GET POST
+/course/#Text/manage/assignment/#AssignmentId/#AssignmentAction CourseAssignmentManageR POST

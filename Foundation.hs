@@ -29,7 +29,10 @@ import Data.Maybe (isNothing, fromMaybe)
 import Data.Text (Text)
 import qualified Data.Map as Map
 import qualified Data.Text.Lazy.Encoding
+import Data.Time
+import System.Locale
 
+import AssignmentAction
 import Language
 import UserRole
 import UtilsDB
@@ -63,6 +66,9 @@ mkMessage "App" "messages" "en"
 mkYesodData "App" $(parseRoutesFile "config/routes")
 
 type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
+
+formatTimeFull :: UTCTime -> String
+formatTimeFull = formatTime defaultTimeLocale "%D %T %Z"
 
 getCourseIdent = lookupSession "TRASS_COURSE_IDENT"
 setCourseIdent = setSession "TRASS_COURSE_IDENT"

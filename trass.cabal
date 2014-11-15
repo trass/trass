@@ -19,6 +19,7 @@ library
                      Settings
                      Settings.StaticFiles
                      Settings.Development
+                     AssignmentAction
                      Language
                      UserRole
                      Utils
@@ -45,6 +46,7 @@ library
                      Handler.CourseSettingsDeleteStaff
                      Handler.CourseSettingsInviteStaff
                      Handler.CourseAssignment
+                     Handler.CourseAssignmentManage
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

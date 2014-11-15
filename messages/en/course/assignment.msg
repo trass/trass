@@ -17,10 +17,16 @@ AssignmentManageUnlockDescription: Make assignment accessible for students. It w
 AssignmentManageUnlock: Unlock
 AssignmentManageLockDescription: Make assignment inaccessible for students. It will not be counted as deadline.
 AssignmentManageLock: Lock
-AssignmentManageStopDescription: Make deadline happen now.
+
+AssignmentManageStopDescription: Make deadline happen now. This will not lock the assignment.
 AssignmentManageStop: Stop
+AssignmentManageStartDescription: Start check and accept submissions for the assignment. If locked it will be unlocked. If duration present deadline will be set.
+AssignmentManageStart: Start
 
 AssignmentManageExtraDayDescription: Move deadline forward by one day.
 AssignmentManageExtraDay: Extra day
 AssignmentManageSkipDayDescription: Move deadline backward by one day. This may result in immediate deadline.
 AssignmentManageSkipDay: Skip day
+
+AssignmentManageResetDescription: Lock assignment and clear deadline.
+AssignmentManageReset: Reset

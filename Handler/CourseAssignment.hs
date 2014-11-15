@@ -5,6 +5,9 @@ import Yesod.Auth
 import Control.Monad
 import qualified Data.List as List
 import Handler.CourseSection
+import Data.Maybe
+import Data.Time
+import AssignmentAction
 import UserRole
 
 getCourseAssignmentR :: Text -> [Text] -> Handler Html
@@ -36,6 +39,10 @@ getCourseAssignmentR cid path@(_:_:_) = do
 
   setCourseIdent cid
 
+  now <- liftIO getCurrentTime
+  let
+    inFuture dt = now < dt
+    inPast = not . inFuture
   defaultLayout $ do
     $(widgetFile "course/assignment")
 getCourseAssignmentR _ _ = notFound

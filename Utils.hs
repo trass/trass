@@ -2,7 +2,6 @@ module Utils where
 
 import Data.Maybe
 import Data.Time
-import System.Locale
 
 import Import
 import Language
@@ -21,6 +20,7 @@ wAgo f dt now = do
   mr <- getMessageRender
   let agoText = mr $ agoMessage $ ago dt now
   [whamlet|
-    <small .text-help title=#{formatTime defaultTimeLocale "%D %T %Z" dt}>
+    <small .text-help title=#{formatTimeFull dt}>
       _{f agoText}
   |]
+

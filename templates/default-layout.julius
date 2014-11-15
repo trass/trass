@@ -1,13 +1,16 @@
 $(function () {
-  /* convert time in tooltips to local time */
-  $("*").attr("title", function(i,t) {
+  function convertTime(i,t) {
     if (t) {
       var dt = new Date(t);
       if (!isNaN(dt.getTime())) {
         return dt.toLocaleDateString() + " " + dt.toLocaleTimeString();
       }
     }
-  });
+  };
+
+  /* convert time in tooltips to local time */
+  $("*").attr("title", convertTime);
+  $("*").attr("data-original-title", convertTime);
 
   /* activate navbar tooltips */
   $(".nav a").tooltip();
