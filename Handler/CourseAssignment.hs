@@ -22,10 +22,10 @@ getCourseAssignmentR cid path@(_:_:_) = do
   mauthId <- maybeAuthId
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
 
-  when (sectionLocked section && not (isTeacher userRole)) $ do
-    notFound
-
   Entity assignmentId assignment <- runDB $ getBy404 $ UniqueAssignment sectionId aid
+
+  when (assignmentLocked assignment && not (isTeacher userRole)) $ do
+    notFound
 
   let sectionPaths = List.tail $ List.inits sids
   crumbs <- mapM (getSectionTitle courseId) sectionPaths

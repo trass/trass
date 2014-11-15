@@ -61,7 +61,6 @@ Section
     parent        SectionId Maybe
     course        CourseId
     points        Int Maybe
-    locked        Bool
     UniqueSection course ident
 
 Assignment

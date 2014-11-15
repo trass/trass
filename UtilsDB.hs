@@ -4,7 +4,9 @@ module UtilsDB where
 import Prelude
 import Model
 import UserRole
+import Data.Int
 import Data.Text (Text)
+import Data.Time
 import Database.Esqueleto
 import Control.Monad
 import Control.Monad.IO.Class (MonadIO)
@@ -60,3 +62,40 @@ selectGroupMembers (Just gid) = liftM (map entityVal) $ do
       on (gm ^. GroupMemberStudent ==. p ^. ProfileUser)
       where_ (gm ^. GroupMemberGroup ==. val gid)
       return p
+
+isSectionLocked :: MonadIO m => SectionId -> SqlPersistT m Bool
+isSectionLocked sid = do
+  lockedAssignments <- select $
+    from $ \a -> do
+      where_ (a ^. AssignmentSection ==. val sid)
+      where_ (a ^. AssignmentLocked ==. val True)
+      limit 1
+      return a
+  if null lockedAssignments
+    then return False
+    else do
+      subsections <- select $
+        from $ \s -> do
+          where_ (s ^. SectionParent ==. just (val sid))
+          limit 1
+          return s
+      unlockedAssignments <- select $
+        from $ \a -> do
+          where_ (a ^. AssignmentSection ==. val sid)
+          where_ (a ^. AssignmentLocked ==. val False)
+          limit 1
+          return a
+      return $ null subsections && null unlockedAssignments
+
+getSectionAssignmentInfo :: MonadIO m => SectionId -> SqlPersistT m (Maybe Int, Maybe Int64, Maybe UTCTime, Maybe UTCTime)
+getSectionAssignmentInfo sid = do
+  [(Value p, Value d, Value s, Value e)] <- select $ do
+    from $ \a -> do
+      where_ (a ^. AssignmentSection ==. val sid)
+      return $
+        ( sum_ (coalesceDefault [a ^. AssignmentPoints] (val 0))
+        , joinV $ max_ (a ^. AssignmentDuration)
+        , joinV $ min_ (a ^. AssignmentStartedAt)
+        , joinV $ max_ (a ^. AssignmentEndingAt)
+        )
+  return (p, d, s, e)

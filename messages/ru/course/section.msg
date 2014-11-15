@@ -11,3 +11,23 @@ NoTheory: Нет теоретических материалов.
 
 Locked: Закрыто
 
+SectionDuration: Максимальная длительность
+SectionStartDate: Первая дата начала
+SectionEndDate: Последняя дата конца
+SectionNotStartedYet: Задания в этом разделе еще не начаты.
+
+SectionManagePanelTitle: Управление
+
+SectionManageUnlockDescription: Открыть все задания в этом разделе для студентов. После окончания срока сдачи задания остаются разблокированными.
+SectionManageUnlock: Разблокировать
+SectionManageLockDescription: Закрыть все задания в этом разделе от студентов. Это не приведёт к окончанию сроков сдачи.
+SectionManageLock: Заблокировать
+
+SectionManageStopDescription: Установить дату окончания всех заданий на текущее время. Задания не будут заблокированы.
+SectionManageStop: Остановить
+SectionManageStartDescription: Начать проверки и приём посылок по заданиям в этом разделе. Все задания разблокируются. Если у заданий выставлена продолжительность, дата окончания будет выставлена автоматически.
+SectionManageStart: Начать
+
+SectionManageResetDescription: Заблокировать все задания и очистить сроки.
+SectionManageReset: Сбросить
+

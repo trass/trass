@@ -1,3 +1,19 @@
 $(function () {
-    $(".fa-lock").tooltip();
+  $(".fa-lock").tooltip();
+
+  $(".manage-assignment a.list-group-item form").hide();
+  $(".manage-assignment a.list-group-item").on("click", function () {
+    $(this).find("form").submit();
+  });
+  $(".manage-assignment a.list-group-item").popover({ container: 'body' });
+
+  $(".label-date").tooltip();
+  $(".label-date").text(function(i,t) {
+    if (t) {
+      var dt = new Date(t);
+      if (!isNaN(dt.getTime())) {
+        return dt.toLocaleDateString();
+      }
+    }
+  });
 });

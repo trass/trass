@@ -47,6 +47,7 @@ library
                      Handler.CourseSettingsInviteStaff
                      Handler.CourseAssignment
                      Handler.CourseAssignmentManage
+                     Handler.CourseSectionManage
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
