@@ -30,3 +30,13 @@ AssignmentManageSkipDay: Пропустить день
 
 AssignmentManageResetDescription: Заблокировать задание и очистить сроки.
 AssignmentManageReset: Сбросить
+
+Note: Внимание!
+PleaseUseComputer: Пожалуйста, посылайте решения заданий с помощью компьютера или ноутбука!
+IfYouReallyWant: Если Вы действительно хотите отправить решение с телефона, Вы можете попробовать это сделать.
+ShowSubmissionForm: Показать форму отправки решения.
+
+UploadSolutionButton: Загрузить решение
+UploadSolutionHelpText: Решение должно быть представлено одним файлом.
+Solution: Решение
+SubmitSolutionButton: Отправить решение

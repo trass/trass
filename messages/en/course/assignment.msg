@@ -30,3 +30,13 @@ AssignmentManageSkipDay: Skip day
 
 AssignmentManageResetDescription: Lock assignment and clear deadline.
 AssignmentManageReset: Reset
+
+Note: Note!
+PleaseUseComputer: Please use laptop or desktop computer to submit solutions!
+IfYouReallyWant: If you really want to submit from your phone, you can try.
+ShowSubmissionForm: Show submission form.
+
+UploadSolutionButton: Upload solution
+UploadSolutionHelpText: Solution should be a single source file.
+Solution: Solution
+SubmitSolutionButton: Submit solution
