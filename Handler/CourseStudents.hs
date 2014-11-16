@@ -5,6 +5,7 @@ import Yesod.Auth
 import Data.Maybe
 import UserRole
 import UtilsDB
+import qualified Data.Map as Map
 
 data DisplayGroup
   = DisplayFirst
@@ -35,6 +36,12 @@ displayCourseStudents cid dg = do
     chosenGid = entityKey <$> chosenGroup
     isChosen gid = Just gid == chosenGid
   students  <- runDB $ selectGroupMembers chosenGid
+
+  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
+  coursePoints <- runDB $ getStudentCoursePointsSums courseId $ map profileUser students
+  let
+    pointsMap = Map.fromList coursePoints
+
   mauthId   <- maybeAuthId
   userRole  <- maybe (return RoleStudent) (getUserRole cid) mauthId
   defaultLayout $ do

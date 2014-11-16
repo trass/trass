@@ -5,6 +5,7 @@ import Prelude
 import Model
 import UserRole
 import Data.Int
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import Data.Time
 import Database.Esqueleto
@@ -105,6 +106,7 @@ getSubmissionsCountByStudent :: MonadIO m => CourseId -> UserId -> SqlPersistT m
 getSubmissionsCountByStudent cid uid = do
   [Value n] <- select $
     from $ \s -> do
+      where_ (s ^. SubmissionCourse ==. val cid)
       where_ (s ^. SubmissionAuthor ==. val uid)
       return countRows
   return n
@@ -115,6 +117,7 @@ getSubmissionsByStudent perPage pageNo cid uid = do
     from $ \(s `InnerJoin` a `InnerJoin` se) -> do
       on (a ^. AssignmentSection ==. se ^. SectionId)
       on (s ^. SubmissionAssignment ==. a ^. AssignmentId)
+      where_ (s ^. SubmissionCourse ==. val cid)
       where_ (s ^. SubmissionAuthor ==. val uid)
       orderBy [desc (s ^. SubmissionUpdatedAt)]
       page perPage pageNo
@@ -146,3 +149,46 @@ page :: Esqueleto query expr backend => Int64 -> Int64 -> query ()
 page perPage pageNo = do
   limit perPage
   offset (perPage * (pageNo - 1))
+
+getStudentCoursePoints :: MonadIO m => Int64 -> Int64 -> CourseId -> UserId -> SqlPersistT m [(Entity CoursePoints, Maybe (Entity Assignment), Maybe (Entity Section), Maybe (Entity Profile))]
+getStudentCoursePoints perPage pageNo cid uid = do
+  select $
+    from $ \(cp `LeftOuterJoin` s `LeftOuterJoin` a `LeftOuterJoin` se `LeftOuterJoin` p) -> do
+      on (cp ^. CoursePointsAuthor ==. p ?. ProfileUser)
+      on (cp ^. CoursePointsSection ==. se ?. SectionId)
+      on (s ?. SubmissionAssignment ==. a ?. AssignmentId)
+      on (cp ^. CoursePointsSubmission ==. s ?. SubmissionId)
+      where_ (cp ^. CoursePointsCourse ==. val cid)
+      where_ (cp ^. CoursePointsStudent ==. val uid)
+      orderBy [desc (cp ^. CoursePointsCreatedAt)]
+      page perPage pageNo
+      return (cp, a, se, p)
+
+getStudentCoursePointsSum :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int
+getStudentCoursePointsSum cid uid = do
+  [Value n] <- select $
+    from $ \cp -> do
+      where_ (cp ^. CoursePointsCourse ==. val cid)
+      where_ (cp ^. CoursePointsStudent ==. val uid)
+      return $ sum_ (cp ^. CoursePointsPoints)
+  return $ fromMaybe 0 n
+
+getStudentCoursePointsSums :: MonadIO m => CourseId -> [UserId] -> SqlPersistT m [(UserId, Int)]
+getStudentCoursePointsSums cid uids = do
+  xs <- select $
+    from $ \cp -> do
+      where_ (cp ^. CoursePointsCourse ==. val cid)
+      where_ (cp ^. CoursePointsStudent `in_` valList uids)
+      groupBy (cp ^. CoursePointsStudent)
+      return $ (cp ^. CoursePointsStudent, sum_ (cp ^. CoursePointsPoints))
+  return $ map (\(Value i, Value s) -> (i, fromMaybe 0 s)) xs
+
+getStudentCoursePointsCount :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int64
+getStudentCoursePointsCount cid uid = do
+  [Value n] <- select $
+    from $ \cp -> do
+      where_ (cp ^. CoursePointsCourse ==. val cid)
+      where_ (cp ^. CoursePointsStudent ==. val uid)
+      return countRows
+  return n
+

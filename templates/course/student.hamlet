@@ -1,6 +1,7 @@
 <h3>
   <span class="pull-right">
-    <span class="label label-success" title="_{MsgCoursePoints}">27
+    $if not isOtherStudent
+      <span class="label label-success" title="_{MsgCoursePoints}">#{coursePoints}
     <span class="trophy">
       <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1
       <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3

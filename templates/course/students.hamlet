@@ -55,7 +55,8 @@
                   <td .col-xs-1>
                     <span class="badge" title="_{MsgRating}"># 7
                   <td .col-xs-1>
-                    <span class="label label-success" title="_{MsgCoursePoints}">27
+                    <span class="label label-success" title="_{MsgCoursePoints}">
+                      #{Map.findWithDefault 0 (profileUser student) pointsMap}
                 <td>
                   <a href="@{CourseStudentR cid $ profileUser student}">
                     ^{wUserName RoleStudent (Just student) mauthId True}

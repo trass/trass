@@ -34,6 +34,8 @@ getCourseStudentSubmissionsR cname uid = do
   when isOtherStudent $ do
     notFound
 
+  coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
+
   pageNoStr <- lookupGetParam "page"
 
   totalSubmissions <- runDB $ getSubmissionsCountByStudent courseId uid
@@ -58,3 +60,4 @@ getCourseStudentSubmissionsR cname uid = do
     tabName = "submissions"
     perPage = 20
     pageR n = (CourseStudentSubmissionsR cname uid, [("page", Text.pack $ show $ n)])
+
