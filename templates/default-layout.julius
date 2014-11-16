@@ -20,6 +20,11 @@ $(function () {
   $("small.text-help").tooltip();
   $(".label-default").tooltip();
 
+  /* activate tooltips and popovers for trophies */
+  $(".trophy *").tooltip();
+  $(".trophy").tooltip();
+  $(".btn-trophy").popover({ html: true, container: 'body' });
+
   /* activate other tooltips */
   $(".btn").tooltip({ container: 'body' });
   $("table *").tooltip({ container: 'body' });
