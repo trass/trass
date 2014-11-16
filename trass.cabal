@@ -19,6 +19,7 @@ library
                      Settings
                      Settings.StaticFiles
                      Settings.Development
+                     Achievement
                      AssignmentAction
                      Language
                      SubmissionStatus
@@ -58,6 +59,7 @@ library
                      Handler.CourseStudentSubmissions
                      Handler.CourseStudentAssignments
                      Handler.CourseStudentConversation
+                     Handler.CourseAchievements
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

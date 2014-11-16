@@ -1,0 +1,54 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Achievements
+
+  <div class="panel-body">
+    Besides gaining course points, you get achievements for multiple reasons.
+
+<div class="row">
+  <div class="col-md-8">
+
+    $if null achievements
+      <p>
+        There are no achievements in this course yet.
+    $else
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="badge pull-right">#{length achievements}
+            All achievements
+
+        <table class="table">
+          <thead>
+            $forall Entity _ achievement <- achievements
+              <tr>
+                <td>
+                  ^{wAchievement achievement False}
+                <td>
+                  ^{wAchievementDescription achievement}
+
+  <div class="col-md-4">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Achievement types
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <h5>
+            <span class="trophy trophy-bronze"> Bronze Achievement
+          Bronze achievements encourage students to try out ways to approach study. They are easy to get if you try!
+        <li class="list-group-item">
+          <h5>
+            <span class="trophy trophy-silver"> Silver Achievement
+          Silver achievements are less common than bronze ones. Student will need to work harder get one of these.
+        <li class="list-group-item">
+          <h5>
+            <span class="trophy trophy-gold"> Gold Achievement
+          Gold achievements mark outstanding student performance. They are rarely awarded.
+        <li class="list-group-item">
+          <h5>
+            <span class="trophy trophy-secret"> Secret Achievement
+          Secret achievements are meant to be awarded for the original and/or funny actions.
+          Each secret achievement description is hidden from each student until the latter gets awarded with the former.
+

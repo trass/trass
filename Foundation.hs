@@ -34,6 +34,7 @@ import Data.Time
 import Data.Int
 import System.Locale
 
+import Achievement
 import AssignmentAction
 import Language
 import SubmissionStatus
@@ -83,6 +84,11 @@ getUserRole :: Text -> UserId -> Handler UserRole
 getUserRole cid uid = do
   mentity <- runDB $ getBy $ UniqueRole uid cid
   return $ maybe RoleStudent (roleRole . entityVal) mentity
+
+noLayout :: Widget -> Handler Html
+noLayout widget = do
+  pc <- widgetToPageContent widget
+  withUrlRenderer $ pageBody pc
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
@@ -348,4 +354,14 @@ wUserName role mprofile mauthId withIcon = do
     unknownRole RoleTeacher   = MsgUnknownTeacher
     unknownRole RoleAssistant = MsgUnknownAssistant
     unknownRole RoleStudent   = MsgUnknownStudent
+
+achievementPredefinedMsg :: AchievementPredefined -> AppMessage
+achievementPredefinedMsg AchievementPredefinedHelloWorld = MsgAchievementPredefinedHelloWorld
+achievementPredefinedMsg AchievementPredefinedAcceptable = MsgAchievementPredefinedAcceptable
+achievementPredefinedMsg _ = MsgUntitledAchievement
+
+achievementPredefinedDescriptionMsg :: AchievementPredefined -> AppMessage
+achievementPredefinedDescriptionMsg AchievementPredefinedHelloWorld = MsgAchievementPredefinedHelloWorldDescription
+achievementPredefinedDescriptionMsg AchievementPredefinedAcceptable = MsgAchievementPredefinedAcceptableDescription
+achievementPredefinedDescriptionMsg _ = MsgAchievementNoDescription
 

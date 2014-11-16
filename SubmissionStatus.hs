@@ -14,7 +14,7 @@ data SubmissionStatus
   | SubmissionRejected
   | SubmissionAccepted
   | SubmissionErrored
-  deriving (Eq, Ord, Show, Read)
+  deriving (Eq, Ord, Bounded, Enum, Show, Read)
 
 instance PathPiece SubmissionStatus where
   toPathPiece SubmissionSubmitted     = "submitted"

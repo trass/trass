@@ -85,6 +85,13 @@ Submission
     sentAt      UTCTime
     updatedAt   UTCTime
 
+Achievement
+    course            CourseId
+    type              AchievementType
+    predefined        AchievementPredefined Maybe
+    customName        Text Maybe
+    customDescription Text Maybe
+
 CoursePoints
     points      Int
     course      CourseId

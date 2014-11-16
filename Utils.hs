@@ -1,11 +1,17 @@
 module Utils where
 
 import Import
+import Control.Monad
+import Control.Arrow ((&&&))
 import Data.Time
 import Data.Int
 import qualified Data.Text as Text
+import qualified Data.Map as Map
 import SubmissionStatus
 import UserRole
+import Achievement
+
+import Text.Blaze.Html.Renderer.Text (renderHtml)
 
 ago :: UTCTime -> UTCTime -> AppMessage
 ago t now
@@ -82,4 +88,53 @@ wSubmissionStatus s = do
       $of SubmissionErrored
         <span .label .label-default>_{MsgSubmissionErrored}
   |]
+
+wAchievement :: Achievement -> Bool -> Widget
+wAchievement achievement withPopover = do
+  mr <- getMessageRender
+  descriptionHtml <- handlerToWidget $ noLayout $ wAchievementDescription achievement
+  let
+    predefined = achievementPredefined achievement
+    name =
+      case achievementCustomName achievement of
+        Just n  -> n
+        Nothing -> mr $ maybe MsgUntitledAchievement achievementPredefinedMsg predefined
+  [whamlet|
+    $if withPopover
+      <button class="btn btn-trophy #{typeClass}" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="#{renderHtml $ descriptionHtml}">
+        #{name}
+    $else
+      <span class="trophy #{typeClass}">
+        #{name}
+  |]
+  where
+    typeClass :: Text
+    typeClass =
+      case achievementType achievement of
+        AchievementGold   -> "trophy-gold"
+        AchievementSilver -> "trophy-silver"
+        AchievementBronze -> "trophy-bronze"
+        AchievementSecret -> "trophy-secret"
+
+wAchievementDescription :: Achievement -> Widget
+wAchievementDescription achievement = do
+  mr <- getMessageRender
+  flavourMarkup $
+    case achievementCustomDescription achievement of
+      Just d  -> d
+      Nothing -> mr $ maybe MsgAchievementNoDescription achievementPredefinedDescriptionMsg predefined
+  where
+    predefined = achievementPredefined achievement
+
+flavourMarkup :: Text -> Widget
+flavourMarkup s = do
+  let
+    widgets = Map.fromList $ map (id &&& wSubmissionStatus) statuses
+    ws = Text.words s
+  forM_ ws $ \w ->
+    case w of
+      "#accepted" -> widgets Map.! SubmissionAccepted
+      _ -> toWidget $ toHtml $ w <> " "
+  where
+    statuses = [minBound..maxBound]
 
