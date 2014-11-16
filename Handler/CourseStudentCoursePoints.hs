@@ -34,8 +34,6 @@ getCourseStudentCoursePointsR cname uid = do
   when isOtherStudent $ do
     notFound
 
-  coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
-
   pageNoStr <- lookupGetParam "page"
 
   totalEvents <- runDB $ getStudentCoursePointsCount courseId uid
@@ -47,7 +45,13 @@ getCourseStudentCoursePointsR cname uid = do
       Just n | 1 <= n && n <= totalPages -> return n
       _ -> notFound
 
-  coursePointsEvent <- runDB $ getStudentCoursePoints perPage pageNo courseId uid
+  coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
+  coursePointsEvents <- runDB $ getStudentCoursePoints perPage pageNo courseId uid
+
+  when (Just uid == mauthId) $ do
+    runDB $ updateWhere
+      [CoursePointsId <-. map (\(Entity eid _, _, _, _) -> eid) coursePointsEvents]
+      [CoursePointsIsRead =. True]
 
   now <- liftIO getCurrentTime
   let tab = $(widgetFile "course/student/events")

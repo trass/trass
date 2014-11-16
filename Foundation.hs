@@ -123,10 +123,16 @@ instance Yesod App where
                 case courseIdent of
                   Nothing -> return RoleStudent
                   Just cid -> getUserRole cid authId
-              unreadMsgs <-
+              (unreadMsgs, unreadPoints) <-
                 case courseIdent of
-                  Nothing -> return 0
-                  Just cid -> runDB $ countUnreadMessages cid authId userRole
+                  Nothing -> return (0, Nothing)
+                  Just cid -> do
+                    Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
+                    m <- runDB $ countUnreadMessages cid authId userRole
+                    p <- if isStudent userRole
+                          then runDB $ getStudentUnreadCoursePointsSum courseId authId
+                          else return Nothing
+                    return (m, p)
               mentity <- runDB $ getBy $ UniqueProfile authId
               let mprofile = fmap entityVal mentity
               widgetToPageContent $(widgetFile "navbar")

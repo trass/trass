@@ -7,6 +7,10 @@ body.login {
   padding-top: 70px;
 }
 
+.navbar .nav .nav-danger {
+  color: #a94442;
+}
+
 .navbar .nav .nav-success {
   color: #5c965d;
 }

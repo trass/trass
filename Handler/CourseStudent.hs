@@ -3,7 +3,7 @@ module Handler.CourseStudent where
 import Import
 
 getCourseStudentR :: Text -> UserId -> Handler Html
-getCourseStudentR cid uid = redirect $ CourseStudentSubmissionsR cid uid
+getCourseStudentR cid uid = redirect $ CourseStudentCoursePointsR cid uid
 
 isTabAchievements :: Text -> Bool
 isTabAchievements = (== "achievements")

@@ -192,3 +192,13 @@ getStudentCoursePointsCount cid uid = do
       return countRows
   return n
 
+getStudentUnreadCoursePointsSum :: MonadIO m => CourseId -> UserId -> SqlPersistT m (Maybe Int)
+getStudentUnreadCoursePointsSum cid uid = do
+  [Value n] <- select $
+    from $ \cp -> do
+      where_ (cp ^. CoursePointsCourse ==. val cid)
+      where_ (cp ^. CoursePointsStudent ==. val uid)
+      where_ (cp ^. CoursePointsIsRead ==. val False)
+      return $ sum_ (cp ^. CoursePointsPoints)
+  return n
+

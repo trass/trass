@@ -3,8 +3,8 @@
     <h3 class="panel-title">Recent Events
   <table class="table table-condensed">
     <tbody>
-      $forall (Entity _ event, massignment, msection, mprofile) <- coursePointsEvent
-        <tr>
+      $forall (Entity _ event, massignment, msection, mprofile) <- coursePointsEvents
+        <tr :not (coursePointsIsRead event):.warning>
           <td .text-center>
             $if (coursePointsPoints event >= 0)
               <span .label .label-success>
