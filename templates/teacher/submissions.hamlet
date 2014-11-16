@@ -42,7 +42,7 @@
                     <a href="@{sectionR cid section}">#{sectionTitle section}
                 <td>
                   <small>
-                    <a href="#">
+                    <a href="@{CourseStudentR cid $ profileUser author}">
                       <span class="text-nowrap">
                         ^{wUserName RoleStudent (Just author) (Just authId) True}
                 <td>
