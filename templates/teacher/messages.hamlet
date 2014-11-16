@@ -21,7 +21,11 @@
             <td>
               <q>#{messageText message}
               <span class="text-nowrap">
-                —
-                <a href="students/IvanovIvan.html">
-                  ^{wUserName authorRole (Just author) (Just authId) True}
+                &nbsp;—&nbsp;
+                $if isStudent authorRole
+                  <a href="@{CourseStudentR cid $ profileUser author}">
+                    ^{wUserName authorRole (Just author) (Just authId) True}
+                $else
+                  <span>
+                    ^{wUserName authorRole (Just author) (Just authId) True}
               ^{wAgo MsgWroteAgo (messageDateTime message) now}
