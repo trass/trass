@@ -5,6 +5,7 @@ import Data.Time
 import Data.Int
 import qualified Data.Text as Text
 import SubmissionStatus
+import UserRole
 
 ago :: UTCTime -> UTCTime -> AppMessage
 ago t now
@@ -81,3 +82,4 @@ wSubmissionStatus s = do
       $of SubmissionErrored
         <span .label .label-default>_{MsgSubmissionErrored}
   |]
+

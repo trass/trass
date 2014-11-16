@@ -17,28 +17,11 @@
             <td>
               <a href="@{CourseMessagesStudentR cid $ profileUser profile}">
                 <span class="text-nowrap">
-                  <i class="media-object fa fa-user fa-fw">
-                  $maybe name <- profileName profile
-                    #{name}
-                  $nothing
-                    _{MsgUnknownStudent}
+                  ^{wUserName RoleStudent (Just profile) (Just authId) True}
             <td>
               <q>#{messageText message}
               <span class="text-nowrap">
                 —
                 <a href="students/IvanovIvan.html">
-                  $if isTeacher authorRole
-                    <i class="media-object fa fa-graduation-cap fa-fw">
-                  $else
-                    <i class="media-object fa fa-user fa-fw">
-                  $maybe name <- profileName author
-                    #{name}
-                  $nothing
-                    $case authorRole
-                      $of RoleTeacher
-                        _{MsgUnknownTeacher}
-                      $of RoleAssistant
-                        _{MsgUnknownAssistant}
-                      $of RoleStudent
-                        _{MsgUnknownStudent}
+                  ^{wUserName authorRole (Just author) (Just authId) True}
               ^{wAgo MsgWroteAgo (messageDateTime message) now}

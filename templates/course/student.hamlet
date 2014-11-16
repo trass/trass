@@ -6,11 +6,7 @@
       <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3
       <span class="trophy-bronze" title="_{MsgBronzeAchievements}"> 12
     <span class="trophy trophy-secret" title="_{MsgSecretAchievements}"> 1
-  <i class="fa fa-user fa-lg fa-fw">
-  $maybe name <- profileName profile
-    #{name}
-  $nothing
-    _{MsgUnknownStudent}
+  ^{wUserName RoleStudent (Just profile) mauthId True}
   <small>
     &nbsp;324
 

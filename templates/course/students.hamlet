@@ -57,12 +57,8 @@
                   <td .col-xs-1>
                     <span class="label label-success" title="_{MsgCoursePoints}">27
                 <td>
-                  <a href="#">
-                    <i class="fa fa-user fa-fw">
-                    $maybe name <- profileName student
-                      #{name}
-                    $nothing
-                      _{MsgUnknownStudent}
+                  <a href="@{CourseStudentR cid $ profileUser student}">
+                    ^{wUserName RoleStudent (Just student) mauthId True}
                 <td class="text-right text-nowrap">
                   <span class="trophy">
                     <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1

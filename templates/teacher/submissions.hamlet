@@ -44,11 +44,7 @@
                   <small>
                     <a href="#">
                       <span class="text-nowrap">
-                        <i class="media-object fa fa-user fa-fw">
-                        $maybe name <- profileName author
-                          #{name}
-                        $nothing
-                          _{MsgUnknownStudent}
+                        ^{wUserName RoleStudent (Just author) (Just authId) True}
                 <td>
                   ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
                 <td class="text-nowrap text-center">

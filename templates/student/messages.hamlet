@@ -22,16 +22,12 @@
             <i class="media-object pull-left fa fa-user fa-3x fa-fw">
           <div class="media-body">
             <h5 class="media-heading">
-              <span .text-nowrap>
-                $maybe name <- Map.lookup (messageAuthor msg) authorsMap
-                  #{name}
-                $nothing
-                  $case authorRole
-                    $of RoleTeacher
-                      _{MsgUnknownTeacher}
-                    $of RoleAssistant
-                      _{MsgUnknownAssistant}
-                    $of RoleStudent
-                      _{MsgUnknownStudent}
+              $with mauthor <- Map.lookup (messageAuthor msg) authorsMap
+                $if isStudent authorRole
+                  <a href="@{CourseStudentR courseI (messageAuthor msg)}" .text-nowrap>
+                    ^{wUserName authorRole mauthor (Just authId) False}
+                $else
+                  <span .text-nowrap>
+                    ^{wUserName authorRole mauthor (Just authId) False}
               ^{wAgo MsgWroteAgo (messageDateTime msg) now}
             #{messageText msg}

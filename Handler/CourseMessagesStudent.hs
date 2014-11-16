@@ -53,8 +53,7 @@ displayMessages courseI studentId authId userRole now = do
   readMsgIds  <- runDB $ selectList [ReadMessageReader ==. authId, ReadMessageMessage <-. map entityKey messages] []
   let
     readSet     = Set.fromList $ map (readMessageMessage . entityVal) readMsgIds
-    authors'    = filter (isJust . profileName) $ map entityVal authors
-    authorsMap  = Map.fromList $ map (profileUser &&& (fromJust . profileName)) authors'
+    authorsMap  = Map.fromList $ map ((profileUser &&& id) . entityVal) authors
     rolesMap    = Map.fromList $ map ((roleUser &&& roleRole) . entityVal) roles
     msgs        = map (\msg -> (msg, rolesMap Map.! messageAuthor (entityVal msg))) messages
 

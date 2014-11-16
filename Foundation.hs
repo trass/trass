@@ -114,9 +114,9 @@ instance Yesod App where
 
         courseIdent <- getCourseIdent
         courseTitle <- getCourseTitle
-        mauth <- maybeAuthId
+        mauthId <- maybeAuthId
         navBar <-
-          case mauth of
+          case mauthId of
             Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
             Just authId -> do
               userRole <-
@@ -321,3 +321,25 @@ getExtra = fmap (appExtra . settings) getYesod
 -- wiki:
 --
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
+
+wUserName :: UserRole -> Maybe Profile -> Maybe UserId -> Bool -> Widget
+wUserName role mprofile mauthId withIcon = do
+  [whamlet|
+    $if withIcon
+       <i .fa .fa-fw :isTeacher role:.fa-graduation-cap :not (isTeacher role):.fa-user>
+    $maybe name <- mprofile >>= profileName
+      #{name}
+    $nothing
+      $maybe profile <- mprofile
+        $if mauthId == Just (profileUser profile)
+           _{MsgYou}
+        $else
+          _{unknownRole role}
+      $nothing
+        _{unknownRole role}
+  |]
+  where
+    unknownRole RoleTeacher   = MsgUnknownTeacher
+    unknownRole RoleAssistant = MsgUnknownAssistant
+    unknownRole RoleStudent   = MsgUnknownStudent
+

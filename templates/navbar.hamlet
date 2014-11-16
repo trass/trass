@@ -52,28 +52,14 @@
             <i class="fa fa-sign-out fa-lg fa-fw">
             <span class="visible-xs-inline">_{MsgSignOut}
 
-      $with hasProfile <- not (isTeacher userRole || isAssistant userRole)
+      $with hasProfile <- isJust courseIdent && not (isTeacher userRole || isAssistant userRole)
         $if hasProfile
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="students/IvanovIvan.html" :isStudent userRole:.nav-success>
-                $if isTeacher userRole
-                  <i class="fa fa-graduation-cap fa-lg fa-fw">
-                $else
-                  $if isStudent userRole
-                    <span class="label label-success">+ 15
-                  <i class="fa fa-user fa-lg fa-fw">
-                $maybe name <- mprofile >>= profileName
-                  #{name}
-                $nothing
-                  _{MsgYou}
+              $maybe cid <- courseIdent
+                <a href="@{CourseStudentR cid authId}" :isStudent userRole:.nav-success>
+                  <span class="label label-success">+ 15
+                  ^{wUserName userRole mprofile mauthId True}
         $else
           <p class="navbar-text navbar-right">
-            $if isTeacher userRole
-              <i class="fa fa-graduation-cap fa-lg fa-fw">
-            $else
-              <i class="fa fa-user fa-lg fa-fw">
-            $maybe name <- mprofile >>= profileName
-              #{name}
-            $nothing
-              _{MsgYou}
+            ^{wUserName userRole mprofile mauthId True}
