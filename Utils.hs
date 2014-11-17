@@ -1,11 +1,13 @@
 module Utils where
 
 import Import
+import Yesod.Core
 import Control.Monad
 import Control.Arrow ((&&&))
 import Data.Maybe
 import Data.Time
 import Data.Int
+import Text.Read (readMaybe)
 import qualified Data.Text as Text
 import qualified Data.Map as Map
 import SubmissionStatus
@@ -162,3 +164,52 @@ flavourMarkup s = do
   where
     statuses = [minBound..maxBound]
 
+pagerInfo :: (Integral a, Integral b) => a -> b -> Handler (Int64, Int64)
+pagerInfo total perPage = do
+  pageNoStr <- lookupGetParam "page"
+
+  let totalPages = ceiling (fromIntegral total / fromIntegral perPage)
+
+  pageNo <-
+    case pageNoStr >>= readMaybe . Text.unpack of
+      Nothing -> return 1
+      Just n | 1 <= n && n <= totalPages -> return n
+      _ -> notFound
+
+  return (pageNo, totalPages)
+
+wPager :: Int64 -> Int64 -> Route App -> Widget
+wPager pageNo totalPages route = do
+  [whamlet|
+    $if totalPages > 1
+      <div .text-center>
+        <ul .pagination>
+          $if pageNo == 1
+            <li .disabled>
+              <span>&laquo;
+          $else
+            <li>
+              <a href="@?{pageR $ pageNo - 1}">
+                &laquo;
+
+          $forall n <- enumFromTo 1 totalPages
+            $if n == pageNo
+              <li .active>
+                <span>
+                  #{show n}
+                  <span .sr-only>(current)
+            $else
+              <li>
+                <a href="@?{pageR n}">
+                  #{show n}
+
+          $if pageNo == totalPages
+            <li .disabled>
+              <span>&raquo;
+          $else
+            <li>
+              <a href="@?{pageR $ pageNo + 1}">
+                &raquo;
+  |]
+  where
+    pageR n = (route, [("page", Text.pack $ show $ n)])

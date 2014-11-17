@@ -20,22 +20,22 @@ $else
             Email: ololo@example.com
 
         <div .list-group>
-          <a .list-group-item :isTabAchievements tabName:.active href="@{CourseStudentAchievementsR cname uid}">
+          <a .list-group-item :isTabAchievements:.active href="@{CourseStudentAchievementsR cname uid}">
             Achievements
           $if not isOtherStudent
-            <a .list-group-item :isTabCoursePoints tabName:.active href="@{CourseStudentCoursePointsR cname uid}">
+            <a .list-group-item :isTabCoursePoints:.active href="@{CourseStudentCoursePointsR cname uid}">
               Course Points
           $if not (isStudent userRole)
-            <a .list-group-item :isTabRating tabName:.active href="@{CourseStudentRatingR cname uid}">
+            <a .list-group-item :isTabRating:.active href="@{CourseStudentRatingR cname uid}">
               <span class="badge pull-right"># 7
               Rating
           $if not isOtherStudent
-            <a .list-group-item :isTabSubmissions tabName:.active href="@{CourseStudentSubmissionsR cname uid}">
+            <a .list-group-item :isTabSubmissions:.active href="@{CourseStudentSubmissionsR cname uid}">
               Submissions
-            <a .list-group-item :isTabAssignments tabName:.active href="@{CourseStudentAssignmentsR cname uid}">
+            <a .list-group-item :isTabAssignments:.active href="@{CourseStudentAssignmentsR cname uid}">
               Assignments
           $if isTeacher userRole
-            <a .list-group-item :isTabConversation tabName:.active href="@{CourseStudentConversationR cname uid}">
+            <a .list-group-item :isTabConversation:.active href="@{CourseStudentConversationR cname uid}">
               <i class="fa fa-envelope fa-lg fa-fw">
               Conversation
 

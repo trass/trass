@@ -1,24 +1,46 @@
 module Handler.CourseStudent where
 
 import Import
+import Yesod.Auth
+import Control.Monad
+
+import UserRole
+
+import Utils
+import UtilsDB
 
 getCourseStudentR :: Text -> UserId -> Handler Html
-getCourseStudentR cid uid = redirect $ CourseStudentCoursePointsR cid uid
+getCourseStudentR cid uid = redirect $ CourseStudentAchievementsR cid uid
 
-isTabAchievements :: Text -> Bool
-isTabAchievements = (== "achievements")
+courseStudentLayout :: ToWidget App a => Text -> UserId -> Text -> a -> Handler Html
+courseStudentLayout cname uid tabName tab = do
+  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
+  Entity _ profile  <- runDB $ getBy404 $ UniqueProfile uid
 
-isTabCoursePoints :: Text -> Bool
-isTabCoursePoints = (== "points")
+  studentRole <- getUserRole cname uid
+  when (not $ isStudent studentRole) $ notFound
 
-isTabRating :: Text -> Bool
-isTabRating = (== "rating")
+  mauthId <-
+    if tabName == "achievements"
+      then maybeAuthId
+      else Just <$> requireAuthId
 
-isTabSubmissions :: Text -> Bool
-isTabSubmissions = (== "submissions")
+  userRole <- maybe (return RoleStudent) (getUserRole cname) mauthId
 
-isTabAssignments :: Text -> Bool
-isTabAssignments = (== "assignments")
+  let isOtherStudent = isStudent userRole && Just uid /= mauthId
+  when (isOtherStudent && tabName /= "achievement") $ do
+    notFound
 
-isTabConversation :: Text -> Bool
-isTabConversation = (== "conversation")
+  coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
+  achievementTotals <- runDB $ getStudentAchievementsTotal courseId uid
+
+  defaultLayout $ do
+    $(widgetFile "course/student")
+  where
+    isTabAchievements = tabName == "achievements"
+    isTabCoursePoints = tabName == "points"
+    isTabRating       = tabName == "rating"
+    isTabSubmissions  = tabName == "submissions"
+    isTabAssignments  = tabName == "assignments"
+    isTabConversation = tabName == "conversation"
+
