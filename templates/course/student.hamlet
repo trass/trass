@@ -1,5 +1,5 @@
 <h3>
-  <span class="pull-right">
+  <span .pull-right .text-nowrap>
     $if not isOtherStudent
       ^{wStudentCoursePoints courseId uid}
     ^{wStudentAchievementsTotal courseId uid}
