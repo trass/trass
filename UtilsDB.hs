@@ -120,17 +120,15 @@ getSubmissionsCountByStudent cid uid = do
       return countRows
   return n
 
-getSubmissionsByStudent :: MonadIO m => Int64 -> Int64 -> CourseId -> UserId -> SqlPersistT m [(Entity Submission, Entity Assignment, Entity Section)]
-getSubmissionsByStudent perPage pageNo cid uid = do
+getSubmissionsByStudent :: MonadIO m => Int64 -> Int64 -> CourseId -> UserId -> SqlPersistT m [Submission]
+getSubmissionsByStudent perPage pageNo cid uid = liftM (map entityVal) $ do
   select $
-    from $ \(s `InnerJoin` a `InnerJoin` se) -> do
-      on (a ^. AssignmentSection ==. se ^. SectionId)
-      on (s ^. SubmissionAssignment ==. a ^. AssignmentId)
+    from $ \s -> do
       where_ (s ^. SubmissionCourse ==. val cid)
       where_ (s ^. SubmissionAuthor ==. val uid)
       orderBy [desc (s ^. SubmissionUpdatedAt)]
       page perPage pageNo
-      return (s, a, se)
+      return s
 
 getSubmissionCountsByStatus :: MonadIO m => CourseId -> SqlPersistT m [(SubmissionStatus, Int)]
 getSubmissionCountsByStatus cid = do
@@ -141,18 +139,15 @@ getSubmissionCountsByStatus cid = do
       return (s ^. SubmissionStatus, countRows)
   return $ map (\(Value s, Value n) -> (s, n)) xs
 
-getSubmissionsByStatus :: MonadIO m => Int64 -> Int64 -> CourseId -> SubmissionStatus -> SqlPersistT m [(Entity Submission, Entity Assignment, Entity Section, Entity Profile)]
-getSubmissionsByStatus perPage pageNo cid status = do
+getSubmissionsByStatus :: MonadIO m => Int64 -> Int64 -> CourseId -> SubmissionStatus -> SqlPersistT m [Submission]
+getSubmissionsByStatus perPage pageNo cid status = liftM (map entityVal) $ do
   select $
-    from $ \(s `InnerJoin` a `InnerJoin` se `InnerJoin` p) -> do
-      on (s ^. SubmissionAuthor ==. p ^. ProfileUser)
-      on (a ^. AssignmentSection ==. se ^. SectionId)
-      on (s ^. SubmissionAssignment ==. a ^. AssignmentId)
+    from $ \s -> do
       where_ (s ^. SubmissionCourse ==. val cid)
       where_ (s ^. SubmissionStatus ==. val status)
       orderBy [desc (s ^. SubmissionUpdatedAt)]
       page perPage pageNo
-      return (s, a, se, p)
+      return s
 
 page :: Esqueleto query expr backend => Int64 -> Int64 -> query ()
 page perPage pageNo = do

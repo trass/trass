@@ -2,27 +2,6 @@
   <div class="panel-heading">
     <h3 class="panel-title">Latest submissions
 
-  $if null submissions
-    <div .panel-body>
-      _{MsgNoSubmissions}
-  $else
-    <table class="table table-condensed">
-      <tbody>
-        $forall (Entity submissionId submission, Entity _ assignment, Entity _ section) <- submissions
-          <tr>
-            <td>
-              <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
-            <td class="hidden-xs hidden-sm">
-              <small>
-                <a href="@{sectionR cname section}">#{sectionTitle section}
-            <td>
-              ^{wSubmissionStatus $ submissionStatus submission}
-            <td>
-              ^{wAgo (submissionUpdatedAt submission) now}
-            <td class="text-nowrap text-center">
-              <a href="#" title="View">
-                <i class="fa fa-eye fa-lg fa-fw">
-              <a href="#" title="Download">
-                <i class="fa fa-download fa-lg fa-fw">
+  ^{wCourseSubmissions cname authId now (Just uid) Nothing Nothing submissions}
 
 ^{wPager pageNo totalPages $ CourseStudentSubmissionsR cname uid}

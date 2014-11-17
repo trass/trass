@@ -61,12 +61,3 @@ getCourseSectionR cname sids = do
   defaultLayout $ do
     $(widgetFile "course/section")
 
--- sectionR :: Text -> Section -> Route App
-sectionR cname s = CourseSectionR cname $ Text.splitOn "/" (sectionIdent s)
-
-wSectionLink :: Text -> Section -> Widget
-wSectionLink cname section = do
-  [whamlet|
-    <a href="@{sectionR cname section}">#{sectionTitle section}
-  |]
-

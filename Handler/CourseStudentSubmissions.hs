@@ -1,17 +1,17 @@
 module Handler.CourseStudentSubmissions where
 
 import Import
+import Yesod.Auth
 import Data.Time
 
 import Handler.CourseStudent
-import Handler.CourseAssignment (assignmentR)
-import Handler.CourseSection (sectionR)
 
 import Utils
 import UtilsDB
 
 getCourseStudentSubmissionsR :: Text -> UserId -> Handler Html
 getCourseStudentSubmissionsR cname uid = do
+  authId <- requireAuthId
   Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
 
   totalSubmissions <- runDB $ getSubmissionsCountByStudent cid uid

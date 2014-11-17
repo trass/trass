@@ -15,3 +15,4 @@ getCourseSubmissionsR cname = do
   case userRole of
     RoleStudent -> redirect $ CourseStudentSubmissionsR cname authId
     _ -> redirect $ CourseSubmissionsByStatusR cname SubmissionTestsPassed
+

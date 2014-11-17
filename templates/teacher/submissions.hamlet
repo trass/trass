@@ -27,30 +27,6 @@
           <span .pull-right>
             ^{wSubmissionStatus status}
           _{MsgSubmissions}
-      $if null submissions
-        <div .panel-body>
-          _{MsgNoSubmissions}
-      $else
-        <table class="table table-condensed">
-          <tbody>
-            $forall (Entity _ submission, Entity _ assignment, Entity _ section, Entity _ author) <- submissions
-              <tr>
-                <td>
-                  <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
-                <td class="hidden-xs hidden-sm">
-                  <small>
-                    <a href="@{sectionR cname section}">#{sectionTitle section}
-                <td>
-                  <small>
-                    <a href="@{CourseStudentR cname $ profileUser author}">
-                      <span class="text-nowrap">
-                        ^{wUserName RoleStudent (Just author) (Just authId)}
-                <td>
-                  ^{wAgo (submissionUpdatedAt submission) now}
-                <td class="text-nowrap text-center">
-                  <a href="#" title="View">
-                    <i class="fa fa-eye fa-lg fa-fw">
-                  <a href="#" title="Download">
-                    <i class="fa fa-download fa-lg fa-fw">
+      ^{wCourseSubmissions cname authId now Nothing (Just status) Nothing submissions}
 
     ^{wPager pageNo totalPages $ CourseSubmissionsByStatusR cname status}

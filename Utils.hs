@@ -329,3 +329,79 @@ wExtraPointsPanels cid = do
                     ^{wExtraPoints penalty Nothing}
                   ^{wExtraPointsDescription penalty}
   |]
+
+wCourseSubmissions :: Text -> UserId -> UTCTime -> Maybe UserId -> Maybe SubmissionStatus -> Maybe AssignmentId -> [Submission] -> Widget
+wCourseSubmissions cname authId now muid mstatus maid submissions = do
+  let
+    assignmentIds = map submissionAssignment submissions
+    authorIds     = map submissionAuthor     submissions
+
+  assignments <- handlerToWidget $ runDB $
+    case maid of
+      Nothing   -> selectList [AssignmentId <-. assignmentIds] []
+      Just aid  -> (:[]) . Entity aid <$> get404 aid
+  authors <- handlerToWidget $ runDB $
+    case muid of
+      Nothing   -> selectList [ProfileUser  <-. authorIds] []
+      Just uid  -> (:[]) <$> getBy404 (UniqueProfile uid)
+  let
+    sectionIds    = map (assignmentSection . entityVal) assignments
+
+  sections <- handlerToWidget $ runDB $ selectList [SectionId <-. sectionIds] []
+  let
+    getEntity k f es s = Map.fromList (map (k &&& entityVal) es) Map.! f s
+    getAssignment = getEntity entityKey submissionAssignment assignments
+    getSection    = getEntity entityKey assignmentSection sections
+    getAuthor     = getEntity (profileUser . entityVal) submissionAuthor authors
+    submissions'  = map (\s -> let a = getAssignment s in (s, a, getSection a, getAuthor s)) submissions
+  [whamlet|
+    $if null submissions
+      <div .panel-body>
+        _{MsgNoSubmissions}
+    $else
+      <table class="table table-condensed">
+        <tbody>
+          $forall (submission, assignment, section, author) <- submissions'
+            <tr>
+              <td class="text-nowrap text-center">
+                <a href="#" title="View">
+                  <i class="fa fa-eye fa-lg fa-fw">
+                <a href="#" title="Download">
+                  <i class="fa fa-download fa-lg fa-fw">
+              $if isNothing maid
+                <td>
+                  ^{wAssignmentLink cname assignment section}
+                <td class="hidden-xs hidden-sm">
+                  <small>
+                    ^{wSectionLink cname section}
+              $if isNothing muid
+                <td>
+                  <small>
+                    <a href="@{CourseStudentR cname $ profileUser author}">
+                      <span class="text-nowrap">
+                        ^{wUserName RoleStudent (Just author) (Just authId)}
+              $if isNothing mstatus
+                <td>
+                  ^{wSubmissionStatus $ submissionStatus submission}
+              <td>
+                ^{wAgo (submissionUpdatedAt submission) now}
+  |]
+
+sectionR :: Text -> Section -> Route App
+sectionR cname s = CourseSectionR cname $ Text.splitOn "/" (sectionIdent s)
+
+wSectionLink :: Text -> Section -> Widget
+wSectionLink cname section = do
+  [whamlet|
+    <a href="@{sectionR cname section}">#{sectionTitle section}
+  |]
+
+assignmentR :: Text -> Assignment -> Section -> Route App
+assignmentR cname a s = CourseAssignmentR cname (Text.splitOn "/" (sectionIdent s) ++ [assignmentIdent a])
+
+wAssignmentLink :: Text -> Assignment -> Section -> Widget
+wAssignmentLink cname assignment section = do
+  [whamlet|
+    <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
+  |]
+

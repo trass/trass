@@ -7,8 +7,6 @@ import Control.Monad
 import Data.Time
 
 import Handler.CourseStudent
-import Handler.CourseAssignment (wAssignmentLink)
-import Handler.CourseSection (wSectionLink)
 
 import SubmissionStatus
 import UserRole
