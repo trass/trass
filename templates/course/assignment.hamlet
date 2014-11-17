@@ -24,35 +24,38 @@
             _{MsgNextAssignment}
           &rarr;
 
-    $if isJust mauthId && isStudent userRole
-      <div class="visible-xs-block alert alert-info" role="alert">
-        <strong>
-          _{MsgNote}
-        _{MsgPleaseUseComputer}
-        <br>
-        _{MsgIfYouReallyWant}
-        <br>
-        <a onclick="$('#submission-form').removeClass('hidden-xs');">
-          _{MsgShowSubmissionForm}
+    $maybe authId <- mauthId
+      $if not (isStudent userRole)
+        ^{wCourseSubmissions cname authId now Nothing Nothing (Just assignmentId) $ CourseAssignmentR cname path}
+      $else
+        <div class="visible-xs-block alert alert-info" role="alert">
+          <strong>
+            _{MsgNote}
+          _{MsgPleaseUseComputer}
+          <br>
+          _{MsgIfYouReallyWant}
+          <br>
+          <a onclick="$('#submission-form').removeClass('hidden-xs');">
+            _{MsgShowSubmissionForm}
 
-      <div class="hidden-xs" id="submission-form">
-        <form role="form">
-          <div class="form-group">
-            <span class="btn btn-default btn-file">
-              <i class="fa fa-upload">
-              _{MsgUploadSolutionButton}
-              <input type="file" id="inputUploadSolution">
-            &nbsp;
-            <samp id="uploadedFileLabel">
-              ololo.txt
-            <p class="help-block">
-              _{MsgUploadSolutionHelpText}
-          <div class="form-group">
-            <label for="inputSolution">_{MsgSolution}
-            <textarea class="form-control" style='font-family: "Courier New", Courier, monospace' id="inputSolution">
-              instance Functor ... where
-              &nbsp;&nbsp;fmap f ... = ...
-          <button type="submit" class="btn btn-primary">_{MsgSubmitSolutionButton}
+        <div class="hidden-xs" id="submission-form">
+          <form role="form">
+            <div class="form-group">
+              <span class="btn btn-default btn-file">
+                <i class="fa fa-upload">
+                _{MsgUploadSolutionButton}
+                <input type="file" id="inputUploadSolution">
+              &nbsp;
+              <samp id="uploadedFileLabel">
+                ololo.txt
+              <p class="help-block">
+                _{MsgUploadSolutionHelpText}
+            <div class="form-group">
+              <label for="inputSolution">_{MsgSolution}
+              <textarea class="form-control" style='font-family: "Courier New", Courier, monospace' id="inputSolution">
+                instance Functor ... where
+                &nbsp;&nbsp;fmap f ... = ...
+            <button type="submit" class="btn btn-primary">_{MsgSubmitSolutionButton}
 
   <div .col-md-4 .col-lg-3>
     <div class="panel panel-default">
@@ -90,6 +93,10 @@
         $nothing
           <li .list-group-item>
             _{MsgAssignmentNotStartedYet}
+
+    $maybe authId <- mauthId
+      $if isStudent userRole
+        ^{wCourseSubmissions cname authId now (Just authId) Nothing (Just assignmentId) $ CourseAssignmentR cname path}
 
     $if isCourseOwner
       <div class="panel panel-danger">
