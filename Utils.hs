@@ -55,13 +55,11 @@ ago t now
     months  = days `div` 30
     years   = days `div` 365
 
-wAgo :: (Text -> AppMessage) -> UTCTime -> UTCTime -> Widget
-wAgo f dt now = do
-  mr <- getMessageRender
-  let agoText = mr $ agoMsg $ ago dt now
+wAgo :: UTCTime -> UTCTime -> Widget
+wAgo dt now = do
   [whamlet|
     <small .text-help title=#{formatTimeFull dt}>
-      _{f agoText}
+      _{agoMsg $ ago dt now}
   |]
 
 wDuration :: Int64 -> Widget

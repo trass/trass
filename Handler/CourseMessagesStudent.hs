@@ -57,11 +57,6 @@ displayMessages courseI studentId authId userRole now = do
     rolesMap    = Map.fromList $ map ((roleUser &&& roleRole) . entityVal) roles
     msgs        = map (\msg -> (msg, rolesMap Map.! messageAuthor (entityVal msg))) messages
 
-  runDB $ forM_ messages $ \(Entity msgId _) -> do
-    when (Set.notMember msgId readSet) $ do
-      _ <- insert $ ReadMessage msgId authId
-      return ()
-
   defaultLayout $ do
     $(widgetFile "student/messages")
 

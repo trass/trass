@@ -58,7 +58,7 @@
                     ^{wStudentCoursePoints courseId $ profileUser student}
                 <td>
                   <a href="@{CourseStudentR cid $ profileUser student}">
-                    ^{wUserName RoleStudent (Just student) mauthId True}
+                    ^{wUserName RoleStudent (Just student) mauthId}
                 <td .text-right>
                   ^{wStudentAchievementsTotal courseId $ profileUser student}
 

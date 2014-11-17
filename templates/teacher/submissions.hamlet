@@ -44,9 +44,9 @@
                   <small>
                     <a href="@{CourseStudentR cid $ profileUser author}">
                       <span class="text-nowrap">
-                        ^{wUserName RoleStudent (Just author) (Just authId) True}
+                        ^{wUserName RoleStudent (Just author) (Just authId)}
                 <td>
-                  ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
+                  ^{wAgo (submissionUpdatedAt submission) now}
                 <td class="text-nowrap text-center">
                   <a href="#" title="View">
                     <i class="fa fa-eye fa-lg fa-fw">

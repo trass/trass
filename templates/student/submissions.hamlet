@@ -19,7 +19,7 @@
               <a href="javascript:void(0)" data-toggle="collapse" data-target="#submission-details-#{submissionId}">
                 ^{wSubmissionStatus $ submissionStatus submission}
             <td>
-              ^{wAgo MsgJustAgo (submissionUpdatedAt submission) now}
+              ^{wAgo (submissionUpdatedAt submission) now}
             <td class="text-nowrap text-center">
               <a href="#" title="View">
                 <i class="fa fa-eye fa-lg fa-fw">

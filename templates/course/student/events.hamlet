@@ -13,7 +13,7 @@
               <span .label .label-danger>
                 – #{show $ abs $ coursePointsPoints event}
           <td>
-            ^{wAgo MsgJustAgo (coursePointsCreatedAt event) now}
+            ^{wAgo (coursePointsCreatedAt event) now}
           <td>
             $maybe summary <- coursePointsSummary event
               <small>

@@ -17,15 +17,15 @@
             <td>
               <a href="@{CourseStudentConversationR cid $ profileUser profile}">
                 <span class="text-nowrap">
-                  ^{wUserName RoleStudent (Just profile) (Just authId) True}
+                  ^{wUserName RoleStudent (Just profile) (Just authId)}
             <td>
               <q>#{messageText message}
               <span class="text-nowrap">
                 &nbsp;—&nbsp;
                 $if isStudent authorRole
                   <a href="@{CourseStudentR cid $ profileUser author}">
-                    ^{wUserName authorRole (Just author) (Just authId) True}
+                    ^{wUserName authorRole (Just author) (Just authId)}
                 $else
                   <span>
-                    ^{wUserName authorRole (Just author) (Just authId) True}
-              ^{wAgo MsgWroteAgo (messageDateTime message) now}
+                    ^{wUserName authorRole (Just author) (Just authId)}
+              ^{wAgo (messageDateTime message) now}

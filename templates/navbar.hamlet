@@ -61,14 +61,14 @@
                   $if points >= 0
                     <a href="@{CourseStudentR cid authId}" .nav-success>
                       <span class="label label-success">+ #{show points}
-                      ^{wUserName userRole mprofile mauthId True}
+                      ^{wUserName userRole mprofile mauthId}
                   $else
                     <a href="@{CourseStudentR cid authId}" .nav-danger>
                       <span class="label label-danger">– #{show $ abs points}
-                      ^{wUserName userRole mprofile mauthId True}
+                      ^{wUserName userRole mprofile mauthId}
                 $nothing
                   <a href="@{CourseStudentR cid authId}">
-                    ^{wUserName userRole mprofile mauthId True}
+                    ^{wUserName userRole mprofile mauthId}
         $else
           <p class="navbar-text navbar-right">
-            ^{wUserName userRole mprofile mauthId True}
+            ^{wUserName userRole mprofile mauthId}

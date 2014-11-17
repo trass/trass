@@ -25,9 +25,9 @@
               $with mauthor <- Map.lookup (messageAuthor msg) authorsMap
                 $if isStudent authorRole
                   <a href="@{CourseStudentR courseI (messageAuthor msg)}" .text-nowrap>
-                    ^{wUserName authorRole mauthor (Just authId) False}
+                    ^{wUserName authorRole mauthor (Just authId)}
                 $else
                   <span .text-nowrap>
-                    ^{wUserName authorRole mauthor (Just authId) False}
-              ^{wAgo MsgWroteAgo (messageDateTime msg) now}
+                    ^{wUserName authorRole mauthor (Just authId)}
+              ^{wAgo (messageDateTime msg) now}
             #{messageText msg}

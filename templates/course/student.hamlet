@@ -3,7 +3,7 @@
     $if not isOtherStudent
       ^{wStudentCoursePoints courseId uid}
     ^{wStudentAchievementsTotal courseId uid}
-  ^{wUserName RoleStudent (Just profile) mauthId True}
+  ^{wUserName RoleStudent (Just profile) mauthId}
   <small>
     &nbsp;324
 

@@ -334,11 +334,10 @@ getExtra = fmap (appExtra . settings) getYesod
 --
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
 
-wUserName :: UserRole -> Maybe Profile -> Maybe UserId -> Bool -> Widget
-wUserName role mprofile mauthId withIcon = do
+wUserName :: UserRole -> Maybe Profile -> Maybe UserId -> Widget
+wUserName role mprofile mauthId = do
   [whamlet|
-    $if withIcon
-       <i .fa .fa-fw :isTeacher role:.fa-graduation-cap :not (isTeacher role):.fa-user>
+    <i .fa .fa-fw :isTeacher role:.fa-graduation-cap :not (isTeacher role):.fa-user>
     $maybe name <- mprofile >>= profileName
       #{name}
     $nothing

@@ -7,11 +7,11 @@
         <tr>
           <td>
             <strong .text-nowrap>
-              ^{wUserName authorRole (Just author) (Just authId) True}
+              ^{wUserName authorRole (Just author) (Just authId)}
             <br>
             $forall group <- groupByTime messages
               <span .pull-right>
-                ^{wAgo MsgWroteAgo (messageDateTime $ fst $ List.head group) now}
+                ^{wAgo (messageDateTime $ fst $ List.head group) now}
               $forall (message, isUnread) <- group
                 <span :not isUnread:.invisible :isUnread:.text-danger>&nbsp;&#9679;&nbsp;
                 #{messageText message}
