@@ -60,7 +60,7 @@
                   <a href="@{CourseStudentR cid $ profileUser student}">
                     ^{wUserName RoleStudent (Just student) mauthId True}
                 <td .text-right>
-                  ^{wAchievementsTotal $ Map.findWithDefault [] (profileUser student) achievementTotalsMap}
+                  ^{wStudentAchievementsTotal courseId $ profileUser student}
 
       $if isTeacher userRole
         <div class="panel-footer">

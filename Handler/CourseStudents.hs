@@ -6,7 +6,6 @@ import Data.Maybe
 import UserRole
 import Utils
 import UtilsDB
-import qualified Data.Map as Map
 
 data DisplayGroup
   = DisplayFirst
@@ -27,6 +26,8 @@ postCourseStudentsR cid = do
 
 displayCourseStudents :: Text -> DisplayGroup -> Handler Html
 displayCourseStudents cid dg = do
+  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
+
   groups <- runDB $ selectList [GroupCourse ==. cid] []
   chosenGroup <-
     case dg of
@@ -37,11 +38,6 @@ displayCourseStudents cid dg = do
     chosenGid = entityKey <$> chosenGroup
     isChosen gid = Just gid == chosenGid
   students  <- runDB $ selectGroupMembers chosenGid
-
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
-  achievementTotals <- mapM (runDB . getStudentAchievementsTotal courseId . profileUser) students
-  let
-    achievementTotalsMap = Map.fromList $ zip (map profileUser students) achievementTotals
 
   mauthId   <- maybeAuthId
   userRole  <- maybe (return RoleStudent) (getUserRole cid) mauthId

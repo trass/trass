@@ -5,9 +5,7 @@ import Yesod.Auth
 import Control.Monad
 
 import UserRole
-
 import Utils
-import UtilsDB
 
 getCourseStudentR :: Text -> UserId -> Handler Html
 getCourseStudentR cid uid = redirect $ CourseStudentAchievementsR cid uid
@@ -30,9 +28,6 @@ courseStudentLayout cname uid tabName tab = do
   let isOtherStudent = isStudent userRole && Just uid /= mauthId
   when (isOtherStudent && tabName /= "achievement") $ do
     notFound
-
-  coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
-  achievementTotals <- runDB $ getStudentAchievementsTotal courseId uid
 
   defaultLayout $ do
     $(widgetFile "course/student")

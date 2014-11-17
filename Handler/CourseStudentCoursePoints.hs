@@ -5,7 +5,6 @@ import Yesod.Auth
 import Control.Monad
 
 import Data.Time
-import qualified Data.Text as Text
 
 import Handler.CourseStudent
 import Handler.CourseAssignment (assignmentR)

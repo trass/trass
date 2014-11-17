@@ -138,8 +138,16 @@ wStudentCoursePoints cid uid = do
       #{points}
   |]
 
-wAchievementsTotal :: [(AchievementType, Int)] -> Widget
-wAchievementsTotal totals = do
+wStudentAchievementsTotal :: CourseId -> UserId -> Widget
+wStudentAchievementsTotal cid uid = do
+  totals <- handlerToWidget $ runDB $ getStudentAchievementsTotal cid uid
+  let
+    typeTotal t = fromMaybe 0 $ lookup t totals
+    goldAchievementsTotal     = typeTotal AchievementGold
+    silverAchievementsTotal   = typeTotal AchievementSilver
+    bronzeAchievementsTotal   = typeTotal AchievementBronze
+    secretAchievementsTotal   = typeTotal AchievementSecret
+    hasNotSecretAchievements  = any (> 0) [goldAchievementsTotal, silverAchievementsTotal, bronzeAchievementsTotal]
   [whamlet|
     <span .text-nowrap>
       $if hasNotSecretAchievements
@@ -153,13 +161,6 @@ wAchievementsTotal totals = do
       $if secretAchievementsTotal > 0
         <span .trophy .trophy-secret title="_{MsgSecretAchievements}"> #{secretAchievementsTotal}
   |]
-  where
-    typeTotal t = fromMaybe 0 $ lookup t totals
-    goldAchievementsTotal     = typeTotal AchievementGold
-    silverAchievementsTotal   = typeTotal AchievementSilver
-    bronzeAchievementsTotal   = typeTotal AchievementBronze
-    secretAchievementsTotal   = typeTotal AchievementSecret
-    hasNotSecretAchievements  = any (> 0) [goldAchievementsTotal, silverAchievementsTotal, bronzeAchievementsTotal]
 
 flavourMarkup :: Text -> Widget
 flavourMarkup s = do
