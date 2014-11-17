@@ -149,6 +149,35 @@ getSubmissionsByStatus perPage pageNo cid status = liftM (map entityVal) $ do
       page perPage pageNo
       return s
 
+getCourseSubmissionsCount :: MonadIO m => CourseId -> Maybe UserId -> Maybe SubmissionStatus -> Maybe AssignmentId -> SqlPersistT m Int64
+getCourseSubmissionsCount cid muid mstatus maid = do
+  [Value n] <- select $
+    from $ \s -> do
+      where_ (s ^. SubmissionCourse ==. val cid)
+      mwhere_ (s ^. SubmissionAuthor ==.) muid
+      mwhere_ (s ^. SubmissionStatus ==.) mstatus
+      mwhere_ (s ^. SubmissionAssignment ==.) maid
+      return countRows
+  return n
+  where
+    mwhere_ f (Just v) = where_ (f $ val v)
+    mwhere_ _ Nothing  = return ()
+
+getCourseSubmissions :: MonadIO m => Int64 -> Int64 -> CourseId -> Maybe UserId -> Maybe SubmissionStatus -> Maybe AssignmentId -> SqlPersistT m [Submission]
+getCourseSubmissions perPage pageNo cid muid mstatus maid = liftM (map entityVal) $ do
+  select $
+    from $ \s -> do
+      where_ (s ^. SubmissionCourse ==. val cid)
+      mwhere_ (s ^. SubmissionAuthor ==.) muid
+      mwhere_ (s ^. SubmissionStatus ==.) mstatus
+      mwhere_ (s ^. SubmissionAssignment ==.) maid
+      orderBy [desc (s ^. SubmissionUpdatedAt)]
+      page perPage pageNo
+      return s
+  where
+    mwhere_ f (Just v) = where_ (f $ val v)
+    mwhere_ _ Nothing  = return ()
+
 page :: Esqueleto query expr backend => Int64 -> Int64 -> query ()
 page perPage pageNo = do
   limit perPage

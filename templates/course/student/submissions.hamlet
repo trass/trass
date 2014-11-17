@@ -1,7 +1,1 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Latest submissions
-
-  ^{wCourseSubmissions cname authId now (Just uid) Nothing Nothing submissions}
-
-^{wPager pageNo totalPages $ CourseStudentSubmissionsR cname uid}
+^{wCourseSubmissions cname authId now (Just uid) Nothing Nothing $ CourseStudentSubmissionsR cname uid}

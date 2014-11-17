@@ -34,11 +34,6 @@ getCourseSubmissionsByStatusR cname status = do
           ^{wSubmissionStatus s}
       |]
 
-  let totalSubmissions = Map.findWithDefault 0 status countsMap
-  (pageNo, totalPages) <- pagerInfo totalSubmissions perPage
-
-  submissions <- runDB $ getSubmissionsByStatus perPage pageNo cid status
-
   now <- liftIO getCurrentTime
   defaultLayout $ do
     $(widgetFile "teacher/submissions")

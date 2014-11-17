@@ -21,12 +21,4 @@
         ^{wSubmissionListItem SubmissionAccepted}
 
   <div class="col-md-9 col-sm-8">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <span .pull-right>
-            ^{wSubmissionStatus status}
-          _{MsgSubmissions}
-      ^{wCourseSubmissions cname authId now Nothing (Just status) Nothing submissions}
-
-    ^{wPager pageNo totalPages $ CourseSubmissionsByStatusR cname status}
+    ^{wCourseSubmissions cname authId now Nothing (Just status) Nothing $ CourseSubmissionsByStatusR cname status}
