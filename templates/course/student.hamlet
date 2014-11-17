@@ -5,7 +5,11 @@
     ^{wStudentAchievementsTotal cid uid}
   ^{wUserName RoleStudent (Just profile) mauthId}
   <small>
-    &nbsp;324
+    &nbsp;
+    $maybe Entity _ group <- studentGroup
+      #{groupName group}
+    $nothing
+      _{MsgNoGroup}
 
 <hr>
 

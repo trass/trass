@@ -5,7 +5,7 @@ import Prelude
 import Model
 import UserRole
 import Data.Int
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, listToMaybe)
 import Data.Time
 import Database.Esqueleto
 import Control.Applicative
@@ -242,4 +242,13 @@ getConversationMessages cid uid reader = do
       orderBy [asc (m ^. MessageDateTime)]
       return $ (m, isNothing (rm ?. ReadMessageMessage))
   return $ map (\(m, Value r) -> (m, r)) xs
+
+getStudentGroup :: MonadIO m => CourseId -> UserId -> SqlPersistT m (Maybe (Entity Group))
+getStudentGroup cid uid = liftM listToMaybe $ do
+  select $
+    from $ \(gm `InnerJoin` g) -> do
+      on (gm ^. GroupMemberGroup ==. g ^. GroupId)
+      where_ (gm ^. GroupMemberCourse ==. val cid)
+      where_ (gm ^. GroupMemberStudent ==. val uid)
+      return g
 
