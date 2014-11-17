@@ -35,12 +35,11 @@ $if isTeacher userRole
           <td>
             ^{wAgo (eventDateTime event) now}
           <td>
-            <small>
+            <small .text-help>
               $maybe role <- mr
                 ^{wUserName role mp (Just authId)}
               $nothing
-                <span .text-help>
-                  <i .fa .fa-fw .fa-gears>
-                  System
+                <i .fa .fa-fw .fa-gears>
+                System
 
 ^{wPager pageNo totalPages $ CourseStudentCoursePointsR cname uid}

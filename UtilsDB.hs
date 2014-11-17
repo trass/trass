@@ -197,7 +197,8 @@ getStudentEvents ::
   SqlPersistT m [(Entity Event, Maybe ExtraPoints, Maybe Achievement, Maybe Assignment, Maybe Section, Maybe Profile, Maybe UserRole)]
 getStudentEvents perPage pageNo cid uid = do
   xs <- select $
-    from $ \(e `LeftOuterJoin` ep `LeftOuterJoin` ac `LeftOuterJoin` as `LeftOuterJoin` s `LeftOuterJoin` p) -> do
+    from $ \(e `LeftOuterJoin` ep `LeftOuterJoin` ac `LeftOuterJoin` as `LeftOuterJoin` s `LeftOuterJoin` p `LeftOuterJoin` r) -> do
+      on (e ^. EventCreatedBy   ==. r ?. RoleUser)
       on (e ^. EventCreatedBy   ==. p ?. ProfileUser)
       on (e ^. EventSection     ==. s ?. SectionId)
       on (e ^. EventAssignment  ==. as ?. AssignmentId)
@@ -207,8 +208,8 @@ getStudentEvents perPage pageNo cid uid = do
       where_ (e ^. EventStudent ==. val uid)
       orderBy [desc (e ^. EventDateTime)]
       page perPage pageNo
-      return (e, ep, ac, as, s, p)
-  return $ map (\(e, ep, ac, as, s, p) -> (e, entityVal <$> ep, entityVal <$> ac, entityVal <$> as, entityVal <$> s, entityVal <$> p, Nothing)) xs
+      return (e, ep, ac, as, s, p, r ?. RoleRole)
+  return $ map (\(e, ep, ac, as, s, p, r) -> (e, entityVal <$> ep, entityVal <$> ac, entityVal <$> as, entityVal <$> s, entityVal <$> p, unValue r)) xs
 
 getStudentEventsCount :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int64
 getStudentEventsCount cid uid = do
