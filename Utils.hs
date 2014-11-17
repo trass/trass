@@ -3,6 +3,7 @@ module Utils where
 import Import
 import Control.Monad
 import Control.Arrow ((&&&))
+import Data.Maybe
 import Data.Time
 import Data.Int
 import qualified Data.Text as Text
@@ -102,10 +103,10 @@ wAchievement achievement withPopover = do
   [whamlet|
     $if withPopover
       <button class="btn btn-trophy #{typeClass}" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="#{renderHtml $ descriptionHtml}">
-        #{name}
+        &nbsp;#{name}
     $else
       <span class="trophy #{typeClass}">
-        #{name}
+        &nbsp;#{name}
   |]
   where
     typeClass :: Text
@@ -125,6 +126,29 @@ wAchievementDescription achievement = do
       Nothing -> mr $ maybe MsgAchievementNoDescription achievementPredefinedDescriptionMsg predefined
   where
     predefined = achievementPredefined achievement
+
+wAchievementsTotal :: [(AchievementType, Int)] -> Widget
+wAchievementsTotal totals = do
+  [whamlet|
+    <span .text-nowrap>
+      $if hasNotSecretAchievements
+        <span .trophy>
+          $if goldAchievementsTotal > 0
+            <span .trophy-gold title="_{MsgGoldAchievements}"> #{goldAchievementsTotal}
+          $if silverAchievementsTotal > 0
+            <span .trophy-silver title="_{MsgSilverAchievements}"> #{silverAchievementsTotal}
+          $if bronzeAchievementsTotal > 0
+            <span .trophy-bronze title="_{MsgBronzeAchievements}"> #{bronzeAchievementsTotal}
+      $if secretAchievementsTotal > 0
+        <span .trophy .trophy-secret title="_{MsgSecretAchievements}"> #{secretAchievementsTotal}
+  |]
+  where
+    typeTotal t = fromMaybe 0 $ lookup t totals
+    goldAchievementsTotal     = typeTotal AchievementGold
+    silverAchievementsTotal   = typeTotal AchievementSilver
+    bronzeAchievementsTotal   = typeTotal AchievementBronze
+    secretAchievementsTotal   = typeTotal AchievementSecret
+    hasNotSecretAchievements  = any (> 0) [goldAchievementsTotal, silverAchievementsTotal, bronzeAchievementsTotal]
 
 flavourMarkup :: Text -> Widget
 flavourMarkup s = do

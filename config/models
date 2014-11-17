@@ -92,6 +92,13 @@ Achievement
     customName        Text Maybe
     customDescription Text Maybe
 
+AwardedAchievement
+    course            CourseId
+    achievement       AchievementId
+    student           UserId
+    times             Int
+    UniqueAwardedAchievement course achievement student
+
 CoursePoints
     points      Int
     course      CourseId

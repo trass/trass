@@ -35,6 +35,7 @@ getCourseStudentSubmissionsR cname uid = do
     notFound
 
   coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
+  achievementTotals <- runDB $ getStudentAchievementsTotal courseId uid
 
   pageNoStr <- lookupGetParam "page"
 

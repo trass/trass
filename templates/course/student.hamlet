@@ -2,11 +2,7 @@
   <span class="pull-right">
     $if not isOtherStudent
       <span class="label label-success" title="_{MsgCoursePoints}">#{coursePoints}
-    <span class="trophy">
-      <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1
-      <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3
-      <span class="trophy-bronze" title="_{MsgBronzeAchievements}"> 12
-    <span class="trophy trophy-secret" title="_{MsgSecretAchievements}"> 1
+    ^{wAchievementsTotal achievementTotals}
   ^{wUserName RoleStudent (Just profile) mauthId True}
   <small>
     &nbsp;324

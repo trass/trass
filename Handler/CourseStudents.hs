@@ -4,6 +4,7 @@ import Import
 import Yesod.Auth
 import Data.Maybe
 import UserRole
+import Utils
 import UtilsDB
 import qualified Data.Map as Map
 
@@ -39,8 +40,10 @@ displayCourseStudents cid dg = do
 
   Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
   coursePoints <- runDB $ getStudentCoursePointsSums courseId $ map profileUser students
+  achievementTotals <- mapM (runDB . getStudentAchievementsTotal courseId . profileUser) students
   let
     pointsMap = Map.fromList coursePoints
+    achievementTotalsMap = Map.fromList $ zip (map profileUser students) achievementTotals
 
   mauthId   <- maybeAuthId
   userRole  <- maybe (return RoleStudent) (getUserRole cid) mauthId

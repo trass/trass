@@ -12,6 +12,7 @@ import Database.Esqueleto
 import Control.Monad
 import Control.Monad.IO.Class (MonadIO)
 import SubmissionStatus
+import Achievement
 
 countUnreadMessages :: (Functor m, MonadIO m) => Text -> UserId -> UserRole -> SqlPersistT m Int
 countUnreadMessages cid uid role = liftM (unValue . head) $ do
@@ -201,4 +202,26 @@ getStudentUnreadCoursePointsSum cid uid = do
       where_ (cp ^. CoursePointsIsRead ==. val False)
       return $ sum_ (cp ^. CoursePointsPoints)
   return n
+
+getStudentAchievements :: MonadIO m => CourseId -> UserId -> AchievementType -> SqlPersistT m [(Achievement, Int)]
+getStudentAchievements cid uid t = do
+  xs <- select $
+    from $ \(aa `InnerJoin` a) -> do
+      on (aa ^. AwardedAchievementAchievement ==. a ^. AchievementId)
+      where_ (aa ^. AwardedAchievementCourse ==. val cid)
+      where_ (aa ^. AwardedAchievementStudent ==. val uid)
+      where_ (a ^. AchievementType ==. val t)
+      return (a, aa ^. AwardedAchievementTimes)
+  return $ map (\(Entity _ a, Value n) -> (a, n)) xs
+
+getStudentAchievementsTotal :: MonadIO m => CourseId -> UserId -> SqlPersistT m [(AchievementType, Int)]
+getStudentAchievementsTotal cid uid = do
+  xs <- select $
+    from $ \(aa `InnerJoin` a) -> do
+      on (aa ^. AwardedAchievementAchievement ==. a ^. AchievementId)
+      where_ (aa ^. AwardedAchievementCourse ==. val cid)
+      where_ (aa ^. AwardedAchievementStudent ==. val uid)
+      groupBy (a ^. AchievementType)
+      return (a ^. AchievementType, sum_ (aa ^. AwardedAchievementTimes))
+  return $ map (\(Value t, Value n) -> (t, fromMaybe 0 n)) xs
 

@@ -46,6 +46,8 @@ getCourseStudentCoursePointsR cname uid = do
       _ -> notFound
 
   coursePoints <- runDB $ getStudentCoursePointsSum courseId uid
+  achievementTotals <- runDB $ getStudentAchievementsTotal courseId uid
+
   coursePointsEvents <- runDB $ getStudentCoursePoints perPage pageNo courseId uid
 
   when (Just uid == mauthId) $ do

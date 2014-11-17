@@ -60,12 +60,8 @@
                 <td>
                   <a href="@{CourseStudentR cid $ profileUser student}">
                     ^{wUserName RoleStudent (Just student) mauthId True}
-                <td class="text-right text-nowrap">
-                  <span class="trophy">
-                    <span class="trophy-gold" title="_{MsgGoldAchievements}"> 1
-                    <span class="trophy-silver" title="_{MsgSilverAchievements}"> 3
-                    <span class="trophy-bronze" title="_{MsgBronzeAchievements}"> 12
-                  <span class="trophy trophy-secret" title="_{MsgSecretAchievements}"> 1
+                <td .text-right>
+                  ^{wAchievementsTotal $ Map.findWithDefault [] (profileUser student) achievementTotalsMap}
 
       $if isTeacher userRole
         <div class="panel-footer">
