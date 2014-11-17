@@ -15,7 +15,7 @@
         $forall (profile, message, author, authorRole, isUnread) <- conversations
           <tr :isUnread:.warning>
             <td>
-              <a href="@{CourseMessagesStudentR cid $ profileUser profile}">
+              <a href="@{CourseStudentConversationR cid $ profileUser profile}">
                 <span class="text-nowrap">
                   ^{wUserName RoleStudent (Just profile) (Just authId) True}
             <td>

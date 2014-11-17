@@ -34,10 +34,9 @@ $else
               Submissions
             <a .list-group-item :isTabAssignments:.active href="@{CourseStudentAssignmentsR cname uid}">
               Assignments
-          $if isTeacher userRole
-            <a .list-group-item :isTabConversation:.active href="@{CourseStudentConversationR cname uid}">
-              <i class="fa fa-envelope fa-lg fa-fw">
-              Conversation
+            $if not (isAssistant userRole)
+              <a .list-group-item :isTabConversation:.active href="@{CourseStudentConversationR cname uid}">
+                Conversation
 
     <div .col-sm-8>
       ^{tab}

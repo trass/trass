@@ -225,3 +225,14 @@ getStudentAchievementsTotal cid uid = do
       return (a ^. AchievementType, sum_ (aa ^. AwardedAchievementTimes))
   return $ map (\(Value t, Value n) -> (t, fromMaybe 0 n)) xs
 
+getConversationMessages :: MonadIO m => Text -> UserId -> UserId -> SqlPersistT m [(Entity Message, Bool)]
+getConversationMessages cid uid reader = do
+  xs <- select $
+    from $ \(m `LeftOuterJoin` rm) -> do
+      on ((just (m ^. MessageId) ==. rm ?. ReadMessageMessage) &&. (rm ?. ReadMessageReader ==. just (val reader)))
+      where_ (m ^. MessageCourseIdent ==. val cid)
+      where_ (m ^. MessageStudent ==. val uid)
+      orderBy [asc (m ^. MessageDateTime)]
+      return $ (m, isNothing (rm ?. ReadMessageMessage))
+  return $ map (\(m, Value r) -> (m, r)) xs
+

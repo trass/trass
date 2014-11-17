@@ -17,16 +17,35 @@ import UtilsDB
 
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 
-ago :: UTCTime -> UTCTime -> AppMessage
+data Ago
+  = AgoJustNow
+  | AgoMinutes Int
+  | AgoHours Int
+  | AgoDays Int
+  | AgoWeeks Int
+  | AgoMonths Int
+  | AgoYears Int
+  deriving (Eq, Show, Read)
+
+agoMsg :: Ago -> AppMessage
+agoMsg AgoJustNow     = MsgTimeAgoJustNow
+agoMsg (AgoMinutes n) = MsgTimeAgoMinutes n
+agoMsg (AgoHours   n) = MsgTimeAgoHours n
+agoMsg (AgoDays    n) = MsgTimeAgoDays n
+agoMsg (AgoWeeks   n) = MsgTimeAgoWeeks n
+agoMsg (AgoMonths  n) = MsgTimeAgoMonths n
+agoMsg (AgoYears   n) = MsgTimeAgoYears n
+
+ago :: UTCTime -> UTCTime -> Ago
 ago t now
-  | minutes == 0  = MsgTimeAgoJustNow
-  | minutes <  5  = MsgTimeAgoMinutes minutes
-  | hours == 0    = MsgTimeAgoMinutes (5 * (minutes `div` 5))
-  | days == 0     = MsgTimeAgoHours hours
-  | weeks == 0    = MsgTimeAgoDays days
-  | months == 0   = MsgTimeAgoWeeks weeks
-  | years == 0    = MsgTimeAgoMonths months
-  | otherwise     = MsgTimeAgoYears years
+  | minutes == 0  = AgoJustNow
+  | minutes <  5  = AgoMinutes minutes
+  | hours == 0    = AgoMinutes (5 * (minutes `div` 5))
+  | days == 0     = AgoHours hours
+  | weeks == 0    = AgoDays days
+  | months == 0   = AgoWeeks weeks
+  | years == 0    = AgoMonths months
+  | otherwise     = AgoYears years
   where
     seconds = floor (diffUTCTime now t)
     minutes = seconds `div` 60
@@ -39,7 +58,7 @@ ago t now
 wAgo :: (Text -> AppMessage) -> UTCTime -> UTCTime -> Widget
 wAgo f dt now = do
   mr <- getMessageRender
-  let agoText = mr $ ago dt now
+  let agoText = mr $ agoMsg $ ago dt now
   [whamlet|
     <small .text-help title=#{formatTimeFull dt}>
       _{f agoText}
