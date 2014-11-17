@@ -5,13 +5,13 @@ import Yesod.Auth
 import Control.Monad
 
 import Data.Time
-import qualified Data.List as List
 
 import Handler.CourseStudent
 import Handler.CourseAssignment (wAssignmentLink)
 import Handler.CourseSection (wSectionLink)
 
 import SubmissionStatus
+import UserRole
 import Utils
 import UtilsDB
 
@@ -19,6 +19,7 @@ getCourseStudentCoursePointsR :: Text -> UserId -> Handler Html
 getCourseStudentCoursePointsR cname uid = do
   Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
   authId <- requireAuthId
+  userRole <- getUserRole cname authId
 
   totalEvents <- runDB $ getStudentEventsCount courseId uid
   (pageNo, totalPages) <- pagerInfo totalEvents perPage
@@ -29,10 +30,6 @@ getCourseStudentCoursePointsR cname uid = do
     runDB $ updateWhere
       [EventId <-. map (\(Entity eid _, _, _, _, _, _, _) -> eid) events]
       [EventIsRead =. True]
-
-  extraPoints <- runDB $ selectList [ExtraPointsCourse ==. courseId] []
-  let
-    (bonuses, penalties) = List.partition ((>= 0) . extraPointsPoints . entityVal) extraPoints
 
   now <- liftIO getCurrentTime
   courseStudentLayout cname uid "points" $ do

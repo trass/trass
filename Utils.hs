@@ -8,6 +8,7 @@ import Data.Maybe
 import Data.Time
 import Data.Int
 import Text.Read (readMaybe)
+import qualified Data.List as List
 import qualified Data.Text as Text
 import qualified Data.Map as Map
 import SubmissionStatus
@@ -290,4 +291,41 @@ wExtraPointsDescription ep = do
           unknown bonus
         $else
           unknown penalty
+  |]
+
+wExtraPointsPanels :: CourseId -> Widget
+wExtraPointsPanels cid = do
+  extraPoints <- handlerToWidget $ runDB $ selectList [ExtraPointsCourse ==. cid] []
+  let (bonuses, penalties) = List.partition ((>= 0) . extraPointsPoints . entityVal) extraPoints
+  [whamlet|
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Bonuses
+          $if null bonuses
+            <div .panel-body>
+              No bonuses.
+          $else
+            <div class="list-group">
+              $forall Entity _ bonus <- bonuses
+                <a href="#" class="list-group-item">
+                  <span .pull-right>
+                    ^{wExtraPoints bonus Nothing}
+                  ^{wExtraPointsDescription bonus}
+
+      <div class="col-md-6">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title">Penalties
+          $if null penalties
+            <div .panel-body>
+              No penalties.
+          $else
+            <div class="list-group">
+              $forall Entity _ penalty <- penalties
+                <a href="#" class="list-group-item">
+                  <span .pull-right>
+                    ^{wExtraPoints penalty Nothing}
+                  ^{wExtraPointsDescription penalty}
   |]

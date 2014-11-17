@@ -1,33 +1,5 @@
-<div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">Bonuses
-      $if null bonuses
-        <div .panel-body>
-          No bonuses.
-      $else
-        <div class="list-group">
-          $forall Entity _ bonus <- bonuses
-            <a href="#" class="list-group-item">
-              <span .pull-right>
-                ^{wExtraPoints bonus Nothing}
-              ^{wExtraPointsDescription bonus}
-
-  <div class="col-md-6">
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title">Penalties
-      $if null penalties
-        <div .panel-body>
-          No penalties.
-      $else
-        <div class="list-group">
-          $forall Entity _ penalty <- penalties
-            <a href="#" class="list-group-item">
-              <span .pull-right>
-                ^{wExtraPoints penalty Nothing}
-              ^{wExtraPointsDescription penalty}
+$if isTeacher userRole
+  ^{wExtraPointsPanels courseId}
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -61,6 +33,8 @@
               $maybe s <- ms
                 ^{wSectionLink cname s}
           <td>
+            ^{wAgo (eventDateTime event) now}
+          <td>
             <small>
               $maybe role <- mr
                 ^{wUserName role mp (Just authId)}
@@ -68,7 +42,5 @@
                 <span .text-help>
                   <i .fa .fa-fw .fa-gears>
                   System
-          <td>
-            ^{wAgo (eventDateTime event) now}
 
 ^{wPager pageNo totalPages $ CourseStudentCoursePointsR cname uid}
