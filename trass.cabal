@@ -36,7 +36,6 @@ library
                      Handler.SettingsAccount
                      Handler.SettingsNotifications
                      Handler.SettingsCourses
-                     Handler.CourseMessagesStudent
                      Handler.CourseSettings
                      Handler.CourseSettingsGeneral
                      Handler.CourseSettingsStaff

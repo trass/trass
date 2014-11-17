@@ -30,7 +30,7 @@
               <span class="visible-xs-inline">_{MsgSubmissions}
           <li>
             $if isStudent userRole
-              <a href="@{CourseMessagesStudentR cid authId}" title="_{MsgMessages}" data-placement="bottom">
+              <a href="@{CourseStudentConversationR cid authId}" title="_{MsgMessages}" data-placement="bottom">
                 <i class="fa fa-envelope fa-lg fa-fw">
                 $if unreadMsgs > 0
                   <span class="label label-danger">#{show unreadMsgs}

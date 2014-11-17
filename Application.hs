@@ -36,7 +36,6 @@ import Handler.SettingsProfile
 import Handler.SettingsAccount
 import Handler.SettingsNotifications
 import Handler.SettingsCourses
-import Handler.CourseMessagesStudent
 import Handler.CourseSettings
 import Handler.CourseSettingsGeneral
 import Handler.CourseSettingsStaff
