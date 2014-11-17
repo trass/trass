@@ -15,7 +15,7 @@
         $forall (profile, message, author, authorRole, isUnread) <- conversations
           <tr :isUnread:.warning>
             <td>
-              <a href="@{CourseStudentConversationR cid $ profileUser profile}">
+              <a href="@{CourseStudentConversationR cname $ profileUser profile}">
                 <span class="text-nowrap">
                   ^{wUserName RoleStudent (Just profile) (Just authId)}
             <td>
@@ -23,7 +23,7 @@
               <span class="text-nowrap">
                 &nbsp;—&nbsp;
                 $if isStudent authorRole
-                  <a href="@{CourseStudentR cid $ profileUser author}">
+                  <a href="@{CourseStudentR cname $ profileUser author}">
                     ^{wUserName authorRole (Just author) (Just authId)}
                 $else
                   <span>

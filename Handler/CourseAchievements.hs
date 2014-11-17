@@ -11,7 +11,7 @@ getCourseAchievementsR cname = do
   Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
 
   mauthId <- maybeAuthId
-  userRole <- maybe (return RoleStudent) (getUserRole cname) mauthId
+  userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
 
   let showSecretAchievements = isTeacher userRole
 

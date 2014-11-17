@@ -8,14 +8,14 @@ import UserRole
 import Utils
 
 getCourseStudentR :: Text -> UserId -> Handler Html
-getCourseStudentR cid uid = redirect $ CourseStudentAchievementsR cid uid
+getCourseStudentR cname uid = redirect $ CourseStudentAchievementsR cname uid
 
 courseStudentLayout :: ToWidget App a => Text -> UserId -> Text -> a -> Handler Html
 courseStudentLayout cname uid tabName tab = do
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   Entity _ profile  <- runDB $ getBy404 $ UniqueProfile uid
 
-  studentRole <- getUserRole cname uid
+  studentRole <- getUserRole cid uid
   when (not $ isStudent studentRole) $ notFound
 
   mauthId <-
@@ -23,7 +23,7 @@ courseStudentLayout cname uid tabName tab = do
       then maybeAuthId
       else Just <$> requireAuthId
 
-  userRole <- maybe (return RoleStudent) (getUserRole cname) mauthId
+  userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
 
   let isOtherStudent = isStudent userRole && Just uid /= mauthId
   when (isOtherStudent && tabName /= "achievement") $ do

@@ -4,5 +4,6 @@ import Import
 import Handler.CourseSettings
 
 getCourseSettingsGeneralR :: Text -> Handler Html
-getCourseSettingsGeneralR cid =
-  courseSettingsLayout cid "general" $(widgetFile "course/settings/general")
+getCourseSettingsGeneralR cname = do
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  courseSettingsLayout cname "general" $(widgetFile "course/settings/general")

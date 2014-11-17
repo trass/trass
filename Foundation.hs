@@ -81,7 +81,7 @@ setCourseIdent = setSession "TRASS_COURSE_IDENT"
 getCourseTitle = lookupSession "TRASS_COURSE_TITLE"
 setCourseTitle = setSession "TRASS_COURSE_TITLE"
 
-getUserRole :: Text -> UserId -> Handler UserRole
+getUserRole :: CourseId -> UserId -> Handler UserRole
 getUserRole cid uid = do
   mentity <- runDB $ getBy $ UniqueRole uid cid
   return $ maybe RoleStudent (roleRole . entityVal) mentity
@@ -120,6 +120,10 @@ instance Yesod App where
             currentLangTitle = Map.findWithDefault "English" currentLang langTitles
 
         courseIdent <- getCourseIdent
+        mcid <-
+          case courseIdent of
+            Nothing -> return Nothing
+            Just cname -> fmap (Just . entityKey) $ runDB $ getBy404 $ UniqueCourse cname
         courseTitle <- getCourseTitle
         mauthId <- maybeAuthId
         navBar <-
@@ -127,17 +131,16 @@ instance Yesod App where
             Nothing -> widgetToPageContent $(widgetFile "anonymous/navbar")
             Just authId -> do
               userRole <-
-                case courseIdent of
+                case mcid of
                   Nothing -> return RoleStudent
                   Just cid -> getUserRole cid authId
               (unreadMsgs, unreadPoints) <-
-                case courseIdent of
+                case mcid of
                   Nothing -> return (0, Nothing)
                   Just cid -> do
-                    Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
                     m <- runDB $ countUnreadMessages cid authId userRole
                     p <- if isStudent userRole
-                          then runDB $ getStudentUnreadCoursePointsSum courseId authId
+                          then runDB $ getStudentUnreadCoursePointsSum cid authId
                           else return Nothing
                     return (m, p)
               mentity <- runDB $ getBy $ UniqueProfile authId

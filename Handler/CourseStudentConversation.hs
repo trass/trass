@@ -16,18 +16,18 @@ import UtilsDB
 
 getCourseStudentConversationR :: Text -> UserId -> Handler Html
 getCourseStudentConversationR cname uid = do
-  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   authId <- requireAuthId
-  role <- getUserRole cname authId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  role <- getUserRole cid authId
   when (authId /= uid && not (isTeacher role)) $ notFound
 
-  msgs <- runDB $ getConversationMessages cname uid authId
+  msgs <- runDB $ getConversationMessages cid uid authId
   let
     msgs'       = map (\(Entity _ m, r) -> (m, r)) msgs
     msgGroups   = List.groupBy ((==) `on` (messageAuthor . fst)) msgs'
     authorIds   = map (messageAuthor . fst) msgs'
   authors <- runDB $ selectList [ProfileUser <-. authorIds] []
-  roles   <- runDB $ selectList [RoleCourse ==. cname, RoleUser <-. authorIds] []
+  roles   <- runDB $ selectList [RoleCourse ==. cid, RoleUser <-. authorIds] []
   let
     authorsMap = Map.fromList $ map (profileUser &&& id)    $ map entityVal authors
     rolesMap   = Map.fromList $ map (roleUser &&& roleRole) $ map entityVal roles
@@ -45,7 +45,8 @@ getCourseStudentConversationR cname uid = do
 postCourseStudentConversationR :: Text -> UserId -> Handler Html
 postCourseStudentConversationR cname uid = do
   authId <- requireAuthId
-  role <- getUserRole cname authId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  role <- getUserRole cid authId
   when (authId /= uid && not (isTeacher role)) $ notFound
 
   now <- liftIO getCurrentTime
@@ -54,11 +55,11 @@ postCourseStudentConversationR cname uid = do
   case mmsg of
     Just msg | not (Text.null msg) -> do
       runDB $ do
-        mid <- insert (Message cname uid authId now msg)
-        lm <- getBy $ UniqueLastMessage cname uid
+        mid <- insert (Message cid uid authId now msg)
+        lm <- getBy $ UniqueLastMessage cid uid
         case lm of
-          Nothing -> insert_ (LastMessage cname uid mid)
-          Just (Entity lmid _) -> replace lmid (LastMessage cname uid mid)
+          Nothing -> insert_ (LastMessage cid uid mid)
+          Just (Entity lmid _) -> replace lmid (LastMessage cid uid mid)
         return ()
     Nothing -> invalidArgs ["message"]
     _ -> return () -- silently ignore empty messages

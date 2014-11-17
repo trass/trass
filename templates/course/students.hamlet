@@ -10,24 +10,24 @@
         $forall Entity groupId group <- groups
           <li .student-group .list-group-item :isChosen groupId:.active>
             $if isTeacher userRole
-              <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cid groupId}">
+              <form .pull-right role="form" method="post" action="@{CourseStudentsDeleteGroupR cname groupId}">
                 <button type=submit .btn .btn-danger .btn-xs>
                   <i .fa .fa-fw .fa-trash>
                   _{MsgRemoveGroupButton}
             $if isChosen groupId
               #{groupName group}
             $else
-              <a href="@{CourseStudentsGroupR cid $ groupName group}">#{groupName group}
+              <a href="@{CourseStudentsGroupR cname $ groupName group}">#{groupName group}
         $if isNothing chosenGroup
           <li .list-group-item .active>
             _{MsgNoGroup}
         $else
           <li .list-group-item>
-            <a href="@{CourseStudentsNoGroupR cid}">_{MsgNoGroup}
+            <a href="@{CourseStudentsNoGroupR cname}">_{MsgNoGroup}
 
       $if isTeacher userRole
         <div class="panel-footer">
-          <form role="form" method="post" action="@{CourseStudentsR cid}">
+          <form role="form" method="post" action="@{CourseStudentsR cname}">
             <div class="input-group">
               <input class="form-control" name="groupName" placeholder="_{MsgGroupNamePlaceholder}">
               <span class="input-group-btn">
@@ -55,16 +55,16 @@
                   <td .col-xs-1>
                     <span class="badge" title="_{MsgRating}"># 7
                   <td .col-xs-1>
-                    ^{wStudentCoursePoints courseId $ profileUser student}
+                    ^{wStudentCoursePoints cid $ profileUser student}
                 <td>
-                  <a href="@{CourseStudentR cid $ profileUser student}">
+                  <a href="@{CourseStudentR cname $ profileUser student}">
                     ^{wUserName RoleStudent (Just student) mauthId}
                 <td .text-right>
-                  ^{wStudentAchievementsTotal courseId $ profileUser student}
+                  ^{wStudentAchievementsTotal cid $ profileUser student}
 
       $if isTeacher userRole
         <div class="panel-footer">
-          <form role="form" method="post" :isNothing chosenGroup:action="@{CourseStudentsNoGroupR cid}" :isJust chosenGroup:action="@{CourseStudentsGroupR cid $ groupName $ entityVal $ fromJust chosenGroup}">
+          <form role="form" method="post" :isNothing chosenGroup:action="@{CourseStudentsNoGroupR cname}" :isJust chosenGroup:action="@{CourseStudentsGroupR cname $ groupName $ entityVal $ fromJust chosenGroup}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">

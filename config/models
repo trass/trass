@@ -13,23 +13,23 @@ Profile
 
 Role
     user        UserId
-    course      Text
+    course      CourseId
     role        UserRole
     UniqueRole user course
 
 Group
-    course  Text
+    course  CourseId
     name    Text
     UniqueGroup course name
 
 GroupMember
-    course    Text
+    course    CourseId
     student   UserId
     group     GroupId
     UniqueGroupMember course student
 
 Message
-    courseIdent   Text
+    course        CourseId
     student       UserId
     author        UserId
     dateTime      UTCTime
@@ -40,7 +40,7 @@ ReadMessage
     reader        UserId
 
 LastMessage
-    course        Text
+    course        CourseId
     student       UserId
     message       MessageId
     UniqueLastMessage course student

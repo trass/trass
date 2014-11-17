@@ -16,14 +16,14 @@ mkSectionIdent :: [Text] -> Text
 mkSectionIdent = Text.intercalate "/"
 
 getSectionTitle :: CourseId -> [Text] -> Handler ([Text], Text)
-getSectionTitle courseId sids = do
-  Entity _ section <- runDB $ getBy404 $ UniqueSection courseId (mkSectionIdent sids)
+getSectionTitle cid sids = do
+  Entity _ section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
   return (sids, sectionTitle section)
 
 getCourseSectionR :: Text -> [Text] -> Handler Html
-getCourseSectionR cid sids = do
-  Entity courseId course  <- runDB $ getBy404 $ UniqueCourse cid
-  Entity sectionId section <- runDB $ getBy404 $ UniqueSection courseId (mkSectionIdent sids)
+getCourseSectionR cname sids = do
+  Entity cid course  <- runDB $ getBy404 $ UniqueCourse cname
+  Entity sectionId section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
 
   mauthId <- maybeAuthId
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
@@ -33,7 +33,7 @@ getCourseSectionR cid sids = do
     notFound
 
   let sectionPaths = List.init . List.tail $ List.inits sids
-  crumbs <- mapM (getSectionTitle courseId) sectionPaths
+  crumbs <- mapM (getSectionTitle cid) sectionPaths
 
   let
     isCourseOwner = mauthId == Just (courseOwner course)
@@ -48,7 +48,7 @@ getCourseSectionR cid sids = do
   lockedSubsections <- runDB $ mapM (isSectionLocked . entityKey) subsections
   assignments <- runDB $ selectList [AssignmentSection ==. sectionId] [Asc AssignmentTitle]
 
-  setCourseIdent cid
+  setCourseIdent cname
   when (courseRootSection course == sectionId) $ do
     setCourseTitle (sectionTitle section)
 

@@ -6,7 +6,6 @@ import Model
 import UserRole
 import Data.Int
 import Data.Maybe (fromMaybe)
-import Data.Text (Text)
 import Data.Time
 import Database.Esqueleto
 import Control.Applicative
@@ -15,11 +14,19 @@ import Control.Monad.IO.Class (MonadIO)
 import SubmissionStatus
 import Achievement
 
-countUnreadMessages :: (Functor m, MonadIO m) => Text -> UserId -> UserRole -> SqlPersistT m Int
+getUserCourses :: MonadIO m => UserId -> SqlPersistT m [Entity Course]
+getUserCourses uid = do
+  select $
+    from $ \(r `InnerJoin` c) -> do
+      on (r ^. RoleCourse ==. c ^. CourseId)
+      where_ (r ^. RoleUser ==. val uid)
+      return c
+
+countUnreadMessages :: MonadIO m => CourseId -> UserId -> UserRole -> SqlPersistT m Int
 countUnreadMessages cid uid role = liftM (unValue . head) $ do
   select $
     from $ \msg -> do
-      where_ (msg ^. MessageCourseIdent ==. val cid)
+      where_ (msg ^. MessageCourse ==. val cid)
       when (isStudent role) $ do
         where_ (msg ^. MessageStudent ==. val uid)
       where_ $ notExists $
@@ -28,7 +35,7 @@ countUnreadMessages cid uid role = liftM (unValue . head) $ do
           where_ (readMsg ^. ReadMessageReader ==. val uid)
       return countRows
 
-selectStaff :: MonadIO m => Text -> UserRole -> SqlPersistT m [Entity Profile]
+selectStaff :: MonadIO m => CourseId -> UserRole -> SqlPersistT m [Entity Profile]
 selectStaff cid role = do
   select $
     from $ \(p `InnerJoin` r) -> do
@@ -37,7 +44,7 @@ selectStaff cid role = do
       where_ (r ^. RoleRole ==. val role)
       return p
 
-selectConversations :: MonadIO m => Text -> UserId -> SqlPersistT m [(Profile, Message, Profile, UserRole, Bool)]
+selectConversations :: MonadIO m => CourseId -> UserId -> SqlPersistT m [(Profile, Message, Profile, UserRole, Bool)]
 selectConversations cid authId = do
   xs <- select $
     from $ \((lm `InnerJoin` m `InnerJoin` s `InnerJoin` a) `LeftOuterJoin` rm `LeftOuterJoin` r) -> do
@@ -244,12 +251,12 @@ getStudentAchievementsTotal cid uid = do
       return (a ^. AchievementType, sum_ (aa ^. AwardedAchievementTimes))
   return $ map (\(Value t, Value n) -> (t, fromMaybe 0 n)) xs
 
-getConversationMessages :: MonadIO m => Text -> UserId -> UserId -> SqlPersistT m [(Entity Message, Bool)]
+getConversationMessages :: MonadIO m => CourseId -> UserId -> UserId -> SqlPersistT m [(Entity Message, Bool)]
 getConversationMessages cid uid reader = do
   xs <- select $
     from $ \(m `LeftOuterJoin` rm) -> do
       on ((just (m ^. MessageId) ==. rm ?. ReadMessageMessage) &&. (rm ?. ReadMessageReader ==. just (val reader)))
-      where_ (m ^. MessageCourseIdent ==. val cid)
+      where_ (m ^. MessageCourse ==. val cid)
       where_ (m ^. MessageStudent ==. val uid)
       orderBy [asc (m ^. MessageDateTime)]
       return $ (m, isNothing (rm ?. ReadMessageMessage))

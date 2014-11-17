@@ -12,9 +12,9 @@ dayLength :: NominalDiffTime
 dayLength = 24 * 60 * 60
 
 postCourseAssignmentManageR :: Text -> AssignmentId -> AssignmentAction -> Handler Html
-postCourseAssignmentManageR cid aid action = do
-  Entity courseId course <- runDB $ getBy404 $ UniqueCourse cid
+postCourseAssignmentManageR cname aid action = do
   authId <- requireAuthId
+  Entity courseId course <- runDB $ getBy404 $ UniqueCourse cname
   let isCourseOwner = authId == courseOwner course
 
   when (not isCourseOwner) $ do
@@ -26,7 +26,7 @@ postCourseAssignmentManageR cid aid action = do
 
   section <- runDB $ get404 $ assignmentSection assignment
 
-  redirect $ CourseAssignmentR cid $ Text.splitOn "/" (sectionIdent section) ++ [assignmentIdent assignment]
+  redirect $ CourseAssignmentR cname $ Text.splitOn "/" (sectionIdent section) ++ [assignmentIdent assignment]
 
 manageAssignment :: AssignmentAction -> UTCTime -> Entity Assignment -> Handler Assignment
 manageAssignment action now (Entity aid assignment) = do

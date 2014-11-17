@@ -14,7 +14,7 @@
           $if authId == profileUser profile
             <span class="label label-void pull-right">_{MsgYou}
           $else
-            <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cid $ profileUser profile}">
+            <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cname $ profileUser profile}">
               <button type=submit class="btn btn-xs btn-danger">
                 <i class="fa fa-trash fa-fw">
                 _{MsgStaffRemoveButton}
@@ -28,7 +28,7 @@
   <div class="panel-footer">
     <small class="help-block">
       _{MsgTeacherRoleDescription}
-    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cid RoleTeacher}">
+    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cname RoleTeacher}">
       <div .row>
         <div .col-md-8>
           <div class="form-group">
@@ -51,7 +51,7 @@
     <ul class="list-group">
       $forall Entity _ profile <- assistants
         <li .list-group-item .staff-item>
-          <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cid $ profileUser profile}">
+          <form .pull-right role="form" method="post" action="@{CourseSettingsDeleteStaffR cname $ profileUser profile}">
             <button type=submit class="btn btn-xs btn-danger">
               <i class="fa fa-trash fa-fw">
               _{MsgStaffRemoveButton}
@@ -65,7 +65,7 @@
   <div class="panel-footer">
     <small class="help-block">
       _{MsgAssistantRoleDescription}
-    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cid RoleAssistant}">
+    <form role="form" method="post" action="@{CourseSettingsInviteStaffR cname RoleAssistant}">
       <div .row>
         <div .col-md-8>
           <div class="form-group">

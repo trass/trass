@@ -8,14 +8,18 @@ import UserRole
 getSettingsNotificationsR :: Handler Html
 getSettingsNotificationsR = do
   authId <- requireAuthId
-  mcid <- getCourseIdent
-  userRole <-
-    case mcid of
-      Nothing -> return RoleStudent
-      Just cid -> getUserRole cid authId
+  userRole <- mUserRole authId
   let settingsTab = tabNotifications userRole
   defaultLayout $ do
     $(widgetFile "settings")
   where
     tabName = "notifications"
 
+mUserRole :: UserId -> Handler UserRole
+mUserRole uid = do
+  mcname <- getCourseIdent
+  case mcname of
+    Nothing -> return RoleStudent
+    Just cname -> do
+      Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+      getUserRole cid uid

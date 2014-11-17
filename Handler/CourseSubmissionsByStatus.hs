@@ -19,21 +19,20 @@ import Utils
 import UtilsDB
 
 getCourseSubmissionsByStatusR :: Text -> SubmissionStatus -> Handler Html
-getCourseSubmissionsByStatusR cid status = do
+getCourseSubmissionsByStatusR cname status = do
   authId <- requireAuthId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   userRole <- getUserRole cid authId
   when (not (isAssistant userRole || isTeacher userRole)) $ do
     notFound
 
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
-
-  counts <- runDB $ getSubmissionCountsByStatus courseId
+  counts <- runDB $ getSubmissionCountsByStatus cid
   let
     countsMap = Map.fromList counts
     wSubmissionListItem s = do
       let isActive = s == status
       [whamlet|
-        <a .list-group-item href="@{CourseSubmissionsByStatusR cid s}" :isActive:.active>
+        <a .list-group-item href="@{CourseSubmissionsByStatusR cname s}" :isActive:.active>
           <span .badge>&times; #{Map.findWithDefault 0 s countsMap}
           ^{wSubmissionStatus s}
       |]
@@ -50,7 +49,7 @@ getCourseSubmissionsByStatusR cid status = do
       Just n | 1 <= n && n <= totalPages -> return n
       _ -> notFound
 
-  submissions <- runDB $ getSubmissionsByStatus perPage pageNo courseId status
+  submissions <- runDB $ getSubmissionsByStatus perPage pageNo cid status
 
   now <- liftIO getCurrentTime
   defaultLayout $ do
@@ -58,5 +57,5 @@ getCourseSubmissionsByStatusR cid status = do
 
   where
     perPage = 20
-    pageR n = (CourseSubmissionsByStatusR cid status, [("page", Text.pack $ show $ n)])
+    pageR n = (CourseSubmissionsByStatusR cname status, [("page", Text.pack $ show $ n)])
 

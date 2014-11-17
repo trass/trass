@@ -13,30 +13,30 @@
           TRASS
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        $maybe cid <- courseIdent
+        $maybe cname <- courseIdent
           $if isStudent userRole
             <li>
-              <a href="@{CourseStudentsR cid}" title="_{MsgClassmates}" data-placement="bottom">
+              <a href="@{CourseStudentsR cname}" title="_{MsgClassmates}" data-placement="bottom">
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgClassmates}
           $else
             <li>
-              <a href="@{CourseStudentsR cid}" title="_{MsgStudents}" data-placement="bottom">
+              <a href="@{CourseStudentsR cname}" title="_{MsgStudents}" data-placement="bottom">
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgStudents}
           <li>
-            <a href="@{CourseSubmissionsR cid}" title="_{MsgSubmissions}" data-placement="bottom">
+            <a href="@{CourseSubmissionsR cname}" title="_{MsgSubmissions}" data-placement="bottom">
               <i class="fa fa-inbox fa-lg fa-fw">
               <span class="visible-xs-inline">_{MsgSubmissions}
           <li>
             $if isStudent userRole
-              <a href="@{CourseStudentConversationR cid authId}" title="_{MsgMessages}" data-placement="bottom">
+              <a href="@{CourseStudentConversationR cname authId}" title="_{MsgMessages}" data-placement="bottom">
                 <i class="fa fa-envelope fa-lg fa-fw">
                 $if unreadMsgs > 0
                   <span class="label label-danger">#{show unreadMsgs}
                 <span class="visible-xs-inline">_{MsgMessages}
             $elseif isTeacher userRole
-              <a href="@{CourseMessagesR cid}" title="_{MsgConversations}" data-placement="bottom">
+              <a href="@{CourseMessagesR cname}" title="_{MsgConversations}" data-placement="bottom">
                 <i class="fa fa-envelope fa-lg fa-fw">
                 $if unreadMsgs > 0
                   <span class="label label-danger">#{show unreadMsgs}
@@ -56,18 +56,18 @@
         $if hasProfile
           <ul class="nav navbar-nav navbar-right">
             <li>
-              $maybe cid <- courseIdent
+              $maybe cname <- courseIdent
                 $maybe points <- unreadPoints
                   $if points >= 0
-                    <a href="@{CourseStudentR cid authId}" .nav-success>
+                    <a href="@{CourseStudentR cname authId}" .nav-success>
                       <span class="label label-success">+ #{show points}
                       ^{wUserName userRole mprofile mauthId}
                   $else
-                    <a href="@{CourseStudentR cid authId}" .nav-danger>
+                    <a href="@{CourseStudentR cname authId}" .nav-danger>
                       <span class="label label-danger">– #{show $ abs points}
                       ^{wUserName userRole mprofile mauthId}
                 $nothing
-                  <a href="@{CourseStudentR cid authId}">
+                  <a href="@{CourseStudentR cname authId}">
                     ^{wUserName userRole mprofile mauthId}
         $else
           <p class="navbar-text navbar-right">

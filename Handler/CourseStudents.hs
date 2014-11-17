@@ -13,21 +13,21 @@ data DisplayGroup
   | DisplayGroup Text
 
 getCourseStudentsR :: Text -> Handler Html
-getCourseStudentsR cid = displayCourseStudents cid DisplayFirst
+getCourseStudentsR cname = displayCourseStudents cname DisplayFirst
 
 postCourseStudentsR :: Text -> Handler Html
-postCourseStudentsR cid = do
+postCourseStudentsR cname = do
   mname <- lookupPostParam "groupName"
   case mname of
     Nothing -> invalidArgs ["groupName"]
     Just name -> do
+      Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
       runDB $ insert_ $ Group cid name
-  getCourseStudentsR cid
+  getCourseStudentsR cname
 
 displayCourseStudents :: Text -> DisplayGroup -> Handler Html
-displayCourseStudents cid dg = do
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
-
+displayCourseStudents cname dg = do
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   groups <- runDB $ selectList [GroupCourse ==. cid] []
   chosenGroup <-
     case dg of
@@ -44,7 +44,7 @@ displayCourseStudents cid dg = do
   defaultLayout $ do
     $(widgetFile "course/students")
 
-inviteStudent :: Text -> Maybe Text -> Handler ()
+inviteStudent :: CourseId -> Maybe Text -> Handler ()
 inviteStudent cid mgroup = do
   mname  <- lookupPostParam "studentName"
   memail <- lookupPostParam "studentEmail"

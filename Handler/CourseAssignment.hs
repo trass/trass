@@ -13,13 +13,13 @@ import UserRole
 import Utils
 
 getCourseAssignmentR :: Text -> [Text] -> Handler Html
-getCourseAssignmentR cid path@(_:_:_) = do
+getCourseAssignmentR cname path@(_:_:_) = do
   let
     sids = List.init path
     aid  = List.head $ reverse path
 
-  Entity courseId  course  <- runDB $ getBy404 $ UniqueCourse cid
-  Entity sectionId section <- runDB $ getBy404 $ UniqueSection courseId (mkSectionIdent sids)
+  Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
+  Entity sectionId section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
 
   mauthId <- maybeAuthId
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
@@ -30,7 +30,7 @@ getCourseAssignmentR cid path@(_:_:_) = do
     notFound
 
   let sectionPaths = List.tail $ List.inits sids
-  crumbs <- mapM (getSectionTitle courseId) sectionPaths
+  crumbs <- mapM (getSectionTitle cid) sectionPaths
 
   let
     isCourseOwner = mauthId == Just (courseOwner course)
@@ -41,7 +41,7 @@ getCourseAssignmentR cid path@(_:_:_) = do
     headerSummary     = assignmentSummary assignment
     courseHeader = $(widgetFile "course/header")
 
-  setCourseIdent cid
+  setCourseIdent cname
 
   now <- liftIO getCurrentTime
   let

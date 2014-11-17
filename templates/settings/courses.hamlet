@@ -4,7 +4,7 @@
       <h3 class="panel-title">_{MsgCoursesMembership}
 
     <ul class="list-group">
-      $forall Entity _ course <- courses
+      $forall Entity cid course <- courses
         <li class="list-group-item">
           <span .pull-right>
             $if courseOwner course /= authId
@@ -13,7 +13,7 @@
               $if courseOwner course == authId
                 _{MsgOwner}
               $else
-                $case roleIn (courseIdent course)
+                $case roleIn cid
                   $of RoleTeacher
                     _{MsgTeacher}
                   $of RoleAssistant

@@ -3,9 +3,9 @@ $if not (null crumbs)
     $forall (sectionsPath, title) <- crumbs
       <li>
         $if null (List.tail sectionsPath)
-          <a href="@{CourseR cid}">#{title}
+          <a href="@{CourseR cname}">#{title}
         $else
-          <a href="@{CourseSectionR cid sectionsPath}">#{title}
+          <a href="@{CourseSectionR cname sectionsPath}">#{title}
     <li .active>#{headerTitle}
 
 <div class="row">
@@ -18,12 +18,12 @@ $if not (null crumbs)
     <div class="col-sm-4 text-center">
       <h1>
         <div class="btn-group">
-          <a :isCoursePreview:.active .btn .btn-default href="@{CourseR cid}" title="_{MsgCourseView}" data-placement="bottom">
+          <a :isCoursePreview:.active .btn .btn-default href="@{CourseR cname}" title="_{MsgCourseView}" data-placement="bottom">
             <i class="fa fa-eye fa-lg fa-fw">
           <a :isCourseGraphs:.active .btn .btn-default href="#" title="Graphs" data-placement="bottom">
             <i class="fa fa-bar-chart fa-lg fa-fw">
           $if isCourseOwner
-            <a :isCourseSettings:.active .btn .btn-default href="@{CourseSettingsR cid}" title="_{MsgCourseSettings}" data-placement="bottom">
+            <a :isCourseSettings:.active .btn .btn-default href="@{CourseSettingsR cname}" title="_{MsgCourseSettings}" data-placement="bottom">
               <i class="fa fa-gear fa-lg fa-fw">
 
 

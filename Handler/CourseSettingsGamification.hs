@@ -4,5 +4,5 @@ import Import
 import Handler.CourseSettings
 
 getCourseSettingsGamificationR :: Text -> Handler Html
-getCourseSettingsGamificationR cid =
-  courseSettingsLayout cid "gamification" $(widgetFile "course/settings/gamification")
+getCourseSettingsGamificationR cname =
+  courseSettingsLayout cname "gamification" $(widgetFile "course/settings/gamification")

@@ -19,7 +19,7 @@ tabAccount = $(widgetFile "settings/account")
 tabNotifications :: UserRole -> Widget
 tabNotifications userRole = $(widgetFile "settings/notifications")
 
-tabCourses :: UserId -> Map Text UserRole -> [Entity Course] -> Widget
+tabCourses :: UserId -> Map CourseId UserRole -> [Entity Course] -> Widget
 tabCourses authId roles courses = $(widgetFile "settings/courses")
   where
     roleIn cid = roles Map.! cid
@@ -35,3 +35,4 @@ isTabNotifications = (== "notifications")
 
 isTabCourses :: Text -> Bool
 isTabCourses = (== "courses")
+

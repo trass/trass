@@ -11,10 +11,10 @@
         $forall (Entity submissionId submission, Entity _ assignment, Entity _ section) <- submissions
           <tr>
             <td>
-              <a href="@{assignmentR cid assignment section}">#{assignmentTitle assignment}
+              <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
             <td class="hidden-xs hidden-sm">
               <small>
-                <a href="@{sectionR cid section}">#{sectionTitle section}
+                <a href="@{sectionR cname section}">#{sectionTitle section}
             <td>
               <a href="javascript:void(0)" data-toggle="collapse" data-target="#submission-details-#{submissionId}">
                 ^{wSubmissionStatus $ submissionStatus submission}

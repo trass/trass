@@ -1,8 +1,8 @@
 <h3>
   <span .pull-right .text-nowrap>
     $if not isOtherStudent
-      ^{wStudentCoursePoints courseId uid}
-    ^{wStudentAchievementsTotal courseId uid}
+      ^{wStudentCoursePoints cid uid}
+    ^{wStudentAchievementsTotal cid uid}
   ^{wUserName RoleStudent (Just profile) mauthId}
   <small>
     &nbsp;324

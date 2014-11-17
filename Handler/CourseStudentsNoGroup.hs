@@ -4,9 +4,10 @@ import Import
 import Handler.CourseStudents
 
 getCourseStudentsNoGroupR :: Text -> Handler Html
-getCourseStudentsNoGroupR cid = displayCourseStudents cid DisplayNoGroup
+getCourseStudentsNoGroupR cname = displayCourseStudents cname DisplayNoGroup
 
 postCourseStudentsNoGroupR :: Text -> Handler Html
-postCourseStudentsNoGroupR cid = do
+postCourseStudentsNoGroupR cname = do
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   inviteStudent cid Nothing
-  displayCourseStudents cid DisplayNoGroup
+  displayCourseStudents cname DisplayNoGroup

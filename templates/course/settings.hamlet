@@ -10,15 +10,15 @@
 
       <ul class="nav nav-pills nav-stacked">
         <li :isTabGeneral tabName:.active>
-          <a href="@{CourseSettingsGeneralR cid}">
+          <a href="@{CourseSettingsGeneralR cname}">
             <i class="fa fa-book fa-lg fa-fw">
             _{MsgCourseSettingsGeneral}
         <li :isTabStaff tabName:.active>
-          <a href="@{CourseSettingsStaffR cid}">
+          <a href="@{CourseSettingsStaffR cname}">
             <i class="fa fa-users fa-lg fa-fw">
             _{MsgCourseSettingsStaff}
         <li :isTabGamification tabName:.active>
-          <a href="@{CourseSettingsGamificationR cid}">
+          <a href="@{CourseSettingsGamificationR cname}">
             <i class="fa fa-gamepad fa-lg fa-fw">
             _{MsgCourseSettingsGamification}
 

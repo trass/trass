@@ -8,12 +8,12 @@ import UtilsDB
 
 getCourseStudentAchievementsR :: Text -> UserId -> Handler Html
 getCourseStudentAchievementsR cname uid = do
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
 
-  goldAchievements    <- runDB $ getStudentAchievements courseId uid AchievementGold
-  silverAchievements  <- runDB $ getStudentAchievements courseId uid AchievementSilver
-  bronzeAchievements  <- runDB $ getStudentAchievements courseId uid AchievementBronze
-  secretAchievements  <- runDB $ getStudentAchievements courseId uid AchievementSecret
+  goldAchievements    <- runDB $ getStudentAchievements cid uid AchievementGold
+  silverAchievements  <- runDB $ getStudentAchievements cid uid AchievementSilver
+  bronzeAchievements  <- runDB $ getStudentAchievements cid uid AchievementBronze
+  secretAchievements  <- runDB $ getStudentAchievements cid uid AchievementSecret
   let
     achievementGroups = [goldAchievements, silverAchievements, bronzeAchievements, secretAchievements]
 

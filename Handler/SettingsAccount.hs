@@ -6,7 +6,7 @@ import Yesod.Auth
 
 getSettingsAccountR :: Handler Html
 getSettingsAccountR = do
-  authId <- requireAuthId
+  _ <- requireAuthId
   defaultLayout $ do
     $(widgetFile "settings")
   where

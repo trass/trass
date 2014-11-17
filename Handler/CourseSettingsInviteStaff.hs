@@ -7,15 +7,15 @@ import Control.Monad
 import UserRole
 
 postCourseSettingsInviteStaffR :: Text -> UserRole -> Handler Html
-postCourseSettingsInviteStaffR cid role = do
+postCourseSettingsInviteStaffR cname role = do
   authId <- requireAuthId
-  Entity _ course <- runDB $ getBy404 $ UniqueCourse cid
+  Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
   let isCourseOwner = courseOwner course == authId
   when (not isCourseOwner) $ notFound
   inviteStaff cid role
-  getCourseSettingsStaffR cid
+  getCourseSettingsStaffR cname
 
-inviteStaff :: Text -> UserRole -> Handler ()
+inviteStaff :: CourseId -> UserRole -> Handler ()
 inviteStaff cid role = do
   memail <- lookupPostParam "email"
   case memail of

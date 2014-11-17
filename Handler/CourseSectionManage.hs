@@ -13,9 +13,9 @@ dayLength :: NominalDiffTime
 dayLength = 24 * 60 * 60
 
 postCourseSectionManageR :: Text -> SectionId -> AssignmentAction -> Handler Html
-postCourseSectionManageR cid sid action = do
-  Entity courseId course <- runDB $ getBy404 $ UniqueCourse cid
+postCourseSectionManageR cname sid action = do
   authId <- requireAuthId
+  Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
   let isCourseOwner = authId == courseOwner course
 
   when (not isCourseOwner) $ do
@@ -26,5 +26,5 @@ postCourseSectionManageR cid sid action = do
   assignments <- runDB $ selectList [AssignmentSection ==. sid] []
   mapM_ (manageAssignment action now) assignments
 
-  redirect $ CourseSectionR cid $ Text.splitOn "/" (sectionIdent section)
+  redirect $ CourseSectionR cname $ Text.splitOn "/" (sectionIdent section)
 

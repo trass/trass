@@ -14,7 +14,7 @@
         $else
           <div class="list-group">
             $forall (Entity _ subsection, subsectionLocked) <- zip subsections lockedSubsections
-              <a href="@{CourseSectionR cid (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item :subsectionLocked && not (isTeacher userRole):.disabled>
+              <a href="@{CourseSectionR cname (Text.splitOn "/" $ sectionIdent subsection)}" .list-group-item :subsectionLocked && not (isTeacher userRole):.disabled>
                 <span .pull-right>
                   $if subsectionLocked
                     <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
@@ -74,7 +74,7 @@
 
         <div class="list-group">
           $forall Entity _ assignment <- assignments
-            <a href="@{CourseAssignmentR cid $ sids ++ [assignmentIdent assignment]}" .list-group-item :assignmentLocked assignment && not (isTeacher userRole):.disabled>
+            <a href="@{CourseAssignmentR cname $ sids ++ [assignmentIdent assignment]}" .list-group-item :assignmentLocked assignment && not (isTeacher userRole):.disabled>
               <span .pull-right .text-nowrap>
                 $if assignmentLocked assignment
                   <i class="fa fa-lock fa-lg fa-fw" title="_{MsgLocked}" data-placement="left">
@@ -112,28 +112,28 @@
                 <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageStopDescription}">
                   <i class="fa fa-stop fa-lg fa-fw text-danger">
                   _{MsgSectionManageStop}
-                  <form role="form" method="post" action=@{CourseSectionManageR cid sectionId AssignmentStop}>
+                  <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentStop}>
             $nothing
               <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageStartDescription}">
                 <i class="fa fa-play fa-lg fa-fw text-danger">
                 _{MsgSectionManageStart}
-                <form role="form" method="post" action=@{CourseSectionManageR cid sectionId AssignmentStart}>
+                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentStart}>
 
             $if sectionLocked
               <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageUnlockDescription}">
                 <i class="fa fa-unlock fa-lg fa-fw text-danger">
                 _{MsgSectionManageUnlock}
-                <form role="form" method="post" action=@{CourseSectionManageR cid sectionId AssignmentUnlock}>
+                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentUnlock}>
             $else
               <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageLockDescription}">
                 <i class="fa fa-lock fa-lg fa-fw text-danger">
                 _{MsgSectionManageLock}
-                <form role="form" method="post" action=@{CourseSectionManageR cid sectionId AssignmentLock}>
+                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentLock}>
 
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageResetDescription}">
               <i class="fa fa-refresh fa-lg fa-fw text-danger">
               _{MsgSectionManageReset}
-                <form role="form" method="post" action=@{CourseSectionManageR cid sectionId AssignmentReset}>
+                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentReset}>
 
   <div class="col-sm-6 col-md-7 col-lg-8">
 

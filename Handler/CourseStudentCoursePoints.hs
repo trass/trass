@@ -17,14 +17,14 @@ import UtilsDB
 
 getCourseStudentCoursePointsR :: Text -> UserId -> Handler Html
 getCourseStudentCoursePointsR cname uid = do
-  Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
   authId <- requireAuthId
-  userRole <- getUserRole cname authId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  userRole <- getUserRole cid authId
 
-  totalEvents <- runDB $ getStudentEventsCount courseId uid
+  totalEvents <- runDB $ getStudentEventsCount cid uid
   (pageNo, totalPages) <- pagerInfo totalEvents perPage
 
-  events <- runDB $ getStudentEvents perPage pageNo courseId uid
+  events <- runDB $ getStudentEvents perPage pageNo cid uid
 
   when (uid == authId) $ do
     runDB $ updateWhere

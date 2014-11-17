@@ -7,10 +7,11 @@ import SubmissionStatus
 import UserRole
 
 getCourseSubmissionsR :: Text -> Handler Html
-getCourseSubmissionsR cid = do
+getCourseSubmissionsR cname = do
   authId <- requireAuthId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   userRole <- getUserRole cid authId
 
   case userRole of
-    RoleStudent -> redirect $ CourseStudentSubmissionsR cid authId
-    _ -> redirect $ CourseSubmissionsByStatusR cid SubmissionTestsPassed
+    RoleStudent -> redirect $ CourseStudentSubmissionsR cname authId
+    _ -> redirect $ CourseSubmissionsByStatusR cname SubmissionTestsPassed

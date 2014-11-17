@@ -101,36 +101,36 @@
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageExtraDayDescription}">
               <i class="fa fa-plus-square fa-lg fa-fw text-danger">
               _{MsgAssignmentManageExtraDay}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentExtraDay}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentExtraDay}>
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageSkipDayDescription}">
               <i class="fa fa-minus-square fa-lg fa-fw text-danger">
               _{MsgAssignmentManageSkipDay}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentSkipDay}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentSkipDay}>
 
           $maybe _ <- assignmentStartedAt assignment
             $if or [isNothing (assignmentEndingAt assignment), Just now < assignmentEndingAt assignment]
               <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageStopDescription}">
                 <i class="fa fa-stop fa-lg fa-fw text-danger">
                 _{MsgAssignmentManageStop}
-                <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentStop}>
+                <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentStop}>
           $nothing
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageStartDescription}">
               <i class="fa fa-play fa-lg fa-fw text-danger">
               _{MsgAssignmentManageStart}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentStart}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentStart}>
 
           $if assignmentLocked assignment
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageUnlockDescription}">
               <i class="fa fa-unlock fa-lg fa-fw text-danger">
               _{MsgAssignmentManageUnlock}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentUnlock}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentUnlock}>
           $else
             <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageLockDescription}">
               <i class="fa fa-lock fa-lg fa-fw text-danger">
               _{MsgAssignmentManageLock}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentLock}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentLock}>
 
           <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgAssignmentManageResetDescription}">
             <i class="fa fa-refresh fa-lg fa-fw text-danger">
             _{MsgAssignmentManageReset}
-              <form role="form" method="post" action=@{CourseAssignmentManageR cid assignmentId AssignmentReset}>
+              <form role="form" method="post" action=@{CourseAssignmentManageR cname assignmentId AssignmentReset}>
