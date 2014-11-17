@@ -53,33 +53,4 @@
                   <a href="#" title="Download">
                     <i class="fa fa-download fa-lg fa-fw">
 
-    $if totalPages > 1
-      <div class="text-center">
-        <ul class="pagination">
-          $if pageNo == 1
-            <li .disabled>
-              <span>&laquo;
-          $else
-            <li>
-              <a href="@?{pageR $ pageNo - 1}">
-                &laquo;
-
-          $forall n <- enumFromTo 1 totalPages
-            $if n == pageNo
-              <li .active>
-                <span>
-                  #{show n}
-                  <span class="sr-only">(current)
-            $else
-              <li>
-                <a href="@?{pageR n}">
-                  #{show n}
-                  <span class="sr-only">(current)
-
-          $if pageNo == totalPages
-            <li .disabled>
-              <span>&raquo;
-          $else
-            <li>
-              <a href="@?{pageR $ pageNo + 1}">
-                &raquo;
+    ^{wPager pageNo totalPages $ CourseSubmissionsByStatusR cname status}

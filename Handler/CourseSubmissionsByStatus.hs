@@ -37,17 +37,8 @@ getCourseSubmissionsByStatusR cname status = do
           ^{wSubmissionStatus s}
       |]
 
-  pageNoStr <- lookupGetParam "page"
-
-  let
-    totalSubmissions = Map.findWithDefault 0 status countsMap
-    totalPages = ceiling (fromIntegral totalSubmissions / fromIntegral perPage)
-
-  pageNo <-
-    case pageNoStr >>= readMaybe . Text.unpack of
-      Nothing -> return 1
-      Just n | 1 <= n && n <= totalPages -> return n
-      _ -> notFound
+  let totalSubmissions = Map.findWithDefault 0 status countsMap
+  (pageNo, totalPages) <- pagerInfo totalSubmissions perPage
 
   submissions <- runDB $ getSubmissionsByStatus perPage pageNo cid status
 
@@ -57,5 +48,4 @@ getCourseSubmissionsByStatusR cname status = do
 
   where
     perPage = 20
-    pageR n = (CourseSubmissionsByStatusR cname status, [("page", Text.pack $ show $ n)])
 
