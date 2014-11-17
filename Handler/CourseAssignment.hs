@@ -60,3 +60,9 @@ postCourseAssignmentR = error "Not yet implemented: postCourseAssignmentR"
 -- assignmentR :: Text -> Assignment -> Section -> Route App
 assignmentR cname a s = CourseAssignmentR cname (Text.splitOn "/" (sectionIdent s) ++ [assignmentIdent a])
 
+wAssignmentLink :: Text -> Assignment -> Section -> Widget
+wAssignmentLink cname assignment section = do
+  [whamlet|
+    <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
+  |]
+
