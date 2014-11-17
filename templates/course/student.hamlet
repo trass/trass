@@ -1,7 +1,7 @@
 <h3>
   <span class="pull-right">
     $if not isOtherStudent
-      <span class="label label-success" title="_{MsgCoursePoints}">#{coursePoints}
+      ^{wStudentCoursePoints courseId uid}
     ^{wAchievementsTotal achievementTotals}
   ^{wUserName RoleStudent (Just profile) mauthId True}
   <small>

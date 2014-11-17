@@ -13,6 +13,7 @@ import qualified Data.Map as Map
 import SubmissionStatus
 import UserRole
 import Achievement
+import UtilsDB
 
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 
@@ -128,6 +129,14 @@ wAchievementDescription achievement = do
       Nothing -> mr $ maybe MsgAchievementNoDescription achievementPredefinedDescriptionMsg predefined
   where
     predefined = achievementPredefined achievement
+
+wStudentCoursePoints :: CourseId -> UserId -> Widget
+wStudentCoursePoints cid uid = do
+  points <- handlerToWidget $ runDB $ getStudentCoursePointsSum cid uid
+  [whamlet|
+    <span .label .label-success title="_{MsgCoursePoints}">
+      #{points}
+  |]
 
 wAchievementsTotal :: [(AchievementType, Int)] -> Widget
 wAchievementsTotal totals = do

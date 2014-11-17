@@ -39,10 +39,8 @@ displayCourseStudents cid dg = do
   students  <- runDB $ selectGroupMembers chosenGid
 
   Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cid
-  coursePoints <- runDB $ getStudentCoursePointsSums courseId $ map profileUser students
   achievementTotals <- mapM (runDB . getStudentAchievementsTotal courseId . profileUser) students
   let
-    pointsMap = Map.fromList coursePoints
     achievementTotalsMap = Map.fromList $ zip (map profileUser students) achievementTotals
 
   mauthId   <- maybeAuthId
