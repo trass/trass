@@ -99,6 +99,14 @@ AwardedAchievement
     times             Int
     UniqueAwardedAchievement course achievement student
 
+ExtraPoints
+    points      Int
+    course      CourseId
+    percents    Bool
+    type        ExtraPointsType
+    predefined  ExtraPointsPredefined Maybe
+    customName  Text Maybe
+
 CoursePoints
     points      Int
     course      CourseId

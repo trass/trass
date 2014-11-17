@@ -1,3 +1,50 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Bonuses
+      $if null bonuses
+        <div .panel-body>
+          No bonuses.
+      $else
+        <div class="list-group">
+          $forall Entity _ bonus <- bonuses
+            <a href="#" class="list-group-item">
+              <span class="label label-success pull-right">
+                + #{show $ extraPointsPoints bonus}
+                $if extraPointsPercents bonus
+                  %
+              $maybe customName <- extraPointsCustomName bonus
+                #{customName}
+              $nothing
+                $maybe predefined <- extraPointsPredefined bonus
+                  _{extraPointsPredefinedMsg predefined}
+                $nothing
+                  unknown bonus
+
+  <div class="col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">Penalties
+      $if null penalties
+        <div .panel-body>
+          No penalties.
+      $else
+        <div class="list-group">
+          $forall Entity _ penalty <- penalties
+            <a href="#" class="list-group-item">
+              <span class="label label-danger pull-right">
+                – #{show $ abs $ extraPointsPoints penalty}
+                $if extraPointsPercents penalty
+                  %
+              $maybe customName <- extraPointsCustomName penalty
+                #{customName}
+              $nothing
+                $maybe predefined <- extraPointsPredefined penalty
+                  _{extraPointsPredefinedMsg predefined}
+                $nothing
+                  unknown bonus
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Recent Events

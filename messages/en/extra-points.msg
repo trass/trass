@@ -1,0 +1,5 @@
+ExtraPointsPredefinedClassActivity: class activity
+ExtraPointsPredefinedTeacherMistake: found teacher's mistake
+ExtraPointsPredefinedElegantSolution: elegant solution
+ExtraPointsPredefinedMissedDeadline: missed deadline
+ExtraPointsPredefinedPlagiarism: plagiarism

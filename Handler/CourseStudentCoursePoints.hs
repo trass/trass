@@ -5,6 +5,7 @@ import Yesod.Auth
 import Control.Monad
 
 import Data.Time
+import qualified Data.List as List
 
 import Handler.CourseStudent
 import Handler.CourseAssignment (assignmentR)
@@ -27,6 +28,10 @@ getCourseStudentCoursePointsR cname uid = do
     runDB $ updateWhere
       [CoursePointsId <-. map (\(Entity eid _, _, _, _) -> eid) coursePointsEvents]
       [CoursePointsIsRead =. True]
+
+  extraPoints <- runDB $ selectList [ExtraPointsCourse ==. courseId] []
+  let
+    (bonuses, penalties) = List.partition ((>= 0) . extraPointsPoints . entityVal) extraPoints
 
   now <- liftIO getCurrentTime
   courseStudentLayout cname uid "points" $ do

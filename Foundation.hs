@@ -35,6 +35,7 @@ import Data.Int
 import System.Locale
 
 import Achievement
+import ExtraPoints
 import AssignmentAction
 import Language
 import SubmissionStatus
@@ -363,4 +364,11 @@ achievementPredefinedDescriptionMsg :: AchievementPredefined -> AppMessage
 achievementPredefinedDescriptionMsg AchievementPredefinedHelloWorld = MsgAchievementPredefinedHelloWorldDescription
 achievementPredefinedDescriptionMsg AchievementPredefinedAcceptable = MsgAchievementPredefinedAcceptableDescription
 achievementPredefinedDescriptionMsg _ = MsgAchievementNoDescription
+
+extraPointsPredefinedMsg :: ExtraPointsPredefined -> AppMessage
+extraPointsPredefinedMsg ExtraPointsPredefinedClassActivity   = MsgExtraPointsPredefinedClassActivity
+extraPointsPredefinedMsg ExtraPointsPredefinedTeacherMistake  = MsgExtraPointsPredefinedTeacherMistake
+extraPointsPredefinedMsg ExtraPointsPredefinedElegantSolution = MsgExtraPointsPredefinedElegantSolution
+extraPointsPredefinedMsg ExtraPointsPredefinedMissedDeadline  = MsgExtraPointsPredefinedMissedDeadline
+extraPointsPredefinedMsg ExtraPointsPredefinedPlagiarism      = MsgExtraPointsPredefinedPlagiarism
 
