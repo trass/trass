@@ -2,20 +2,24 @@
   <div .panel-heading>
     <h3 .panel-title>_{MsgMessagesLatest}
   <div style="height: 350px; overflow: auto;">
-    <table .table .table-condensed>
-      $forall (author, authorRole, messages) <- messageGroups
-        <tr>
-          <td>
-            <strong .text-nowrap>
-              ^{wUserName authorRole (Just author) (Just authId)}
-            <br>
-            $forall group <- groupByTime messages
-              <span .pull-right>
-                ^{wAgo (messageDateTime $ fst $ List.head group) now}
-              $forall (message, isUnread) <- group
-                <span :not isUnread:.invisible :isUnread:.text-danger>&nbsp;&#9679;&nbsp;
-                #{messageText message}
-                <br>
+    $if null messageGroups
+      <div .panel-body>
+        _{MsgNoMessages}
+    $else
+      <table .table .table-condensed>
+        $forall (author, authorRole, messages) <- messageGroups
+          <tr>
+            <td>
+              <strong .text-nowrap>
+                ^{wUserName authorRole (Just author) (Just authId)}
+              <br>
+              $forall group <- groupByTime messages
+                <span .pull-right>
+                  ^{wAgo (messageDateTime $ fst $ List.head group) now}
+                $forall (message, isUnread) <- group
+                  <span :not isUnread:.invisible :isUnread:.text-danger>&nbsp;&#9679;&nbsp;
+                  #{messageText message}
+                  <br>
     <span #last-msg>
   <div .panel-footer>
     <form role="form" method="post" action="@{CourseStudentConversationR cname uid}" id="sendMsgForm">
