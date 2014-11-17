@@ -4,42 +4,46 @@ $if isTeacher userRole
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Recent Events
-  <table class="table table-condensed">
-    <tbody>
-      $forall (Entity _ event, mep, mac, mas, ms, mp, mr) <- events
-        <tr :not (eventIsRead event):.warning>
-          <td .text-center>
-            $maybe ep <- mep
-              ^{wExtraPoints ep mas}
-            $maybe ac <- mac
-              ^{wAchievementType $ achievementType ac}
-            $maybe as <- mas
-              $maybe points <- assignmentPoints as
-                <span .label .label-success>
-                  + #{show points}
-          <td>
-            <small>
+  $if null events
+    <div .panel-body>
+      No events.
+  $else
+    <table class="table table-condensed">
+      <tbody>
+        $forall (Entity _ event, mep, mac, mas, ms, mp, mr) <- events
+          <tr :not (eventIsRead event):.warning>
+            <td .text-center>
               $maybe ep <- mep
-                ^{wExtraPointsDescription ep}
+                ^{wExtraPoints ep mas}
               $maybe ac <- mac
-                earned the "^{wAchievementName ac}" achievement
+                ^{wAchievementType $ achievementType ac}
               $maybe as <- mas
-                accepted solution
-              $maybe as <- mas
+                $maybe points <- assignmentPoints as
+                  <span .label .label-success>
+                    + #{show points}
+            <td>
+              <small>
+                $maybe ep <- mep
+                  ^{wExtraPointsDescription ep}
+                $maybe ac <- mac
+                  earned the "^{wAchievementName ac}" achievement
+                $maybe as <- mas
+                  accepted solution
+                $maybe as <- mas
+                  $maybe s <- ms
+                    &nbsp;—&nbsp;^{wAssignmentLink cname as s}
+            <td>
+              <small>
                 $maybe s <- ms
-                  &nbsp;—&nbsp;^{wAssignmentLink cname as s}
-          <td>
-            <small>
-              $maybe s <- ms
-                ^{wSectionLink cname s}
-          <td>
-            ^{wAgo (eventDateTime event) now}
-          <td>
-            <small .text-help>
-              $maybe role <- mr
-                ^{wUserName role mp (Just authId)}
-              $nothing
-                <i .fa .fa-fw .fa-gears>
-                System
+                  ^{wSectionLink cname s}
+            <td>
+              ^{wAgo (eventDateTime event) now}
+            <td>
+              <small .text-help>
+                $maybe role <- mr
+                  ^{wUserName role mp (Just authId)}
+                $nothing
+                  <i .fa .fa-fw .fa-gears>
+                  System
 
 ^{wPager pageNo totalPages $ CourseStudentCoursePointsR cname uid}
