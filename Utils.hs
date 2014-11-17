@@ -110,32 +110,44 @@ wSubmissionStatus s = do
         <span .label .label-default>_{MsgSubmissionErrored}
   |]
 
+achievementTypeClass :: AchievementType -> Text
+achievementTypeClass AchievementGold   = "trophy-gold"
+achievementTypeClass AchievementSilver = "trophy-silver"
+achievementTypeClass AchievementBronze = "trophy-bronze"
+achievementTypeClass AchievementSecret = "trophy-secret"
+
+wAchievementType :: AchievementType -> Widget
+wAchievementType t = do
+  [whamlet|
+    <span class="trophy #{achievementTypeClass t}">
+  |]
+
 wAchievement :: Achievement -> Bool -> Widget
 wAchievement achievement withPopover = do
-  mr <- getMessageRender
   descriptionHtml <- handlerToWidget $ noLayout $ wAchievementDescription achievement
-  let
-    predefined = achievementPredefined achievement
-    name =
-      case achievementCustomName achievement of
-        Just n  -> n
-        Nothing -> mr $ maybe MsgUntitledAchievement achievementPredefinedMsg predefined
+  let name = wAchievementName achievement
   [whamlet|
     $if withPopover
       <button class="btn btn-trophy #{typeClass}" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="#{renderHtml $ descriptionHtml}">
-        &nbsp;#{name}
+        &nbsp;^{name}
     $else
       <span class="trophy #{typeClass}">
-        &nbsp;#{name}
+        &nbsp;^{name}
   |]
   where
-    typeClass :: Text
-    typeClass =
-      case achievementType achievement of
-        AchievementGold   -> "trophy-gold"
-        AchievementSilver -> "trophy-silver"
-        AchievementBronze -> "trophy-bronze"
-        AchievementSecret -> "trophy-secret"
+    typeClass = achievementTypeClass $ achievementType achievement
+
+wAchievementName :: Achievement -> Widget
+wAchievementName achievement = do
+  [whamlet|
+    $maybe customName <- achievementCustomName achievement
+      #{customName}
+    $nothing
+      $maybe predefined <- achievementPredefined achievement
+        _{achievementPredefinedMsg predefined}
+      $nothing
+        _{MsgUntitledAchievement}
+  |]
 
 wAchievementDescription :: Achievement -> Widget
 wAchievementDescription achievement = do
@@ -240,3 +252,42 @@ wPager pageNo totalPages route = do
   |]
   where
     pageR n = (route, [("page", Text.pack $ show $ n)])
+
+wExtraPoints :: ExtraPoints -> Maybe Assignment -> Widget
+wExtraPoints ep ma = do
+  [whamlet|
+    $if points >= 0
+      <span .label .label-success>
+        + #{show points}
+        $if percents
+           %
+    $else
+      <span .label .label-danger>
+        – #{show $ abs points}
+        $if percents
+           %
+  |]
+  where
+    percents = extraPointsPercents ep && isNothing ma
+    epoints = extraPointsPoints ep
+    apoints = ma >>= assignmentPoints
+    withPercents n = n + (n * epoints `div` 100)
+    points =
+      if extraPointsPercents ep && isJust ma
+        then maybe 0 withPercents apoints
+        else epoints
+
+wExtraPointsDescription :: ExtraPoints -> Widget
+wExtraPointsDescription ep = do
+  [whamlet|
+    $maybe customName <- extraPointsCustomName ep
+      #{customName}
+    $nothing
+      $maybe predefined <- extraPointsPredefined ep
+        _{extraPointsPredefinedMsg predefined}
+      $nothing
+        $if extraPointsPoints ep >= 0
+          unknown bonus
+        $else
+          unknown penalty
+  |]

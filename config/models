@@ -107,6 +107,17 @@ ExtraPoints
     predefined  ExtraPointsPredefined Maybe
     customName  Text Maybe
 
+Event
+    course        CourseId
+    student       UserId
+    extraPoints   ExtraPointsId Maybe
+    achievement   AchievementId Maybe
+    assignment    AssignmentId Maybe
+    section       SectionId Maybe
+    dateTime      UTCTime
+    createdBy     UserId Maybe
+    isRead        Bool
+
 CoursePoints
     points      Int
     course      CourseId

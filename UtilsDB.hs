@@ -9,6 +9,7 @@ import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import Data.Time
 import Database.Esqueleto
+import Control.Applicative
 import Control.Monad
 import Control.Monad.IO.Class (MonadIO)
 import SubmissionStatus
@@ -184,12 +185,30 @@ getStudentCoursePointsSums cid uids = do
       return $ (cp ^. CoursePointsStudent, sum_ (cp ^. CoursePointsPoints))
   return $ map (\(Value i, Value s) -> (i, fromMaybe 0 s)) xs
 
-getStudentCoursePointsCount :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int64
-getStudentCoursePointsCount cid uid = do
+getStudentEvents ::
+  MonadIO m => Int64 -> Int64 -> CourseId -> UserId ->
+  SqlPersistT m [(Entity Event, Maybe ExtraPoints, Maybe Achievement, Maybe Assignment, Maybe Section, Maybe Profile, Maybe UserRole)]
+getStudentEvents perPage pageNo cid uid = do
+  xs <- select $
+    from $ \(e `LeftOuterJoin` ep `LeftOuterJoin` ac `LeftOuterJoin` as `LeftOuterJoin` s `LeftOuterJoin` p) -> do
+      on (e ^. EventCreatedBy   ==. p ?. ProfileUser)
+      on (e ^. EventSection     ==. s ?. SectionId)
+      on (e ^. EventAssignment  ==. as ?. AssignmentId)
+      on (e ^. EventAchievement ==. ac ?. AchievementId)
+      on (e ^. EventExtraPoints ==. ep ?. ExtraPointsId)
+      where_ (e ^. EventCourse ==. val cid)
+      where_ (e ^. EventStudent ==. val uid)
+      orderBy [desc (e ^. EventDateTime)]
+      page perPage pageNo
+      return (e, ep, ac, as, s, p)
+  return $ map (\(e, ep, ac, as, s, p) -> (e, entityVal <$> ep, entityVal <$> ac, entityVal <$> as, entityVal <$> s, entityVal <$> p, Nothing)) xs
+
+getStudentEventsCount :: MonadIO m => CourseId -> UserId -> SqlPersistT m Int64
+getStudentEventsCount cid uid = do
   [Value n] <- select $
-    from $ \cp -> do
-      where_ (cp ^. CoursePointsCourse ==. val cid)
-      where_ (cp ^. CoursePointsStudent ==. val uid)
+    from $ \e -> do
+      where_ (e ^. EventCourse ==. val cid)
+      where_ (e ^. EventStudent ==. val uid)
       return countRows
   return n
 

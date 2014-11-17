@@ -8,9 +8,10 @@ import Data.Time
 import qualified Data.List as List
 
 import Handler.CourseStudent
-import Handler.CourseAssignment (assignmentR)
-import Handler.CourseSection (sectionR)
+import Handler.CourseAssignment (wAssignmentLink)
+import Handler.CourseSection (wSectionLink)
 
+import SubmissionStatus
 import Utils
 import UtilsDB
 
@@ -19,15 +20,15 @@ getCourseStudentCoursePointsR cname uid = do
   Entity courseId _ <- runDB $ getBy404 $ UniqueCourse cname
   authId <- requireAuthId
 
-  totalEvents <- runDB $ getStudentCoursePointsCount courseId uid
+  totalEvents <- runDB $ getStudentEventsCount courseId uid
   (pageNo, totalPages) <- pagerInfo totalEvents perPage
 
-  coursePointsEvents <- runDB $ getStudentCoursePoints perPage pageNo courseId uid
+  events <- runDB $ getStudentEvents perPage pageNo courseId uid
 
   when (uid == authId) $ do
     runDB $ updateWhere
-      [CoursePointsId <-. map (\(Entity eid _, _, _, _) -> eid) coursePointsEvents]
-      [CoursePointsIsRead =. True]
+      [EventId <-. map (\(Entity eid _, _, _, _, _, _, _) -> eid) events]
+      [EventIsRead =. True]
 
   extraPoints <- runDB $ selectList [ExtraPointsCourse ==. courseId] []
   let
