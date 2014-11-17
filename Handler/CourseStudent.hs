@@ -9,7 +9,16 @@ import Utils
 import UtilsDB
 
 getCourseStudentR :: Text -> UserId -> Handler Html
-getCourseStudentR cname uid = redirect $ CourseStudentAchievementsR cname uid
+getCourseStudentR cname uid = do
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  mauthId <- maybeAuthId
+  userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
+  let isOtherStudent = isStudent userRole && Just uid /= mauthId
+
+  redirect $
+    if isOtherStudent
+      then CourseStudentAchievementsR cname uid
+      else CourseStudentCoursePointsR cname uid
 
 courseStudentLayout :: ToWidget App a => Text -> UserId -> Text -> a -> Handler Html
 courseStudentLayout cname uid tabName tab = do
@@ -20,14 +29,14 @@ courseStudentLayout cname uid tabName tab = do
   when (not $ isStudent studentRole) $ notFound
 
   mauthId <-
-    if tabName == "achievements"
+    if isTabAchievements
       then maybeAuthId
       else Just <$> requireAuthId
 
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
 
   let isOtherStudent = isStudent userRole && Just uid /= mauthId
-  when (isOtherStudent && tabName /= "achievement") $ do
+  when (isOtherStudent && not isTabAchievements) $ do
     notFound
 
   studentGroup <- runDB $ getStudentGroup cid uid
