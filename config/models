@@ -118,15 +118,4 @@ Event
     createdBy     UserId Maybe
     isRead        Bool
 
-CoursePoints
-    points      Int
-    course      CourseId
-    student     UserId
-    submission  SubmissionId Maybe
-    section     SectionId Maybe
-    summary     Text Maybe
-    author      UserId Maybe
-    createdAt   UTCTime
-    isRead      Bool
-
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
