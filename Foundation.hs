@@ -113,7 +113,7 @@ instance Yesod App where
         -- you to use normal widget features in default-layout.
 
         langs <- languages
-        let currentLang =
+        let currentLang = Text.take 2 $
               case langs of
                 []    -> "en"
                 (l:_) -> l
