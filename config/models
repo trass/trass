@@ -56,7 +56,6 @@ Section
     ident         Text            -- looks like "root/section/subsection"
     title         Text
     summary       Text Maybe
-    overview      Text Maybe
     theory        Text Maybe
     parent        SectionId Maybe
     course        CourseId
