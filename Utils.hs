@@ -11,6 +11,7 @@ import Text.Read (readMaybe)
 import qualified Data.List as List
 import qualified Data.Text as Text
 import qualified Data.Map as Map
+import AssignmentAction
 import SubmissionStatus
 import UserRole
 import Achievement
@@ -389,4 +390,101 @@ wAssignmentLink cname assignment section = do
   [whamlet|
     <a href="@{assignmentR cname assignment section}">#{assignmentTitle assignment}
   |]
+
+wAssignmentsInfo :: Bool -> UserRole -> Bool -> UTCTime -> Maybe Int -> Maybe Int64 -> Maybe UTCTime -> Maybe UTCTime -> Widget
+wAssignmentsInfo isSection userRole locked now mpoints mduration mstart mend = do
+  [whamlet|
+      <ul .list-group>
+        $maybe points <- mpoints
+          <li .list-group-item>
+            <span .pull-right>
+              $if locked
+                <i .fa .fa-lg .fa-fw .fa-lock>
+              $if isStudent userRole
+                <span .label :False:.label-success :True:.label-warning>
+                  10 / #{points}
+              $else
+                <span .label :isNothing mstart:.label-default :isJust mstart:.label-success>
+                  #{points}
+            _{MsgCoursePoints}
+        $maybe start <- mstart
+          $if isTeacher userRole
+            <li .list-group-item>
+              <span .pull-right>
+                <span .label-date .label .label-default title="#{formatTimeFull start}">
+                  #{formatTimeFull start}
+              _{choose MsgSectionStartDate MsgAssignmentStartDate}
+          <li .list-group-item>
+            $maybe end <- mend
+              <span .pull-right>
+                <span .label-date .label :inFuture end:.label-success :inPast end:.label-danger title="#{formatTimeFull end}">
+                  #{formatTimeFull end}
+            $nothing
+              <span .pull-right>
+                <span .label .label-success>
+                  _{MsgNoDeadline}
+            _{choose MsgSectionEndDate MsgAssignmentEndDate}
+        $nothing
+          $if isTeacher userRole
+            $maybe duration <- mduration
+              <li .list-group-item>
+                <span .pull-right>
+                  ^{wDuration duration}
+                _{choose MsgSectionDuration MsgAssignmentDuration}
+          <li .list-group-item>
+            _{choose MsgSectionNotStartedYet MsgAssignmentNotStartedYet}
+  |]
+  where
+    inFuture dt = now < dt
+    inPast = not . inFuture
+    choose msg msg' = if isSection then msg else msg'
+
+wAssignmentsManagePanel :: Bool -> Bool -> UTCTime -> Maybe UTCTime -> Maybe UTCTime -> (AssignmentAction -> Route App) -> Widget
+wAssignmentsManagePanel isSection locked now mstart mend actionR = do
+  [whamlet|
+    <div .panel .panel-danger>
+      <div .panel-heading>
+        <h3 .panel-title>_{MsgAssignmentManagePanelTitle}
+
+      <div .manage-assignment .list-group>
+        $if isJust mend
+          <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageExtraDayDescription MsgAssignmentManageExtraDayDescription}">
+            <i class="fa fa-plus-square fa-lg fa-fw text-danger">
+            _{choose MsgSectionManageExtraDay MsgAssignmentManageExtraDay}
+            <form role="form" method="post" action=@{actionR AssignmentExtraDay}>
+          <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageSkipDayDescription MsgAssignmentManageSkipDayDescription}">
+            <i class="fa fa-minus-square fa-lg fa-fw text-danger">
+            _{choose MsgSectionManageSkipDay MsgAssignmentManageSkipDay}
+            <form role="form" method="post" action=@{actionR AssignmentSkipDay}>
+
+        $if isJust mstart
+          $if or [isNothing mend, Just now < mend]
+            <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageStopDescription MsgAssignmentManageStopDescription}">
+              <i class="fa fa-stop fa-lg fa-fw text-danger">
+              _{choose MsgSectionManageStop MsgAssignmentManageStop}
+              <form role="form" method="post" action=@{actionR AssignmentStop}>
+        $else
+          <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageStartDescription MsgAssignmentManageStartDescription}">
+            <i class="fa fa-play fa-lg fa-fw text-danger">
+            _{choose MsgSectionManageStart MsgAssignmentManageStart}
+            <form role="form" method="post" action=@{actionR AssignmentStart}>
+
+        $if locked
+          <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageUnlockDescription MsgAssignmentManageUnlockDescription}">
+            <i class="fa fa-unlock fa-lg fa-fw text-danger">
+            _{choose MsgSectionManageUnlock MsgAssignmentManageUnlock}
+            <form role="form" method="post" action=@{actionR AssignmentUnlock}>
+        $else
+          <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageLockDescription MsgAssignmentManageLockDescription}">
+            <i class="fa fa-lock fa-lg fa-fw text-danger">
+            _{choose MsgSectionManageLock MsgAssignmentManageLock}
+            <form role="form" method="post" action=@{actionR AssignmentLock}>
+
+        <a href="javascript:void(0)" .list-group-item data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{choose MsgSectionManageResetDescription MsgAssignmentManageResetDescription}">
+          <i class="fa fa-refresh fa-lg fa-fw text-danger">
+          _{choose MsgSectionManageReset MsgAssignmentManageReset}
+            <form role="form" method="post" action=@{actionR AssignmentReset}>
+  |]
+  where
+    choose msg msg' = if isSection then msg else msg'
 

@@ -18,6 +18,11 @@ SectionNotStartedYet: Section assignments are not started yet.
 
 SectionManagePanelTitle: Manage
 
+SectionManageExtraDayDescription: Move deadline forward by one day for all assignments.
+SectionManageExtraDay: Extra day
+SectionManageSkipDayDescription: Move deadline backward by one day for all assignments. This may result in immediate deadline for some of them.
+SectionManageSkipDay: Skip day
+
 SectionManageUnlockDescription: Make assignments accessible for students. They will remain unlocked after deadline.
 SectionManageUnlock: Unlock
 SectionManageLockDescription: Make assignments inaccessible for students. It will not be counted as deadline.

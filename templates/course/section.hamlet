@@ -1,7 +1,7 @@
 ^{courseHeader}
 
 <div class="row">
-  <div class="col-sm-6 col-md-5 col-lg-4">
+  <div class="col-md-4 col-md-push-8">
 
     $if null assignments || not (null subsections)
       <div class="panel panel-default">
@@ -32,45 +32,11 @@
                 #{sectionTitle subsection}
 
     $if not (null assignments)
+      ^{wAssignmentsInfo True userRole sectionLocked now saPoints saDuration saStartedAt saEndingAt}
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">_{MsgAssignments}
-
-        <ul class="list-group">
-          $maybe points <- saPoints
-            <li class="list-group-item">
-              <span .pull-right>
-                $if sectionLocked
-                  <i .fa .fa-lg .fa-fw .fa-lock>
-                $if isStudent userRole
-                  <span .label :False:.label-success :True:.label-warning>
-                    10 / #{points}
-                $else
-                  <span .label :isNothing saStartedAt:.label-default :isJust saStartedAt:.label-success>
-                    #{points}
-              _{MsgCoursePoints}
-          $if isTeacher userRole
-            $maybe duration <- saDuration
-              <li class="list-group-item">
-                <span .pull-right>
-                  ^{wDuration duration}
-                _{MsgSectionDuration}
-          $maybe startedAt <- saStartedAt
-            <li class="list-group-item">
-              <span .label-date .label .label-default .pull-right title="#{formatTimeFull startedAt}">
-                #{formatTimeFull startedAt}
-              _{MsgSectionStartDate}
-            <li class="list-group-item">
-              $maybe endingAt <- saEndingAt
-                <span .label-date .label :inFuture endingAt:.label-success :inPast endingAt:.label-danger .pull-right title="#{formatTimeFull endingAt}">
-                  #{formatTimeFull endingAt}
-              $nothing
-                <span .label .label-success .pull-right>
-                  _{MsgNoDeadline}
-              _{MsgSectionEndDate}
-          $nothing
-            <li .list-group-item>
-              _{MsgSectionNotStartedYet}
 
         <div class="list-group">
           $forall Entity _ assignment <- assignments
@@ -101,58 +67,14 @@
               #{assignmentTitle assignment}
 
       $if isCourseOwner
-        <div class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title">_{MsgSectionManagePanelTitle}
+        ^{wAssignmentsManagePanel True sectionLocked now saStartedAt saEndingAt $ CourseSectionManageR cname sectionId}
 
-          <div .manage-assignment .list-group>
-
-            $maybe _ <- saStartedAt
-              $if or [isNothing saEndingAt, Just now < saEndingAt]
-                <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageStopDescription}">
-                  <i class="fa fa-stop fa-lg fa-fw text-danger">
-                  _{MsgSectionManageStop}
-                  <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentStop}>
-            $nothing
-              <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageStartDescription}">
-                <i class="fa fa-play fa-lg fa-fw text-danger">
-                _{MsgSectionManageStart}
-                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentStart}>
-
-            $if sectionLocked
-              <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageUnlockDescription}">
-                <i class="fa fa-unlock fa-lg fa-fw text-danger">
-                _{MsgSectionManageUnlock}
-                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentUnlock}>
-            $else
-              <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageLockDescription}">
-                <i class="fa fa-lock fa-lg fa-fw text-danger">
-                _{MsgSectionManageLock}
-                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentLock}>
-
-            <a href="#" class="list-group-item" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="_{MsgSectionManageResetDescription}">
-              <i class="fa fa-refresh fa-lg fa-fw text-danger">
-              _{MsgSectionManageReset}
-                <form role="form" method="post" action=@{CourseSectionManageR cname sectionId AssignmentReset}>
-
-  <div class="col-sm-6 col-md-7 col-lg-8">
+  <div class="col-md-8 col-md-pull-4">
 
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          _{MsgOverview}
       <div class="panel-body">
-        $maybe overview <- sectionOverview section
-          #{overview}
+        $maybe theory <- sectionTheory section
+          #{theory}
         $nothing
-          _{MsgNoOverview}
+          _{MsgNoTheory}
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      _{MsgTheory}
-  <div class="panel-body">
-    $maybe theory <- sectionTheory section
-      #{theory}
-    $nothing
-      _{MsgNoTheory}
