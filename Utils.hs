@@ -14,6 +14,7 @@ import qualified Data.Map as Map
 import SubmissionStatus
 import UserRole
 import Achievement
+import ExtraPoints
 import UtilsDB
 
 import Text.Blaze.Html.Renderer.Text (renderHtml)
@@ -293,9 +294,16 @@ wExtraPointsDescription ep = do
           unknown penalty
   |]
 
-wExtraPointsPanels :: CourseId -> Widget
-wExtraPointsPanels cid = do
-  extraPoints <- handlerToWidget $ runDB $ selectList [ExtraPointsCourse ==. cid] []
+wExtraPointsPanels :: CourseId -> Maybe Submission -> Widget
+wExtraPointsPanels cid msubmission = do
+  massignment <-
+    case msubmission of
+      Nothing -> return Nothing
+      Just submission -> Just <$> (handlerToWidget $ runDB $ get404 $ submissionAssignment submission)
+  extraPoints <- handlerToWidget $ runDB $
+    case msubmission of
+      Nothing -> selectList [ExtraPointsCourse ==. cid] []
+      Just _  -> selectList [ExtraPointsCourse ==. cid, ExtraPointsType ==. ExtraPointsForSubmission] []
   let (bonuses, penalties) = List.partition ((>= 0) . extraPointsPoints . entityVal) extraPoints
   [whamlet|
     <div class="row">
@@ -303,7 +311,7 @@ wExtraPointsPanels cid = do
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">Bonuses
-          $if null bonuses
+          $if null bonuses && isNothing msubmission
             <div .panel-body>
               No bonuses.
           $else
@@ -311,7 +319,7 @@ wExtraPointsPanels cid = do
               $forall Entity _ bonus <- bonuses
                 <a href="#" class="list-group-item">
                   <span .pull-right>
-                    ^{wExtraPoints bonus Nothing}
+                    ^{wExtraPoints bonus massignment}
                   ^{wExtraPointsDescription bonus}
 
       <div class="col-md-6">
@@ -326,11 +334,11 @@ wExtraPointsPanels cid = do
               $forall Entity _ penalty <- penalties
                 <a href="#" class="list-group-item">
                   <span .pull-right>
-                    ^{wExtraPoints penalty Nothing}
+                    ^{wExtraPoints penalty massignment}
                   ^{wExtraPointsDescription penalty}
   |]
 
-wCourseSubmissions :: Text -> UserId -> UTCTime -> Maybe UserId -> Maybe SubmissionStatus -> Maybe AssignmentId -> Route App -> Widget
+wCourseSubmissions :: Text -> UserId -> UTCTime -> Maybe (Either UserId UserId) -> Maybe SubmissionStatus -> Maybe AssignmentId -> Route App -> Widget
 wCourseSubmissions cname authId now muid mstatus maid route = do
   Entity cid _ <- handlerToWidget $ runDB $ getBy404 $ UniqueCourse cname
   totalSubmissions <- handlerToWidget $ runDB $ getCourseSubmissionsCount cid muid mstatus maid
@@ -338,8 +346,8 @@ wCourseSubmissions cname authId now muid mstatus maid route = do
   submissions <- handlerToWidget $ runDB $ getCourseSubmissions perPage pageNo cid muid mstatus maid
 
   let
-    assignmentIds = map submissionAssignment submissions
-    authorIds     = map submissionAuthor     submissions
+    assignmentIds = map (submissionAssignment . entityVal) submissions
+    authorIds     = map (submissionAuthor     . entityVal) submissions
 
   assignments <- handlerToWidget $ runDB $
     case maid of
@@ -347,8 +355,9 @@ wCourseSubmissions cname authId now muid mstatus maid route = do
       Just aid  -> (:[]) . Entity aid <$> get404 aid
   authors <- handlerToWidget $ runDB $
     case muid of
-      Nothing   -> selectList [ProfileUser  <-. authorIds] []
-      Just uid  -> (:[]) <$> getBy404 (UniqueProfile uid)
+      Nothing -> selectList [ProfileUser <-. authorIds] []
+      Just (Left uid) -> selectList [ProfileUser !=. uid, ProfileUser <-. authorIds] []
+      Just (Right uid) -> (:[]) <$> getBy404 (UniqueProfile uid)
   let
     sectionIds    = map (assignmentSection . entityVal) assignments
 
@@ -358,45 +367,8 @@ wCourseSubmissions cname authId now muid mstatus maid route = do
     getAssignment = getEntity entityKey submissionAssignment assignments
     getSection    = getEntity entityKey assignmentSection sections
     getAuthor     = getEntity (profileUser . entityVal) submissionAuthor authors
-    submissions'  = map (\s -> let a = getAssignment s in (s, a, getSection a, getAuthor s)) submissions
-  [whamlet|
-    <div .panel .panel-default>
-      <div .panel-heading>
-        <h3 .panel-title>
-          Submissions
-      $if null submissions
-        <div .panel-body>
-          _{MsgNoSubmissions}
-      $else
-        <table class="table table-condensed">
-          <tbody>
-            $forall (submission, assignment, section, author) <- submissions'
-              <tr>
-                <td class="text-nowrap text-center">
-                  <a href="#" title="View">
-                    <i class="fa fa-eye fa-lg fa-fw">
-                  <a href="#" title="Download">
-                    <i class="fa fa-download fa-lg fa-fw">
-                $if isNothing maid
-                  <td>
-                    ^{wAssignmentLink cname assignment section}
-                  <td class="hidden-xs hidden-sm">
-                    <small>
-                      ^{wSectionLink cname section}
-                $if isNothing muid
-                  <td>
-                    <small>
-                      <a href="@{CourseStudentR cname $ profileUser author}">
-                        <span class="text-nowrap">
-                          ^{wUserName RoleStudent (Just author) (Just authId)}
-                $if isNothing mstatus
-                  <td>
-                    ^{wSubmissionStatus $ submissionStatus submission}
-                <td>
-                  ^{wAgo (submissionUpdatedAt submission) now}
-
-    ^{wPager pageNo totalPages route}
-  |]
+    submissions'  = map (\(Entity sid s) -> let a = getAssignment s in (Entity sid s, a, getSection a, getAuthor s)) submissions
+  $(widgetFile "course/util/submissions")
   where
     perPage = 20
 

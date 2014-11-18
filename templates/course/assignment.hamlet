@@ -96,7 +96,7 @@
 
     $maybe authId <- mauthId
       $if isStudent userRole
-        ^{wCourseSubmissions cname authId now (Just authId) Nothing (Just assignmentId) $ CourseAssignmentR cname path}
+        ^{wCourseSubmissions cname authId now (Just $ Right authId) Nothing (Just assignmentId) $ CourseAssignmentR cname path}
 
     $if isCourseOwner
       <div class="panel panel-danger">

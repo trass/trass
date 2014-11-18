@@ -215,3 +215,7 @@ body.login {
 .text-help {
   color: #737373;
 }
+
+.table-row-link {
+  cursor: pointer;
+}

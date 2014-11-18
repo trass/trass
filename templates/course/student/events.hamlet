@@ -1,5 +1,5 @@
 $if isTeacher userRole
-  ^{wExtraPointsPanels cid}
+  ^{wExtraPointsPanels cid Nothing}
 
 <div class="panel panel-default">
   <div class="panel-heading">

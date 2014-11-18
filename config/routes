@@ -46,3 +46,4 @@
 /course/#Text/student/#UserId/assignments CourseStudentAssignmentsR GET
 /course/#Text/student/#UserId/conversation CourseStudentConversationR GET POST
 /course/#Text/achievements CourseAchievementsR GET
+/course/#Text/submission/#SubmissionId CourseSubmissionR GET POST

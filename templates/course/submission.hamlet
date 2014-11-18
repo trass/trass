@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-8">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span .pull-right>
+          ^{wAgo updatedAt now}
+          ^{wSubmissionStatus status}
+        <span class="panel-title">
+          ^{wAssignmentLink cname assignment section}
+          &nbsp;—&nbsp;
+          <a href="@{CourseStudentR cname uid}">
+            ^{wUserName RoleStudent (Just student) (Just authId)}
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+          <a href="#tabSolution" role="tab" data-toggle="tab">
+            <i class="fa fa-file-code-o fa-fw">
+            Solution
+        <li>
+          <a href="#tabLog" role="tab" data-toggle="tab">
+            <i class="fa fa-file-text-o fa-fw">
+            Log
+        <li>
+          <a href="#tabHistory" role="tab" data-toggle="tab">
+            <i class="fa fa-clock-o fa-fw">
+            History
+
+      <div class="tab-content">
+        <div id="tabSolution" class="tab-pane active panel-body">
+          <pre>
+            instance Functor (Assoc k) where
+            fmap f (Assoc xs) = Assoc (map (\(k, v) -&gt; (k, f v)) xs)
+          <a href="#" class="btn btn-default pull-right">
+            <i class="fa fa-download fa-lg fa-fw">
+            Download Solution
+          <a href="#" class="btn btn-info disabled">
+            <i class="fa fa-eye fa-lg fa-fw">
+            Start Review
+
+        <div id="tabLog" class="tab-pane panel-body">
+          <pre>
+            instance Functor (AssocList k)
+            - fmap id = id
+            - fmap works for infinite lists
+
+            Finished in 0.3943 seconds
+            2 examples, 0 failures</pre>
+          <a href="#" class="btn btn-default pull-right">
+            <i class="fa fa-download fa-lg fa-fw">
+            Download Log
+
+        <div id="tabHistory" class="tab-pane">
+
+    <ul class="pager">
+      <li class="previous disabled">
+        <span>&larr; Previous
+      <li class="next">
+        <a href="#">Next &rarr;
+
+    $if not (isStudent userRole)
+      $if status == SubmissionAccepted
+        ^{wExtraPointsPanels cid $ Just submission}
+      $else
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Response
+          <div class="panel-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="rejectComment">Reason of rejection/approval
+                <textarea class="form-control" id="rejectComment">
+              <button type="submit" class="btn btn-danger pull-right">Comment &amp; Reject
+              <button type="submit" class="btn btn-success">Comment &amp; Accept
+
+  <div class="col-md-4">
+    ^{wCourseSubmissions cname authId now (Just $ Left uid) Nothing (Just aid) $ CourseSubmissionR cname sid}

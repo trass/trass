@@ -1,1 +1,1 @@
-^{wCourseSubmissions cname authId now (Just uid) Nothing Nothing $ CourseStudentSubmissionsR cname uid}
+^{wCourseSubmissions cname authId now (Just $ Right uid) Nothing Nothing $ CourseStudentSubmissionsR cname uid}
