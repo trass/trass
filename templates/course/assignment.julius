@@ -5,16 +5,6 @@ $(function() {
   });
   $(".manage-assignment a.list-group-item").popover({ container: 'body' });
 
-  $(".label-date").tooltip();
-  $(".label-date").text(function(i,t) {
-    if (t) {
-      var dt = new Date(t);
-      if (!isNaN(dt.getTime())) {
-        return dt.toLocaleDateString();
-      }
-    }
-  });
-
   /* Set up CodeMirror for on page solution input */
   $("#inputSolution").each(function() {
     var myCodeMirror = CodeMirror.fromTextArea(this);

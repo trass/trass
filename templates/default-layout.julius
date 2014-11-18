@@ -1,16 +1,44 @@
 $(function () {
-  function convertTime(i,t) {
+  var toLocaleDateStringSupportsLocales = function () {
+    try {
+      new Date().toLocaleDateString('i');
+    } catch (e) {
+      return e.name === 'RangeError';
+    }
+    return false;
+  }();
+
+  function toLocaleDateString(dt) {
+    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+    if (toLocaleDateStringSupportsLocales) {
+      return dt.toLocaleDateString([], options);
+    } else {
+      return dt.toLocaleDateString();
+    }
+  }
+
+  function convertDateTime(i,t,withTime) {
     if (t) {
       var dt = new Date(t);
       if (!isNaN(dt.getTime())) {
-        return dt.toLocaleDateString() + " " + dt.toLocaleTimeString();
+        if (withTime) {
+          return toLocaleDateString(dt) + " " + dt.toLocaleTimeString();
+        } else {
+          return toLocaleDateString(dt);
+        }
       }
     }
-  };
+  }
+
+  function convertDate(i,t) { return convertDateTime(i,t,false); }
+  function convertTime(i,t) { return convertDateTime(i,t,true); }
 
   /* convert time in tooltips to local time */
   $("*").attr("title", convertTime);
   $("*").attr("data-original-title", convertTime);
+
+  $(".label-date").tooltip();
+  $(".label-date").text(convertDate);
 
   /* activate navbar tooltips */
   $(".nav a").tooltip();

@@ -73,7 +73,7 @@ mkYesodData "App" $(parseRoutesFile "config/routes")
 type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
 
 formatTimeFull :: UTCTime -> String
-formatTimeFull = formatTime defaultTimeLocale "%D %T %Z"
+formatTimeFull = formatTime defaultTimeLocale rfc822DateFormat
 
 getCourseIdent = lookupSession "TRASS_COURSE_IDENT"
 setCourseIdent = setSession "TRASS_COURSE_IDENT"
