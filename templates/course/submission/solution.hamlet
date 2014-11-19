@@ -1,0 +1,3 @@
+<pre>
+  instance Functor (Assoc k) where
+  &nbsp;&nbsp;fmap f (Assoc xs) = Assoc (map (\(k, v) -&gt; (k, f v)) xs)

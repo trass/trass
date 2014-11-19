@@ -1,77 +1,67 @@
+<h4>
+  ^{wAssignmentLink cname assignment section}
+  &nbsp;—&nbsp;
+  <a href="@{CourseStudentR cname uid}">
+    ^{wUserName RoleStudent (Just student) (Just authId)}
+
 <div class="row">
   <div class="col-md-8">
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <span .pull-right>
-          ^{wAgo updatedAt now}
-          ^{wSubmissionStatus status}
-        <span class="panel-title">
-          ^{wAssignmentLink cname assignment section}
-          &nbsp;—&nbsp;
-          <a href="@{CourseStudentR cname uid}">
-            ^{wUserName RoleStudent (Just student) (Just authId)}
+    <div .row>
+      <div .col-xs-2>
+        ^{wSubmissionStatus status}
+      <div .col-xs-8>
+        <small>
+          <i .fa .fa-fw .fa-graduation-cap>
+          Someone Awesome
+      <div .col-xs-2 .text-right>
+        ^{wAgo updatedAt now}
 
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-          <a href="#tabSolution" role="tab" data-toggle="tab">
-            <i class="fa fa-file-code-o fa-fw">
-            Solution
-        <li>
-          <a href="#tabLog" role="tab" data-toggle="tab">
-            <i class="fa fa-file-text-o fa-fw">
-            Log
-        <li>
-          <a href="#tabHistory" role="tab" data-toggle="tab">
-            <i class="fa fa-clock-o fa-fw">
-            History
+    <hr>
 
-      <div class="tab-content">
-        <div id="tabSolution" class="tab-pane active panel-body">
-          <pre>
-            instance Functor (Assoc k) where
-            fmap f (Assoc xs) = Assoc (map (\(k, v) -&gt; (k, f v)) xs)
-          <a href="#" class="btn btn-default pull-right">
-            <i class="fa fa-download fa-lg fa-fw">
-            Download Solution
-          <a href="#" class="btn btn-info disabled">
-            <i class="fa fa-eye fa-lg fa-fw">
-            Start Review
+    <ul class="nav nav-tabs">
+      <li :isTabSolution:.active>
+        <a href="@{CourseSubmissionSolutionR cname sid}">
+          <i class="fa fa-file-code-o fa-fw">
+          Solution
+      <li :isTabHistory:.active>
+        <a href="@{CourseSubmissionHistoryR cname sid}">
+          <i class="fa fa-clock-o fa-fw">
+          History &amp; Discussion
 
-        <div id="tabLog" class="tab-pane panel-body">
-          <pre>
-            instance Functor (AssocList k)
-            - fmap id = id
-            - fmap works for infinite lists
-
-            Finished in 0.3943 seconds
-            2 examples, 0 failures</pre>
-          <a href="#" class="btn btn-default pull-right">
-            <i class="fa fa-download fa-lg fa-fw">
-            Download Log
-
-        <div id="tabHistory" class="tab-pane">
-
-    <ul class="pager">
-      <li class="previous disabled">
-        <span>&larr; Previous
-      <li class="next">
-        <a href="#">Next &rarr;
+    <p>&nbsp;
 
     $if not (isStudent userRole)
-      $if status == SubmissionAccepted
-        ^{wExtraPointsPanels cid $ Just submission}
-      $else
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Response
-          <div class="panel-body">
-            <form role="form">
-              <div class="form-group">
-                <label for="rejectComment">Reason of rejection/approval
-                <textarea class="form-control" id="rejectComment">
-              <button type="submit" class="btn btn-danger pull-right">Comment &amp; Reject
-              <button type="submit" class="btn btn-success">Comment &amp; Accept
+      $if submissionStatus submission /= SubmissionInReview
+        $if doesNeedAction (submissionStatus submission)
+          <form role="form" method="post" action="@{CourseSubmissionHistoryR cname sid}">
+            <fieldset>
+              <button type="submit" name="status" value="#{toPathPiece SubmissionInReview}" .btn .btn-info .btn-block>
+                <i .fa .fa-fw .fa-eye>
+                Start Submission Review
+          <p>&nbsp;
+
+    ^{tab}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Comment
+      <div class="panel-body">
+        <form role="form" method="post" action="@{CourseSubmissionHistoryR cname sid}">
+          <div class="form-group">
+            <textarea class="form-control" name="comment">
+          <span .pull-right>
+            $if isTeacher userRole
+              $if status /= SubmissionAccepted
+                <button type="submit" name="status" value="#{toPathPiece SubmissionAccepted}" class="btn btn-default">Comment &amp; Accept
+            <button type="submit" class="btn btn-success">Comment
+          $if isTeacher userRole
+            $if status /= SubmissionRejected
+              <button type="submit" name="status" value="#{toPathPiece SubmissionRejected}" class="btn btn-default">Comment &amp; Reject
+
+    $if status == SubmissionAccepted
+      ^{wExtraPointsPanels cid $ Just submission}
 
   <div class="col-md-4">
     ^{wCourseSubmissions cname authId now (Just $ Left uid) Nothing (Just aid) $ CourseSubmissionR cname sid}
+

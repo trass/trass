@@ -81,8 +81,15 @@ Submission
     author      UserId
     reviewer    UserId Maybe
     status      SubmissionStatus
-    sentAt      UTCTime
     updatedAt   UTCTime
+
+SubmissionEvent
+    submission  SubmissionId
+    status      SubmissionStatus Maybe
+    event       EventId Maybe
+    comment     Text Maybe
+    createdAt   UTCTime
+    createdBy   UserId Maybe
 
 Achievement
     course            CourseId

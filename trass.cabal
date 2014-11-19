@@ -61,6 +61,8 @@ library
                      Handler.CourseStudentConversation
                      Handler.CourseAchievements
                      Handler.CourseSubmission
+                     Handler.CourseSubmissionSolution
+                     Handler.CourseSubmissionHistory
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
