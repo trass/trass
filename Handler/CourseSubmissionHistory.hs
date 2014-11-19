@@ -9,10 +9,13 @@ import Data.Maybe
 import qualified Data.Text as Text
 import UserRole
 import Utils
+import UtilsDB
 
 getCourseSubmissionHistoryR :: Text -> SubmissionId -> Handler Html
 getCourseSubmissionHistoryR cname sid = do
-  events <- runDB $ selectList [SubmissionEventSubmission ==. sid] [Asc SubmissionEventCreatedAt]
+  authId <- requireAuthId
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  events <- runDB $ getSubmissionEvents cid sid
   now <- liftIO getCurrentTime
   courseSubmissionLayout cname sid "history" now $ do
     $(widgetFile "course/submission/history")

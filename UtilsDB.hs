@@ -282,3 +282,30 @@ getStudentGroup cid uid = liftM listToMaybe $ do
       where_ (gm ^. GroupMemberStudent ==. val uid)
       return g
 
+getLatestSubmissionStatusEvent :: MonadIO m => CourseId -> SubmissionId -> SqlPersistT m (SubmissionEvent, Maybe Profile, Maybe UserRole)
+getLatestSubmissionStatusEvent cid sid = do
+  [(Entity _ se, mp, Value mr)] <- select $
+    from $ \(se `LeftOuterJoin` p `LeftOuterJoin` r) -> do
+      on (p ?. ProfileUser ==. r ?. RoleUser &&. r ?. RoleCourse ==. just (val cid))
+      on (se ^. SubmissionEventCreatedBy ==. p ?. ProfileUser)
+      where_ (se ^. SubmissionEventSubmission ==. val sid)
+      where_ (not_ $ isNothing $ se ^. SubmissionEventStatus)
+      orderBy [desc (se ^. SubmissionEventCreatedAt)]
+      limit 1
+      return (se, p, r ?. RoleRole)
+  return (se, entityVal <$> mp, mr)
+
+getSubmissionEvents :: MonadIO m => CourseId -> SubmissionId -> SqlPersistT m [(SubmissionEvent, Maybe ExtraPoints, Maybe Achievement, Maybe Profile, Maybe UserRole)]
+getSubmissionEvents cid sid = do
+  xs <- select $
+    from $ \(se `LeftOuterJoin` e `LeftOuterJoin` ep `LeftOuterJoin` a `LeftOuterJoin` p `LeftOuterJoin` r) -> do
+      on (p ?. ProfileUser ==. r ?. RoleUser &&. r ?. RoleCourse ==. just (val cid))
+      on (se ^. SubmissionEventCreatedBy ==. p ?. ProfileUser)
+      on (e ?. EventAchievement ==. just (a ?. AchievementId))
+      on (e ?. EventExtraPoints ==. just (ep ?. ExtraPointsId))
+      on (se ^. SubmissionEventEvent ==. e ?. EventId)
+      where_ (se ^. SubmissionEventSubmission ==. val sid)
+      orderBy [asc (se ^. SubmissionEventCreatedAt)]
+      return (se, ep, a, p, r ?. RoleRole)
+  return $ map (\(se, ep, a, p, r) -> (entityVal se, entityVal <$> ep, entityVal <$> a, entityVal <$> p, unValue r)) xs
+

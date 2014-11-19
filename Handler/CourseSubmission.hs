@@ -3,10 +3,12 @@ module Handler.CourseSubmission where
 import Import
 import Yesod.Auth
 import Control.Monad
+import Data.Maybe
 import Data.Time
 import UserRole
 import SubmissionStatus
 import Utils
+import UtilsDB
 
 getCourseSubmissionR :: Text -> SubmissionId -> Handler Html
 getCourseSubmissionR cname sid = redirect $ CourseSubmissionSolutionR cname sid
@@ -30,6 +32,8 @@ courseSubmissionLayout cname sid tabName now tab = do
   assignment <- runDB $ get404 aid
   section <- runDB $ get404 $ assignmentSection assignment
   Entity _ student <- runDB $ getBy404 $ UniqueProfile uid
+
+  (lastStatusEvent, lastStatusEventAuthor, lastStatusEventAuthorRole) <- runDB $ getLatestSubmissionStatusEvent cid sid
 
   defaultLayout $ do
     $(widgetFile "course/submission")

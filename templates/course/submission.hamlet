@@ -12,10 +12,14 @@
         ^{wSubmissionStatus status}
       <div .col-xs-8>
         <small>
-          <i .fa .fa-fw .fa-graduation-cap>
-          Someone Awesome
+          $maybe p <- lastStatusEventAuthor
+            ^{wUserName (fromMaybe RoleStudent lastStatusEventAuthorRole) lastStatusEventAuthor (Just authId)}
+          $nothing
+            <span .text-help>
+              <i .fa .fa-fw .fa-gears>
+              System
       <div .col-xs-2 .text-right>
-        ^{wAgo updatedAt now}
+        ^{wAgo (submissionEventCreatedAt lastStatusEvent) now}
 
     <hr>
 

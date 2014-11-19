@@ -1,34 +1,40 @@
-$forall Entity _ event <- events
+$forall (event, mep, ma, mp, mr) <- events
   $maybe comment <- submissionEventComment event
     <div .panel .panel-default>
       <div .panel-heading>
         <span .pull-right>
           ^{wAgo (submissionEventCreatedAt event) now}
         <small>
-          <i .fa .fa-fw .fa-graduation-cap>
-          Someone Awesome
+          $maybe p <- mp
+            ^{wUserName (fromMaybe RoleStudent mr) mp (Just authId)}
+          $nothing
+            <span .text-help>
+              <i .fa .fa-fw .fa-gears>
+              System
       <div .panel-body>
         #{comment}
-  $maybe status <- submissionEventStatus event
+
+  $nothing
     <div .row>
       <div .col-xs-3 .col-sm-2>
-        ^{wSubmissionStatus status}
+        $maybe status <- submissionEventStatus event
+          ^{wSubmissionStatus status}
+        $maybe ep <- mep
+          ^{wExtraPoints ep Nothing}
+        $maybe a <- ma
+          ^{wAchievement a True}
       <div .col-xs-6 .col-sm-8>
         <small>
-          <i .fa .fa-fw .fa-graduation-cap>
-          Someone Awesome
+          $maybe p <- mp
+            ^{wUserName (fromMaybe RoleStudent mr) mp (Just authId)}
+          $nothing
+            <span .text-help>
+              <i .fa .fa-fw .fa-gears>
+              System
+        $maybe ep <- mep
+          &nbsp;—&nbsp;
+          ^{wExtraPointsDescription ep}
       <div .col-xs-3 .col-sm-2 .text-right>
         ^{wAgo (submissionEventCreatedAt event) now}
     <hr>
-  $maybe e <- submissionEventEvent event
-    <h3 .panel-title>
-      <span .pull-right>
-        ^{wAgo (submissionEventCreatedAt event) now}
-      <span .label .label-success>+ 5
-      —&nbsp;
-      <span .text-help>
-        <i .fa .fa-fw .fa-gears>
-        System
-      &nbsp;&nbsp;
-      accepted solution
-    <hr>
+
