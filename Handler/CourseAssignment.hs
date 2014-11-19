@@ -9,6 +9,7 @@ import Handler.CourseSection
 import Data.Maybe
 import Data.Time
 import AssignmentAction
+import SubmissionStatus
 import UserRole
 import Utils
 
@@ -55,5 +56,25 @@ getCourseAssignmentR cname path@(_:_:_) = do
 getCourseAssignmentR _ _ = notFound
 
 postCourseAssignmentR :: Text -> [Text] -> Handler Html
-postCourseAssignmentR = error "Not yet implemented: postCourseAssignmentR"
+postCourseAssignmentR cname path@(_:_:_) = do
+  authId <- requireAuthId
+  Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
+  userRole <- getUserRole cid authId
+
+  when (not $ isStudent userRole) $ do
+    notFound
+
+  let
+    sids = List.init path
+    aid  = List.head $ reverse path
+
+  Entity sectionId section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
+  Entity assignmentId assignment <- runDB $ getBy404 $ UniqueAssignment sectionId aid
+
+  now <- liftIO getCurrentTime
+  sid <- runDB $ insert $ Submission cid assignmentId authId Nothing SubmissionSubmitted now
+  runDB $ insert_ $ SubmissionEvent sid (Just SubmissionSubmitted) Nothing Nothing now (Just authId)
+
+  redirect $ CourseSubmissionHistoryR cname sid
+postCourseAssignmentR _ _ = notFound
 

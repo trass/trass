@@ -47,7 +47,7 @@
             _{MsgShowSubmissionForm}
 
         <div class="hidden-xs" id="submission-form">
-          <form role="form">
+          <form role="form" method="post" action="@{CourseAssignmentR cname path}">
             <div class="form-group">
               <span class="btn btn-default btn-file">
                 <i class="fa fa-upload">
