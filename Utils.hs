@@ -20,6 +20,25 @@ import UtilsDB
 
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 
+setSubmissionStatus now cid (Entity sid s) uid = do
+  update sid [SubmissionStatus =. submissionStatus s]
+  insert_ $ SubmissionEvent sid (Just $ submissionStatus s) Nothing Nothing now uid
+  case submissionStatus s of
+    SubmissionAccepted -> do
+      eid <- insert $ Event cid (submissionAuthor s) Nothing Nothing (Just $ submissionAssignment s) Nothing now uid False
+      insert_ $ SubmissionEvent sid Nothing (Just eid) Nothing now uid
+    _ -> return ()
+
+addEvent event = do
+  insert_ event
+  case eventAchievement event of
+    Just achievementId -> do
+      maa <- getBy $ UniqueAwardedAchievement (eventCourse event) achievementId (eventStudent event)
+      case maa of
+        Just (Entity aaid aa) -> replace aaid aa {awardedAchievementTimes = awardedAchievementTimes aa + 1}
+        Nothing -> insert_ $ AwardedAchievement (eventCourse event) achievementId (eventStudent event) 2
+    Nothing -> return ()
+
 data Ago
   = AgoJustNow
   | AgoMinutes Int
@@ -274,7 +293,7 @@ wExtraPoints ep ma = do
     percents = extraPointsPercents ep && isNothing ma
     epoints = extraPointsPoints ep
     apoints = ma >>= assignmentPoints
-    withPercents n = n + (n * epoints `div` 100)
+    withPercents n = n * epoints `div` 100
     points =
       if extraPointsPercents ep && isJust ma
         then maybe 0 withPercents apoints

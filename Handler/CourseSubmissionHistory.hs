@@ -15,6 +15,8 @@ getCourseSubmissionHistoryR :: Text -> SubmissionId -> Handler Html
 getCourseSubmissionHistoryR cname sid = do
   authId <- requireAuthId
   Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
+  submission <- runDB $ get404 sid
+  assignment <- runDB $ get404 $ submissionAssignment submission
   events <- runDB $ getSubmissionEvents cid sid
   now <- liftIO getCurrentTime
   courseSubmissionLayout cname sid "history" now $ do
@@ -46,8 +48,7 @@ postCourseSubmissionHistoryR cname sid = do
       _ -> return ()
     case mstatus of
       Just status -> do
-        update sid [SubmissionStatus =. status, SubmissionReviewer =. Just authId, SubmissionUpdatedAt =. now]
-        insert_ $ SubmissionEvent sid (Just status) Nothing Nothing now (Just authId)
+        setSubmissionStatus now cid (Entity sid submission {submissionStatus = status}) (Just authId)
       Nothing -> return ()
 
   redirect $ CourseSubmissionHistoryR cname sid
