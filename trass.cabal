@@ -27,28 +27,28 @@ library
                      Handler.Home
                      Handler.Course
                      Handler.Language
-                     Handler.CourseSection
+                     Handler.Course.Section
                      Handler.Settings
-                     Handler.SettingsProfile
-                     Handler.SettingsAccount
-                     Handler.SettingsNotifications
-                     Handler.SettingsCourses
-                     Handler.CourseSettings
-                     Handler.CourseSettingsGeneral
-                     Handler.CourseSettingsStaff
-                     Handler.CourseSettingsGamification
-                     Handler.CourseStudents
-                     Handler.CourseStudentsGroup
-                     Handler.CourseStudentsNoGroup
-                     Handler.CourseStudentsDeleteGroup
-                     Handler.CourseSettingsDeleteStaff
-                     Handler.CourseSettingsInviteStaff
-                     Handler.CourseAssignment
-                     Handler.CourseAssignmentManage
-                     Handler.CourseSectionManage
-                     Handler.CourseStudent
-                     Handler.CourseStudentAssignments
-                     Handler.CourseStudentRating
+                     Handler.Settings.Profile
+                     Handler.Settings.Account
+                     Handler.Settings.Notifications
+                     Handler.Settings.Courses
+                     Handler.Course.Settings
+                     Handler.Course.Settings.General
+                     Handler.Course.Settings.Staff
+                     Handler.Course.Settings.Gamification
+                     Handler.Course.Students
+                     Handler.Course.Students.Group
+                     Handler.Course.Students.NoGroup
+                     Handler.Course.Students.DeleteGroup
+                     Handler.Course.Settings.DeleteStaff
+                     Handler.Course.Settings.InviteStaff
+                     Handler.Course.Assignment
+                     Handler.Course.Assignment.Manage
+                     Handler.Course.Section.Manage
+                     Handler.Course.Student
+                     Handler.Course.Student.Assignments
+                     Handler.Course.Student.Rating
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

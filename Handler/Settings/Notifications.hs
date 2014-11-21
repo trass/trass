@@ -1,4 +1,4 @@
-module Handler.SettingsNotifications where
+module Handler.Settings.Notifications where
 
 import Import
 import Handler.Settings

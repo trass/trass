@@ -1,7 +1,7 @@
-module Handler.CourseSettingsGamification where
+module Handler.Course.Settings.Gamification where
 
 import Import
-import Handler.CourseSettings
+import Handler.Course.Settings
 
 getCourseSettingsGamificationR :: Text -> Handler Html
 getCourseSettingsGamificationR cname =

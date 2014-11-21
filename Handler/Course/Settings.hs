@@ -1,4 +1,4 @@
-module Handler.CourseSettings where
+module Handler.Course.Settings where
 
 import Import
 import qualified Data.List as List

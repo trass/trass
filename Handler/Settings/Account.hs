@@ -1,4 +1,4 @@
-module Handler.SettingsAccount where
+module Handler.Settings.Account where
 
 import Import
 import Handler.Settings

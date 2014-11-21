@@ -1,8 +1,8 @@
-module Handler.CourseSettingsStaff where
+module Handler.Course.Settings.Staff where
 
 import Import
 import Yesod.Auth
-import Handler.CourseSettings
+import Handler.Course.Settings
 import UserRole
 import UtilsDB
 

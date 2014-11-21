@@ -1,4 +1,4 @@
-module Handler.CourseAchievements where
+module Handler.Course.Achievements where
 
 import Import
 import Yesod.Auth

@@ -1,4 +1,4 @@
-module Handler.SettingsCourses where
+module Handler.Settings.Courses where
 
 import Import
 import Control.Arrow ((&&&))

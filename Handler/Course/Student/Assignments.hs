@@ -1,4 +1,4 @@
-module Handler.CourseStudentAssignments where
+module Handler.Course.Student.Assignments where
 
 import Import
 

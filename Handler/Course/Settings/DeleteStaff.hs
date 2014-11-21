@@ -1,4 +1,4 @@
-module Handler.CourseSettingsDeleteStaff where
+module Handler.Course.Settings.DeleteStaff where
 
 import Import
 import Yesod.Auth

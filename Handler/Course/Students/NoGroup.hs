@@ -1,7 +1,7 @@
-module Handler.CourseStudentsNoGroup where
+module Handler.Course.Students.NoGroup where
 
 import Import
-import Handler.CourseStudents
+import Handler.Course.Students
 
 getCourseStudentsNoGroupR :: Text -> Handler Html
 getCourseStudentsNoGroupR cname = displayCourseStudents cname DisplayNoGroup

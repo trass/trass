@@ -1,7 +1,7 @@
 module Handler.Course where
 
 import Import
-import Handler.CourseSection
+import Handler.Course.Section
 
 getCourseR :: Text -> Handler Html
 getCourseR cname = do

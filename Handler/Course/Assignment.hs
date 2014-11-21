@@ -1,10 +1,10 @@
-module Handler.CourseAssignment where
+module Handler.Course.Assignment where
 
 import Import
 import Yesod.Auth
 import Control.Monad
 import qualified Data.List as List
-import Handler.CourseSection
+import Handler.Course.Section
 import Data.Time
 import UserRole
 import Utils

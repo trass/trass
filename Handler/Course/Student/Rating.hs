@@ -1,4 +1,4 @@
-module Handler.CourseStudentRating where
+module Handler.Course.Student.Rating where
 
 import Import
 

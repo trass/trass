@@ -1,7 +1,7 @@
-module Handler.CourseSettingsGeneral where
+module Handler.Course.Settings.General where
 
 import Import
-import Handler.CourseSettings
+import Handler.Course.Settings
 
 getCourseSettingsGeneralR :: Text -> Handler Html
 getCourseSettingsGeneralR cname = do

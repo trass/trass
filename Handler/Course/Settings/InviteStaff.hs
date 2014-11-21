@@ -1,7 +1,7 @@
-module Handler.CourseSettingsInviteStaff where
+module Handler.Course.Settings.InviteStaff where
 
 import Import
-import Handler.CourseSettingsStaff
+import Handler.Course.Settings.Staff
 import Yesod.Auth
 import Control.Monad
 import UserRole

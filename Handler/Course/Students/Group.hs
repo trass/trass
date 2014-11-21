@@ -1,7 +1,7 @@
-module Handler.CourseStudentsGroup where
+module Handler.Course.Students.Group where
 
 import Import
-import Handler.CourseStudents
+import Handler.Course.Students
 
 getCourseStudentsGroupR :: Text -> Text -> Handler Html
 getCourseStudentsGroupR cname gname = displayCourseStudents cname (DisplayGroup gname)

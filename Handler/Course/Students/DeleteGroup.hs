@@ -1,4 +1,4 @@
-module Handler.CourseStudentsDeleteGroup where
+module Handler.Course.Students.DeleteGroup where
 
 import Import
 import Yesod.Auth

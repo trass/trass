@@ -1,9 +1,9 @@
-module Handler.CourseAssignmentManage where
+module Handler.Course.Assignment.Manage where
 
 import Import
 import Control.Monad
 import Yesod.Auth
-import Handler.CourseSection
+import Handler.Course.Section
 import AssignmentAction
 import Data.Time
 import qualified Data.Text as Text

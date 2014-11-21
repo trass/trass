@@ -1,4 +1,4 @@
-module Handler.CourseStudents where
+module Handler.Course.Students where
 
 import Import
 import Yesod.Auth

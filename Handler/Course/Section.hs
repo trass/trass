@@ -1,4 +1,4 @@
-module Handler.CourseSection where
+module Handler.Course.Section where
 
 import Import
 import qualified Data.Text as Text
