@@ -7,10 +7,6 @@
     $if isCourseOwner
       ^{wAssignmentsManagePanel False (assignmentLocked assignment) now (assignmentStartedAt assignment) (assignmentEndingAt assignment) $ CourseAssignmentManageR cname assignmentId}
 
-    $maybe authId <- mauthId
-      $if isStudent userRole
-        ^{wCourseSubmissions cname authId now (Just $ Right authId) Nothing (Just assignmentId) $ CourseAssignmentR cname path}
-
   <div .col-md-8 .col-md-pull-4>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -33,9 +29,7 @@
           &rarr;
 
     $maybe authId <- mauthId
-      $if not (isStudent userRole)
-        ^{wCourseSubmissions cname authId now Nothing Nothing (Just assignmentId) $ CourseAssignmentR cname path}
-      $else
+      $if isStudent userRole
         <div class="visible-xs-block alert alert-info" role="alert">
           <strong>
             _{MsgNote}

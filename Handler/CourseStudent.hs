@@ -15,10 +15,7 @@ getCourseStudentR cname uid = do
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
   let isOtherStudent = isStudent userRole && Just uid /= mauthId
 
-  redirect $
-    if isOtherStudent
-      then CourseStudentAchievementsR cname uid
-      else CourseStudentCoursePointsR cname uid
+  error "not implemented yet"
 
 courseStudentLayout :: ToWidget App a => Text -> UserId -> Text -> a -> Handler Html
 courseStudentLayout cname uid tabName tab = do
@@ -45,9 +42,6 @@ courseStudentLayout cname uid tabName tab = do
     $(widgetFile "course/student")
   where
     isTabAchievements = tabName == "achievements"
-    isTabCoursePoints = tabName == "points"
-    isTabRating       = tabName == "rating"
-    isTabSubmissions  = tabName == "submissions"
     isTabAssignments  = tabName == "assignments"
-    isTabConversation = tabName == "conversation"
+    isTabRating       = tabName == "rating"
 

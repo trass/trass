@@ -25,22 +25,9 @@
                 <i class="fa fa-users fa-lg fa-fw">
                 <span class="visible-xs-inline">_{MsgStudents}
           <li>
-            <a href="@{CourseSubmissionsR cname}" title="_{MsgSubmissions}" data-placement="bottom">
+            <a href="#" title="_{MsgSubmissions}" data-placement="bottom">
               <i class="fa fa-inbox fa-lg fa-fw">
               <span class="visible-xs-inline">_{MsgSubmissions}
-          <li>
-            $if isStudent userRole
-              <a href="@{CourseStudentConversationR cname authId}" title="_{MsgMessages}" data-placement="bottom">
-                <i class="fa fa-envelope fa-lg fa-fw">
-                $if unreadMsgs > 0
-                  <span class="label label-danger">#{show unreadMsgs}
-                <span class="visible-xs-inline">_{MsgMessages}
-            $elseif isTeacher userRole
-              <a href="@{CourseMessagesR cname}" title="_{MsgConversations}" data-placement="bottom">
-                <i class="fa fa-envelope fa-lg fa-fw">
-                $if unreadMsgs > 0
-                  <span class="label label-danger">#{show unreadMsgs}
-                <span class="visible-xs-inline">_{MsgConversations}
 
       <ul class="nav navbar-nav navbar-right">
         <li>

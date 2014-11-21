@@ -34,11 +34,8 @@ import Data.Time
 import Data.Int
 import System.Locale
 
-import Achievement
-import ExtraPoints
 import AssignmentAction
 import Language
-import SubmissionStatus
 import UserRole
 import UtilsDB
 
@@ -134,15 +131,7 @@ instance Yesod App where
                 case mcid of
                   Nothing -> return RoleStudent
                   Just cid -> getUserRole cid authId
-              (unreadMsgs, unreadPoints) <-
-                case mcid of
-                  Nothing -> return (0, Nothing)
-                  Just cid -> do
-                    m <- runDB $ countUnreadMessages cid authId userRole
-                    p <- if isStudent userRole
-                          then runDB $ getStudentUnreadCoursePointsSum cid authId
-                          else return Nothing
-                    return (m, p)
+              let unreadPoints = Nothing
               mentity <- runDB $ getBy $ UniqueProfile authId
               let mprofile = fmap entityVal mentity
               widgetToPageContent $(widgetFile "navbar")
@@ -357,21 +346,4 @@ wUserName role mprofile mauthId = do
     unknownRole RoleTeacher   = MsgUnknownTeacher
     unknownRole RoleAssistant = MsgUnknownAssistant
     unknownRole RoleStudent   = MsgUnknownStudent
-
-achievementPredefinedMsg :: AchievementPredefined -> AppMessage
-achievementPredefinedMsg AchievementPredefinedHelloWorld = MsgAchievementPredefinedHelloWorld
-achievementPredefinedMsg AchievementPredefinedAcceptable = MsgAchievementPredefinedAcceptable
-achievementPredefinedMsg _ = MsgUntitledAchievement
-
-achievementPredefinedDescriptionMsg :: AchievementPredefined -> AppMessage
-achievementPredefinedDescriptionMsg AchievementPredefinedHelloWorld = MsgAchievementPredefinedHelloWorldDescription
-achievementPredefinedDescriptionMsg AchievementPredefinedAcceptable = MsgAchievementPredefinedAcceptableDescription
-achievementPredefinedDescriptionMsg _ = MsgAchievementNoDescription
-
-extraPointsPredefinedMsg :: ExtraPointsPredefined -> AppMessage
-extraPointsPredefinedMsg ExtraPointsPredefinedClassActivity   = MsgExtraPointsPredefinedClassActivity
-extraPointsPredefinedMsg ExtraPointsPredefinedTeacherMistake  = MsgExtraPointsPredefinedTeacherMistake
-extraPointsPredefinedMsg ExtraPointsPredefinedElegantSolution = MsgExtraPointsPredefinedElegantSolution
-extraPointsPredefinedMsg ExtraPointsPredefinedMissedDeadline  = MsgExtraPointsPredefinedMissedDeadline
-extraPointsPredefinedMsg ExtraPointsPredefinedPlagiarism      = MsgExtraPointsPredefinedPlagiarism
 

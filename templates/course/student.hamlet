@@ -24,23 +24,13 @@ $else
             Email: ololo@example.com
 
         <div .list-group>
-          <a .list-group-item :isTabAchievements:.active href="@{CourseStudentAchievementsR cname uid}">
-            Achievements
           $if not isOtherStudent
-            <a .list-group-item :isTabCoursePoints:.active href="@{CourseStudentCoursePointsR cname uid}">
-              Course Points
+            <a .list-group-item :isTabAssignments:.active href="@{CourseStudentAssignmentsR cname uid}">
+              Assignments
           $if not (isStudent userRole)
             <a .list-group-item :isTabRating:.active href="@{CourseStudentRatingR cname uid}">
               <span class="badge pull-right"># 7
               Rating
-          $if not isOtherStudent
-            <a .list-group-item :isTabSubmissions:.active href="@{CourseStudentSubmissionsR cname uid}">
-              Submissions
-            <a .list-group-item :isTabAssignments:.active href="@{CourseStudentAssignmentsR cname uid}">
-              Assignments
-            $if not (isAssistant userRole)
-              <a .list-group-item :isTabConversation:.active href="@{CourseStudentConversationR cname uid}">
-                Conversation
 
     <div .col-sm-8>
       ^{tab}

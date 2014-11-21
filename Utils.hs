@@ -2,42 +2,13 @@ module Utils where
 
 import Import
 import Yesod.Core
-import Control.Monad
-import Control.Arrow ((&&&))
 import Data.Maybe
 import Data.Time
 import Data.Int
 import Text.Read (readMaybe)
-import qualified Data.List as List
 import qualified Data.Text as Text
-import qualified Data.Map as Map
 import AssignmentAction
-import SubmissionStatus
 import UserRole
-import Achievement
-import ExtraPoints
-import UtilsDB
-
-import Text.Blaze.Html.Renderer.Text (renderHtml)
-
-setSubmissionStatus now cid (Entity sid s) uid = do
-  update sid [SubmissionStatus =. submissionStatus s]
-  insert_ $ SubmissionEvent sid (Just $ submissionStatus s) Nothing Nothing now uid
-  case submissionStatus s of
-    SubmissionAccepted -> do
-      eid <- insert $ Event cid (submissionAuthor s) Nothing Nothing (Just $ submissionAssignment s) Nothing now uid False
-      insert_ $ SubmissionEvent sid Nothing (Just eid) Nothing now uid
-    _ -> return ()
-
-addEvent event = do
-  insert_ event
-  case eventAchievement event of
-    Just achievementId -> do
-      maa <- getBy $ UniqueAwardedAchievement (eventCourse event) achievementId (eventStudent event)
-      case maa of
-        Just (Entity aaid aa) -> replace aaid aa {awardedAchievementTimes = awardedAchievementTimes aa + 1}
-        Nothing -> insert_ $ AwardedAchievement (eventCourse event) achievementId (eventStudent event) 2
-    Nothing -> return ()
 
 data Ago
   = AgoJustNow
@@ -108,123 +79,6 @@ wDuration n = do
     days    = fromIntegral $ n `div` (24 * 60 * 60) `mod` 7
     weeks   = fromIntegral $ n `div` (7 * 24 * 60 * 60)
 
-wSubmissionStatus :: SubmissionStatus -> Widget
-wSubmissionStatus s = do
-  [whamlet|
-    $case s
-      $of SubmissionSubmitted
-        <span .label .label-default>_{MsgSubmissionSubmitted}
-      $of SubmissionInvalid
-        <span .label .label-danger>_{MsgSubmissionInvalid}
-      $of SubmissionCompileError
-        <span .label .label-danger>_{MsgSubmissionCompileError}
-      $of SubmissionTestsFailed
-        <span .label .label-danger>_{MsgSubmissionTestsFailed}
-      $of SubmissionTestsPassed
-        <span .label .label-warning>_{MsgSubmissionTestsPassed}
-      $of SubmissionInReview
-        <span .label .label-info>_{MsgSubmissionInReview}
-      $of SubmissionRejected
-        <span .label .label-danger>_{MsgSubmissionRejected}
-      $of SubmissionAccepted
-        <span .label .label-success>_{MsgSubmissionAccepted}
-      $of SubmissionErrored
-        <span .label .label-default>_{MsgSubmissionErrored}
-  |]
-
-achievementTypeClass :: AchievementType -> Text
-achievementTypeClass AchievementGold   = "trophy-gold"
-achievementTypeClass AchievementSilver = "trophy-silver"
-achievementTypeClass AchievementBronze = "trophy-bronze"
-achievementTypeClass AchievementSecret = "trophy-secret"
-
-wAchievementType :: AchievementType -> Widget
-wAchievementType t = do
-  [whamlet|
-    <span class="trophy #{achievementTypeClass t}">
-  |]
-
-wAchievement :: Achievement -> Bool -> Widget
-wAchievement achievement withPopover = do
-  descriptionHtml <- handlerToWidget $ noLayout $ wAchievementDescription achievement
-  let name = wAchievementName achievement
-  [whamlet|
-    $if withPopover
-      <button class="btn btn-trophy #{typeClass}" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="#{renderHtml $ descriptionHtml}">
-        &nbsp;^{name}
-    $else
-      <span class="trophy #{typeClass}">
-        &nbsp;^{name}
-  |]
-  where
-    typeClass = achievementTypeClass $ achievementType achievement
-
-wAchievementName :: Achievement -> Widget
-wAchievementName achievement = do
-  [whamlet|
-    $maybe customName <- achievementCustomName achievement
-      #{customName}
-    $nothing
-      $maybe predefined <- achievementPredefined achievement
-        _{achievementPredefinedMsg predefined}
-      $nothing
-        _{MsgUntitledAchievement}
-  |]
-
-wAchievementDescription :: Achievement -> Widget
-wAchievementDescription achievement = do
-  mr <- getMessageRender
-  flavourMarkup $
-    case achievementCustomDescription achievement of
-      Just d  -> d
-      Nothing -> mr $ maybe MsgAchievementNoDescription achievementPredefinedDescriptionMsg predefined
-  where
-    predefined = achievementPredefined achievement
-
-wStudentCoursePoints :: CourseId -> UserId -> Widget
-wStudentCoursePoints cid uid = do
-  points <- handlerToWidget $ runDB $ getStudentCoursePointsSum cid uid
-  [whamlet|
-    <span .label .label-success title="_{MsgCoursePoints}">
-      #{points}
-  |]
-
-wStudentAchievementsTotal :: CourseId -> UserId -> Widget
-wStudentAchievementsTotal cid uid = do
-  totals <- handlerToWidget $ runDB $ getStudentAchievementsTotal cid uid
-  let
-    typeTotal t = fromMaybe 0 $ lookup t totals
-    goldAchievementsTotal     = typeTotal AchievementGold
-    silverAchievementsTotal   = typeTotal AchievementSilver
-    bronzeAchievementsTotal   = typeTotal AchievementBronze
-    secretAchievementsTotal   = typeTotal AchievementSecret
-    hasNotSecretAchievements  = any (> 0) [goldAchievementsTotal, silverAchievementsTotal, bronzeAchievementsTotal]
-  [whamlet|
-    <span .text-nowrap>
-      $if hasNotSecretAchievements
-        <span .trophy>
-          $if goldAchievementsTotal > 0
-            <span .trophy-gold title="_{MsgGoldAchievements}"> #{goldAchievementsTotal}
-          $if silverAchievementsTotal > 0
-            <span .trophy-silver title="_{MsgSilverAchievements}"> #{silverAchievementsTotal}
-          $if bronzeAchievementsTotal > 0
-            <span .trophy-bronze title="_{MsgBronzeAchievements}"> #{bronzeAchievementsTotal}
-      $if secretAchievementsTotal > 0
-        <span .trophy .trophy-secret title="_{MsgSecretAchievements}"> #{secretAchievementsTotal}
-  |]
-
-flavourMarkup :: Text -> Widget
-flavourMarkup s = do
-  let
-    widgets = Map.fromList $ map (id &&& wSubmissionStatus) statuses
-    ws = Text.words s
-  forM_ ws $ \w ->
-    case w of
-      "#accepted" -> widgets Map.! SubmissionAccepted
-      _ -> toWidget $ toHtml $ w <> " "
-  where
-    statuses = [minBound..maxBound]
-
 pagerInfo :: (Integral a, Integral b) => a -> b -> Handler (Int64, Int64)
 pagerInfo total perPage = do
   pageNoStr <- lookupGetParam "page"
@@ -274,123 +128,6 @@ wPager pageNo totalPages route = do
   |]
   where
     pageR n = (route, [("page", Text.pack $ show $ n)])
-
-wExtraPoints :: ExtraPoints -> Maybe Assignment -> Widget
-wExtraPoints ep ma = do
-  [whamlet|
-    $if points >= 0
-      <span .label .label-success>
-        + #{show points}
-        $if percents
-           %
-    $else
-      <span .label .label-danger>
-        – #{show $ abs points}
-        $if percents
-           %
-  |]
-  where
-    percents = extraPointsPercents ep && isNothing ma
-    epoints = extraPointsPoints ep
-    apoints = ma >>= assignmentPoints
-    withPercents n = n * epoints `div` 100
-    points =
-      if extraPointsPercents ep && isJust ma
-        then maybe 0 withPercents apoints
-        else epoints
-
-wExtraPointsDescription :: ExtraPoints -> Widget
-wExtraPointsDescription ep = do
-  [whamlet|
-    $maybe customName <- extraPointsCustomName ep
-      #{customName}
-    $nothing
-      $maybe predefined <- extraPointsPredefined ep
-        _{extraPointsPredefinedMsg predefined}
-      $nothing
-        $if extraPointsPoints ep >= 0
-          unknown bonus
-        $else
-          unknown penalty
-  |]
-
-wExtraPointsPanels :: CourseId -> Maybe Submission -> Widget
-wExtraPointsPanels cid msubmission = do
-  massignment <-
-    case msubmission of
-      Nothing -> return Nothing
-      Just submission -> Just <$> (handlerToWidget $ runDB $ get404 $ submissionAssignment submission)
-  extraPoints <- handlerToWidget $ runDB $
-    case msubmission of
-      Nothing -> selectList [ExtraPointsCourse ==. cid] []
-      Just _  -> selectList [ExtraPointsCourse ==. cid, ExtraPointsType ==. ExtraPointsForSubmission] []
-  let (bonuses, penalties) = List.partition ((>= 0) . extraPointsPoints . entityVal) extraPoints
-  [whamlet|
-    <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title">Bonuses
-          $if null bonuses && isNothing msubmission
-            <div .panel-body>
-              No bonuses.
-          $else
-            <div class="list-group">
-              $forall Entity _ bonus <- bonuses
-                <a href="#" class="list-group-item">
-                  <span .pull-right>
-                    ^{wExtraPoints bonus massignment}
-                  ^{wExtraPointsDescription bonus}
-
-      <div class="col-md-6">
-        <div class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title">Penalties
-          $if null penalties
-            <div .panel-body>
-              No penalties.
-          $else
-            <div class="list-group">
-              $forall Entity _ penalty <- penalties
-                <a href="#" class="list-group-item">
-                  <span .pull-right>
-                    ^{wExtraPoints penalty massignment}
-                  ^{wExtraPointsDescription penalty}
-  |]
-
-wCourseSubmissions :: Text -> UserId -> UTCTime -> Maybe (Either UserId UserId) -> Maybe SubmissionStatus -> Maybe AssignmentId -> Route App -> Widget
-wCourseSubmissions cname authId now muid mstatus maid route = do
-  Entity cid _ <- handlerToWidget $ runDB $ getBy404 $ UniqueCourse cname
-  totalSubmissions <- handlerToWidget $ runDB $ getCourseSubmissionsCount cid muid mstatus maid
-  (pageNo, totalPages) <- handlerToWidget $ pagerInfo totalSubmissions perPage
-  submissions <- handlerToWidget $ runDB $ getCourseSubmissions perPage pageNo cid muid mstatus maid
-
-  let
-    assignmentIds = map (submissionAssignment . entityVal) submissions
-    authorIds     = map (submissionAuthor     . entityVal) submissions
-
-  assignments <- handlerToWidget $ runDB $
-    case maid of
-      Nothing   -> selectList [AssignmentId <-. assignmentIds] []
-      Just aid  -> (:[]) . Entity aid <$> get404 aid
-  authors <- handlerToWidget $ runDB $
-    case muid of
-      Nothing -> selectList [ProfileUser <-. authorIds] []
-      Just (Left uid) -> selectList [ProfileUser !=. uid, ProfileUser <-. authorIds] []
-      Just (Right uid) -> (:[]) <$> getBy404 (UniqueProfile uid)
-  let
-    sectionIds    = map (assignmentSection . entityVal) assignments
-
-  sections <- handlerToWidget $ runDB $ selectList [SectionId <-. sectionIds] []
-  let
-    getEntity k f es s = Map.fromList (map (k &&& entityVal) es) Map.! f s
-    getAssignment = getEntity entityKey submissionAssignment assignments
-    getSection    = getEntity entityKey assignmentSection sections
-    getAuthor     = getEntity (profileUser . entityVal) submissionAuthor authors
-    submissions'  = map (\(Entity sid s) -> let a = getAssignment s in (Entity sid s, a, getSection a, getAuthor s)) submissions
-  $(widgetFile "course/util/submissions")
-  where
-    perPage = 20
 
 sectionR :: Text -> Section -> Route App
 sectionR cname s = CourseSectionR cname $ Text.splitOn "/" (sectionIdent s)
@@ -506,4 +243,10 @@ wAssignmentsManagePanel isSection locked now mstart mend actionR = do
   |]
   where
     choose msg msg' = if isSection then msg else msg'
+
+wStudentCoursePoints :: CourseId -> UserId -> Widget
+wStudentCoursePoints _ _ = [whamlet| |]
+
+wStudentAchievementsTotal :: CourseId -> UserId -> Widget
+wStudentAchievementsTotal _ _ = [whamlet| |]
 

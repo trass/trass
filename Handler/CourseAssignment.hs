@@ -3,13 +3,9 @@ module Handler.CourseAssignment where
 import Import
 import Yesod.Auth
 import Control.Monad
-import qualified Data.Text as Text
 import qualified Data.List as List
 import Handler.CourseSection
-import Data.Maybe
 import Data.Time
-import AssignmentAction
-import SubmissionStatus
 import UserRole
 import Utils
 
@@ -20,7 +16,7 @@ getCourseAssignmentR cname path@(_:_:_) = do
     aid  = List.head $ reverse path
 
   Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
-  Entity sectionId section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
+  Entity sectionId _ <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
 
   mauthId <- maybeAuthId
   userRole <- maybe (return RoleStudent) (getUserRole cid) mauthId
@@ -45,9 +41,6 @@ getCourseAssignmentR cname path@(_:_:_) = do
   setCourseIdent cname
 
   now <- liftIO getCurrentTime
-  let
-    inFuture dt = now < dt
-    inPast = not . inFuture
 
   defaultLayout $ do
     addStylesheet $ StaticR codemirror_4_7_lib_codemirror_css
@@ -58,7 +51,7 @@ getCourseAssignmentR _ _ = notFound
 postCourseAssignmentR :: Text -> [Text] -> Handler Html
 postCourseAssignmentR cname path@(_:_:_) = do
   authId <- requireAuthId
-  Entity cid course <- runDB $ getBy404 $ UniqueCourse cname
+  Entity cid _ <- runDB $ getBy404 $ UniqueCourse cname
   userRole <- getUserRole cid authId
 
   when (not $ isStudent userRole) $ do
@@ -68,13 +61,10 @@ postCourseAssignmentR cname path@(_:_:_) = do
     sids = List.init path
     aid  = List.head $ reverse path
 
-  Entity sectionId section <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
-  Entity assignmentId assignment <- runDB $ getBy404 $ UniqueAssignment sectionId aid
+  Entity sectionId _ <- runDB $ getBy404 $ UniqueSection cid (mkSectionIdent sids)
+  Entity _ assignment <- runDB $ getBy404 $ UniqueAssignment sectionId aid
 
   now <- liftIO getCurrentTime
-  sid <- runDB $ insert $ Submission cid assignmentId authId Nothing SubmissionSubmitted now
-  runDB $ insert_ $ SubmissionEvent sid (Just SubmissionSubmitted) Nothing Nothing now (Just authId)
-
-  redirect $ CourseSubmissionHistoryR cname sid
+  error "not implemented yet"
 postCourseAssignmentR _ _ = notFound
 

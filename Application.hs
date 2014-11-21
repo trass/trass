@@ -30,7 +30,6 @@ import Handler.Home
 import Handler.Course
 import Handler.Language
 import Handler.CourseSection
-import Handler.CourseMessages
 import Handler.Settings
 import Handler.SettingsProfile
 import Handler.SettingsAccount
@@ -49,19 +48,9 @@ import Handler.CourseSettingsInviteStaff
 import Handler.CourseAssignment
 import Handler.CourseAssignmentManage
 import Handler.CourseSectionManage
-import Handler.CourseSubmissions
-import Handler.CourseSubmissionsByStatus
 import Handler.CourseStudent
-import Handler.CourseStudentAchievements
-import Handler.CourseStudentCoursePoints
-import Handler.CourseStudentRating
-import Handler.CourseStudentSubmissions
 import Handler.CourseStudentAssignments
-import Handler.CourseStudentConversation
-import Handler.CourseAchievements
-import Handler.CourseSubmission
-import Handler.CourseSubmissionSolution
-import Handler.CourseSubmissionHistory
+import Handler.CourseStudentRating
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

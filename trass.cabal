@@ -19,11 +19,8 @@ library
                      Settings
                      Settings.StaticFiles
                      Settings.Development
-                     Achievement
-                     ExtraPoints
                      AssignmentAction
                      Language
-                     SubmissionStatus
                      UserRole
                      Utils
                      UtilsDB
@@ -31,7 +28,6 @@ library
                      Handler.Course
                      Handler.Language
                      Handler.CourseSection
-                     Handler.CourseMessages
                      Handler.Settings
                      Handler.SettingsProfile
                      Handler.SettingsAccount
@@ -50,19 +46,9 @@ library
                      Handler.CourseAssignment
                      Handler.CourseAssignmentManage
                      Handler.CourseSectionManage
-                     Handler.CourseSubmissions
-                     Handler.CourseSubmissionsByStatus
                      Handler.CourseStudent
-                     Handler.CourseStudentAchievements
-                     Handler.CourseStudentCoursePoints
-                     Handler.CourseStudentRating
-                     Handler.CourseStudentSubmissions
                      Handler.CourseStudentAssignments
-                     Handler.CourseStudentConversation
-                     Handler.CourseAchievements
-                     Handler.CourseSubmission
-                     Handler.CourseSubmissionSolution
-                     Handler.CourseSubmissionHistory
+                     Handler.CourseStudentRating
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

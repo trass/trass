@@ -28,23 +28,6 @@ GroupMember
     group     GroupId
     UniqueGroupMember course student
 
-Message
-    course        CourseId
-    student       UserId
-    author        UserId
-    dateTime      UTCTime
-    text          Text
-
-ReadMessage
-    message       MessageId
-    reader        UserId
-
-LastMessage
-    course        CourseId
-    student       UserId
-    message       MessageId
-    UniqueLastMessage course student
-
 Course
     ident Text
     owner UserId
@@ -74,54 +57,5 @@ Assignment
     startedAt   UTCTime Maybe
     endingAt    UTCTime Maybe
     UniqueAssignment section ident
-
-Submission
-    course      CourseId
-    assignment  AssignmentId
-    author      UserId
-    reviewer    UserId Maybe
-    status      SubmissionStatus
-    updatedAt   UTCTime
-
-SubmissionEvent
-    submission  SubmissionId
-    status      SubmissionStatus Maybe
-    event       EventId Maybe
-    comment     Text Maybe
-    createdAt   UTCTime
-    createdBy   UserId Maybe
-
-Achievement
-    course            CourseId
-    type              AchievementType
-    predefined        AchievementPredefined Maybe
-    customName        Text Maybe
-    customDescription Text Maybe
-
-AwardedAchievement
-    course            CourseId
-    achievement       AchievementId
-    student           UserId
-    times             Int
-    UniqueAwardedAchievement course achievement student
-
-ExtraPoints
-    points      Int
-    course      CourseId
-    percents    Bool
-    type        ExtraPointsType
-    predefined  ExtraPointsPredefined Maybe
-    customName  Text Maybe
-
-Event
-    course        CourseId
-    student       UserId
-    extraPoints   ExtraPointsId Maybe
-    achievement   AchievementId Maybe
-    assignment    AssignmentId Maybe
-    section       SectionId Maybe
-    dateTime      UTCTime
-    createdBy     UserId Maybe
-    isRead        Bool
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

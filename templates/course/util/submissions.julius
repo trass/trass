@@ -1,5 +1,0 @@
-$(function() {
-  $(".table-row-link").click(function() {
-    window.location.href = $(this).attr("data-url");
-  });
-});
