@@ -40,8 +40,11 @@ $(function () {
   $(".label-date").tooltip();
   $(".label-date").text(convertDate);
 
-  /* activate navbar tooltips */
-  $(".nav a").tooltip();
+  /* activate navbar tooltips (except for touch devices) */
+  if(!('ontouchstart' in window))
+  {
+    $(".nav a").tooltip();
+  }
 
   /* activate tooltips for help text (such as time) */
   $(".text-help small").tooltip();
@@ -54,6 +57,9 @@ $(function () {
   $(".btn-trophy").popover({ html: true, container: 'body' });
 
   /* activate other tooltips */
-  $(".btn").tooltip({ container: 'body' });
   $("table *").tooltip({ container: 'body' });
+  if(!('ontouchstart' in window))
+  {
+    $(".btn").tooltip({ container: 'body' });
+  }
 });
